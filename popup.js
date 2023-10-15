@@ -133,5 +133,6 @@ page.keydown(key => {
     }
 })
 saveShortcutButton.click(storeShortcut)
+shortcutInputField.focus()
 
 
