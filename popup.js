@@ -1,13 +1,15 @@
 const page = $("html")
 const shortcutInputField = $("#create-input");
-const ignoreShortcutButton = $("#cancelButton");
 const saveShortcutButton = $("#saveButton");
 const pageTargetInput = $("#target");
 const filterInput = $("#filterShortcuts");
 const freqShortcutsWrapper = $('.frq-shortcuts');
-const keyIcon = $("<img src='resources/icons/meta.svg'/>")
+const keyIcon = $("<img src='resources/icons/meta.svg' alt='shortcutIcons'/>")
 let keyShorts = {}
 const isMacOs = navigator.userAgentData.platform === "macOS";
+if(!isMacOs){
+    keyIcon.attr("src","resources/icons/ctrl.svg")
+}
 
 const getAllShortcuts = () => {
     return chrome.storage.sync.get("shortcuts")
@@ -66,7 +68,7 @@ const openTarget = (shortcut) => {
         createNewWindow().then(window => {
             let tab = window.tabs[0]
             console.log("Going to open new window")
-            goToUrl(tab.id, shortcut.url).then(tabs => {
+            goToUrl(tab.id, shortcut.url).then(() => {
                 console.log("new window opened")
             })
         })
@@ -114,12 +116,17 @@ filterInput.focusin(() => {
 })
 
 page.keydown(key => {
+    
     if (key.key === "Enter") {
         storeShortcut()
     } else {
         console.log(key)
         let num = Number(key.key)
         if (isMacOs && key.metaKey && num > 0) {
+            key.preventDefault()
+            openTarget(keyShorts[num])
+        }
+        else if (key.ctrlKey && num > 0) {
             key.preventDefault()
             openTarget(keyShorts[num])
         }
