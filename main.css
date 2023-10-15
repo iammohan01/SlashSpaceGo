@@ -6,13 +6,13 @@
     padding: 0;
     box-sizing: border-box;
     /*border: 1px solid red;*/
-    background-color: rgba(91, 147, 91, 0.1);
+    /*background-color: rgba(91, 147, 91, 0.1);*/
     font-family: 'Poppins', sans-serif;
 }
 
 html {
     height: 500px;
-    width: 400px;
+    width: 350px;
 }
 
 body {
@@ -27,8 +27,12 @@ body {
     flex-direction: column;
 }
 /* CSS */
-
-.button-4 {
+.inputs{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+}
+.button {
     appearance: none;
     background-color: #FAFBFC;
     border: 1px solid rgba(27, 31, 35, 0.15);
@@ -54,34 +58,34 @@ body {
     word-wrap: break-word;
 }
 
-.button-4:hover {
+.button:hover {
     background-color: #F3F4F6;
     text-decoration: none;
     transition-duration: 0.1s;
 }
 
-.button-4:disabled {
+.button:disabled {
     background-color: #FAFBFC;
     border-color: rgba(27, 31, 35, 0.15);
     color: #959DA5;
     cursor: default;
 }
 
-.button-4:active {
+.button:active {
     background-color: #EDEFF2;
     box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
     transition: none 0s;
 }
 
-.button-4:focus {
+.button:focus {
     outline: 1px transparent;
 }
 
-.button-4:before {
+.button:before {
     display: none;
 }
 
-.button-4::-webkit-details-marker {
+.button::-webkit-details-marker {
     display: none;
 }
 .header {
@@ -118,10 +122,32 @@ body {
     .input-fields {
         width: 100%;
         display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        padding: 10px;
+        & input {
+            border: none;
+            outline: none;
+            border-bottom: 1px solid black;
+            width: 40%;
+            text-align: center;
+        }
     }
 }
 
 .filter-wrapper {
+    /*border: 1px solid red;*/
+    margin: 1rem;
+    .input-fields{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & input {
+            width: 40%;
+            margin: 10px;
+            text-align: center;
+        }
+    }
 }
 
 .suggest-wrapper {
@@ -129,10 +155,11 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-
+    padding: 1rem;
     .title {
         display: flex;
         justify-content: space-between;
+
     }
 
     .frq-shortcuts {
@@ -141,10 +168,26 @@ body {
         flex-wrap: wrap;
         justify-content: flex-start;
 
+        .keyShortcut{
+            width: 11px;
+            aspect-ratio: 1/1;
+            display: flex;
+            /*border: 1px solid red;*/
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            bottom: 0;
+            right: 5px;
+        }
         > * {
             flex: 0 0 calc(33.333% - 10px);
             margin: 5px;
             aspect-ratio: 2/1;
+            border: 1px solid red;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
     }
 }

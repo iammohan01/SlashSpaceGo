@@ -1,4 +1,3 @@
-
 const page = $("html")
 const shortcutInputField = $("#create-input");
 const ignoreShortcutButton = $("#cancelButton");
@@ -6,6 +5,10 @@ const saveShortcutButton = $("#saveButton");
 const pageTargetInput = $("#target");
 const filterInput = $("#filterShortcuts");
 const freqShortcutsWrapper = $('.frq-shortcuts');
+const keyIcon = $("<img src='resources/icons/meta.svg'/>")
+let keyShorts = {}
+const isMacOs = navigator.userAgentData.platform === "macOS";
+
 const getAllShortcuts = () => {
     return chrome.storage.sync.get("shortcuts")
 }
@@ -46,38 +49,51 @@ const goToUrl = (tabId, url) => {
 const createNewWindow = () => {
     return chrome.windows.create()
 }
-const getCurrentActiveTab = ()=>{
-    return chrome.tabs.query({active:true,currentWindow:true})
+const getCurrentActiveTab = () => {
+    return chrome.tabs.query({active: true, currentWindow: true})
 }
-const createShortcutDOMs = (fetchedShortcuts,filter='')=>{
+const openTarget = (shortcut) => {
+    console.log(shortcut.target)
+    if (shortcut.target === 1) {
+        getCurrentActiveTab().then(tab => {
+            goToUrl(tab[0].id, shortcut.url)
+        })
+    } else if (shortcut.target === 2) {
+        chrome.tabs.create({url: shortcut.url}).then(tab => {
+            console.log(tab)
+        })
+    } else if (shortcut.target === 3) {
+        createNewWindow().then(window => {
+            let tab = window.tabs[0]
+            console.log("Going to open new window")
+            goToUrl(tab.id, shortcut.url).then(tabs => {
+                console.log("new window opened")
+            })
+        })
+    }
+}
+const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
     freqShortcutsWrapper.empty();
+    let index = 1;
     Object.keys(fetchedShortcuts.shortcuts || {}).forEach(key => {
-       if(key.includes(filter)){
-           let shortcut = fetchedShortcuts.shortcuts[key]
-           let shortcutDiv = $(`<div/>`)
-           shortcutDiv.text(key.slice(0, 6))
-           shortcutDiv.click(() => {
-               console.log(shortcut.target)
-               if (shortcut.target === 1) {
-                   getCurrentActiveTab().then(tab => {
-                       goToUrl(tab[0].id, shortcut.url)
-                   })
-               } else if (shortcut.target === 2) {
-                   chrome.tabs.create({url: shortcut.url}).then(tab => {
-                       console.log(tab)
-                   })
-               } else if (shortcut.target === 3) {
-                   createNewWindow().then(window => {
-                       let tab = window.tabs[0]
-                       console.log("Going to open new window")
-                       goToUrl(tab.id, shortcut.url).then(tabs => {
-                           console.log("new window opened")
-                       })
-                   })
-               }
-           })
-           freqShortcutsWrapper.append(shortcutDiv)
-       }
+        if (key.includes(filter)) {
+
+            let shortcut = fetchedShortcuts.shortcuts[key]
+            keyShorts[index] = shortcut
+            let shortcutDiv = $(`<div/>`)
+            shortcutDiv.text(key.slice(0, 6))
+            if(index < 10){
+                let shortcutIcon = $(`<div class="keyShortcut"/>`);
+                shortcutIcon.text(index++)
+                shortcutIcon.prepend(keyIcon.clone())
+                shortcutDiv.append(shortcutIcon)
+            }
+            shortcutDiv.click(() => {
+                openTarget(shortcut)
+            })
+            freqShortcutsWrapper.append(shortcutDiv)
+
+        }
         // console.log(shortcutDiv)
     })
 }
@@ -86,13 +102,13 @@ const loadAllShortcuts = () => {
 }
 loadAllShortcuts();
 
-filterInput.focusin(()=>{
-    let tempFilterObjects ;
-    getAllShortcuts().then((keys)=>{
+filterInput.focusin(() => {
+    let tempFilterObjects;
+    getAllShortcuts().then((keys) => {
         tempFilterObjects = keys;
-        filterInput.on("input",()=>{
+        filterInput.on("input", () => {
             let filterKey = filterInput.val().toLowerCase();
-            createShortcutDOMs(tempFilterObjects,filterKey)
+            createShortcutDOMs(tempFilterObjects, filterKey)
         })
     })
 })
@@ -100,6 +116,13 @@ filterInput.focusin(()=>{
 page.keydown(key => {
     if (key.key === "Enter") {
         storeShortcut()
+    } else {
+        console.log(key)
+        let num = Number(key.key)
+        if (isMacOs && key.metaKey && num > 0) {
+            key.preventDefault()
+            openTarget(keyShorts[num])
+        }
     }
 })
 saveShortcutButton.click(storeShortcut)
