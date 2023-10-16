@@ -78,7 +78,7 @@ const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
     freqShortcutsWrapper.empty();
     let index = 1;
     Object.keys(fetchedShortcuts.shortcuts || {}).forEach(key => {
-        if (key.includes(filter)) {
+        if (key.includes(filter) || fetchedShortcuts.shortcuts[key].url.includes(filter)) {
 
             let shortcut = fetchedShortcuts.shortcuts[key]
             keyShorts[index] = shortcut
