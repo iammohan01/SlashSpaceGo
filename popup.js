@@ -5,7 +5,10 @@ const pageTargetInput = $("#target");
 const filterInput = $("#filterShortcuts");
 const freqShortcutsWrapper = $('.frq-shortcuts');
 const keyIcon = $("<img src='resources/icons/meta.svg' alt='shortcutIcons'/>")
+const freqSuggestWrapper = $(".freq-suggest-wrapper")
 const viewIcon = $(".freq-suggest-wrapper .view")
+const filterWrapper = $(".filter-wrapper")
+const shortcutsView = $(".view-title-wrapper input")
 const toastifyObject = {
     gravity: "top",
     position: "center",
@@ -186,7 +189,13 @@ const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
     })
 }
 const loadAllShortcuts = () => {
+    filterWrapper.show()
+    freqSuggestWrapper.show()
     getAllShortcuts().then(createShortcutDOMs)
+}
+const loadGroups =()=>{
+    filterWrapper.hide()
+    freqSuggestWrapper.hide()
 }
 const exportShortCuts = ()=>{
     chrome.storage.sync.get("shortcuts").then(shortcuts=>{
@@ -277,7 +286,15 @@ shortcutInputField.focus()
 viewIcon.click(event=>{
     changeView()
 })
-
+shortcutsView.change(e=>{
+    console.log(e.target.value)
+    if(e.target.value === "group"){
+        loadGroups()
+    }
+    else {
+        loadAllShortcuts()
+    }
+})
 
 
 

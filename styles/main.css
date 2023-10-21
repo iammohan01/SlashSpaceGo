@@ -116,11 +116,11 @@ body {
 }
 
 .create-shortcut-wrapper {
-    height: 25%;
+    /*height: 25%;*/
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    /*justify-content: space-evenly;*/
 
     .button-fields {
         display: flex;
@@ -131,7 +131,7 @@ body {
         & button {
             padding: 10px;
             width: 100px;
-
+            margin: 0;
         }
     }
 
@@ -165,7 +165,7 @@ body {
 
 .filter-wrapper {
     /*border: 1px solid red;*/
-    margin: 1rem;
+    margin: 0.5rem;
     .input-fields{
         display: flex;
         align-items: center;
@@ -252,4 +252,28 @@ body {
             }
         }
     }
+}
+.view-title-wrapper{
+    margin: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    & label {
+        /*flex-grow: 0.5;*/
+        /*display: inline-block;  !* Changed from inline to inline-block *!*/
+        text-align: center;
+        /*margin: auto;*/
+        width: 7rem;
+        padding: 8px;
+        background-color: rgba(149, 157, 165, 0.1);
+        cursor: pointer;  /* Makes it clear to users they can click the label */
+    }
+    .title{
+        display: none;
+        &:checked + label {
+            background-color: rgba(149, 157, 165, 0.5);
+        }
+    }
+
 }
