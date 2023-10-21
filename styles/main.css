@@ -139,9 +139,10 @@ body {
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        /*justify-content: space-between;*/
         padding: 10px;
         /*border: 1px solid ;*/
+        gap: 0.5rem;
 
         & span{
             /*background-color: rgba(240, 240, 240, 0.75);*/
