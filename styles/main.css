@@ -207,11 +207,14 @@ body {
             right: 5px;
         }
          > *{
-             background-color: rgba(149, 157, 165, 0.05);
+             /*background-color: rgba(149, 157, 165, 0.05);*/
              border-radius: 5px;
+             background: linear-gradient(270deg, rgba(2, 179, 241, 0.12) 0%, rgba(211, 125, 255, 0.11) 100%);
+
         }
         > *:hover{
-            background-color: rgba(149, 157, 165, 0.25);
+            background: linear-gradient(190deg, rgba(211, 125, 255, 0.3) 100%,rgba(2, 179, 241, 0.3) 0%);
+
         }
         .grid {
             flex: 0 0 calc(33.333% - 10px);
@@ -232,8 +235,9 @@ body {
             overflow: hidden;
             /*margin: 2px;*/
             & > h6{
-                font-size: 12px;
+                font-size: 13px;
                 font-weight: 500;
+                text-decoration: underline;
             }
             & > p{
                 font-size: 11px;

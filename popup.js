@@ -146,6 +146,8 @@ const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
             let shortcutDiv = $(`<div/>`)
             if(view.id === 1){
                 shortcutDiv[0].classList.add("grid")
+                let toolTip = $(`<p style="font-size: 10px">${shortcut.url}<p/>`)
+                addTippy(shortcutDiv[0],toolTip[0])
                 if(index < 10){
                     let shortcutIcon = $(`<div class="keyShortcut"/>`);
                     shortcutIcon.text(index++)
