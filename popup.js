@@ -59,7 +59,8 @@ const storeShortcut = () => {
                     console.log("already stored in db ")
                 } else {
                     shortcuts[newShortcutInput] = {
-                        id:newShortcutInput,
+                        key:newShortcutInput,
+                        id:generateRandomString(10),
                         url: currentTab[0].url,
                         invoke: 0,
                         target: target,
@@ -106,7 +107,7 @@ const openTarget = (shortcut) => {
     shortcut.invoke++
     getAllShortcuts().then(data=>{
         let updatedShortcuts = data.shortcuts;
-        updatedShortcuts[shortcut.id] = shortcut
+        updatedShortcuts[shortcut.key] = shortcut
         chrome.storage.sync.set({"shortcuts": updatedShortcuts}).then(data=>{
             console.log(shortcut)
             console.log(updatedShortcuts)
@@ -167,7 +168,7 @@ const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
                 let listView = $("<h6/>")
                 shortcutDiv[0].classList.add("list")
                 listView[0].append(index++, " .  ")
-                listView[0].append(shortcut.id)
+                listView[0].append(shortcut.key)
                 console.log(listView[0])
                 shortcutDiv[0].append(listView[0])
                 let p = $("<p class='url'/>")
@@ -219,7 +220,14 @@ const importShortCuts = ()=>{
             console.error('Error reading or parsing the file:', err);
         });
 }
-
+const generateRandomString = function (length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomString = '';
+    for (let i = 0; i < length; i++) {
+        randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return randomString;
+}
 const validateImportJson = (data)=>{
         if (data.hasOwnProperty('shortcuts') && typeof data.shortcuts === 'object') {
             for (let key in data.shortcuts) {
