@@ -178,6 +178,53 @@ const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
 const loadAllShortcuts = () => {
     getAllShortcuts().then(createShortcutDOMs)
 }
+const exportShortCuts = ()=>{
+    chrome.storage.sync.get("shortcuts").then(shortcuts=>{
+        console.log(shortcuts);
+        downloadFile(JSON.stringify(shortcuts), 'shortcuts.json', 'text/plain');
+    })
+}
+const  downloadFile = (content, fileName, contentType)=>{
+    var a = document.createElement("a");
+    var file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+}
+const importShortCuts = ()=>{
+    window.showOpenFilePicker()
+        .then(fileHandles => {
+            const fileHandle = fileHandles[0];
+            return fileHandle.getFile();
+        })
+        .then(file => {
+            return file.text();
+        })
+        .then(text => {
+            const jsonData = JSON.parse(text);
+            console.log('Parsed JSON data:', jsonData);
+            validateImportJson(jsonData)
+            return jsonData;
+        })
+        .catch(err => {
+            console.error('Error reading or parsing the file:', err);
+        });
+}
+
+const validateImportJson = (data)=>{
+        if (data.hasOwnProperty('shortcuts') && typeof data.shortcuts === 'object') {
+            for (let key in data.shortcuts) {
+                if (typeof data.shortcuts[key] === 'object') {
+                    if (data.shortcuts[key].hasOwnProperty('url')) {
+                        console.log(true)
+                    }
+                }
+            }
+        }
+        else{
+            console.log(false)
+        }
+}
 loadAllShortcuts();
 filterInput.focusin(() => {
     let tempFilterObjects;
