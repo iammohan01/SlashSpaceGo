@@ -15,6 +15,17 @@ const getCurrentActiveTab = ()=>{
 }
 
 const openTarget =(shortcut)=>{
+    shortcut.invoke++
+    console.log(shortcut)
+    getAllShortcuts().then(data=>{
+        let updatedShortcuts = data.shortcuts;
+        updatedShortcuts[shortcut.id] = shortcut
+        chrome.storage.sync.set({"shortcuts": updatedShortcuts}).then(data=>{
+            console.log(shortcut)
+            console.log(updatedShortcuts)
+            console.log("updated shortcuts");
+        })
+    })
     if (shortcut.target === 1) {
         getCurrentActiveTab().then(tab => {
             goToUrl(tab[0].id, shortcut.url)
@@ -49,7 +60,7 @@ chrome.omnibox.onInputChanged.addListener((text="", suggest) => {
         if(key.includes(text.toLowerCase())){
             let suggestion = {
                 content : key,
-                description : `${props[1].description || key}  :  ${props[1].url}`
+                description : `${props[1].description || key}`
             }
             suggestEntries.push(suggestion)
         }
@@ -66,10 +77,12 @@ chrome.omnibox.onInputEntered.addListener(e=>{
             data = fetchedData
         })
     }
-    Object.entries(data.shortcuts).forEach(items=>{
-        if(items[0] === e){
-            console.log(items[1]);
-            openTarget(items[1])
-        }
-    })
+    if(data){
+        Object.entries(data.shortcuts).forEach(items=>{
+            if(items[0] === e){
+                console.log(items[1]);
+                openTarget(items[1])
+            }
+        })
+    }
 })

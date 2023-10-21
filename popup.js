@@ -5,12 +5,35 @@ const pageTargetInput = $("#target");
 const filterInput = $("#filterShortcuts");
 const freqShortcutsWrapper = $('.frq-shortcuts');
 const keyIcon = $("<img src='resources/icons/meta.svg' alt='shortcutIcons'/>")
+const viewIcon = $(".suggest-wrapper .view")
+const toastifyObject = {
+    gravity: "top",
+    position: "center",
+    stopOnFocus: false,
+}
 let keyShorts = {}
 const isMacOs = navigator.userAgentData.platform === "macOS";
 if(!isMacOs){
     keyIcon.attr("src","resources/icons/ctrl.svg")
 }
 
+let view = {
+    id : 1,
+    grid : "./resources/icons/view_grid.svg",
+    list : "./resources/icons/view_list.svg"
+}
+const changeView = function (){
+    console.log(viewIcon[0].children[0].src)
+    if(view.id === 1){
+        view.id = 2
+        viewIcon[0].children[0].src = view.grid
+    }
+    else {
+        view.id = 1
+        viewIcon[0].children[0].src = view.list
+    }
+    loadAllShortcuts()
+}
 const getAllShortcuts = () => {
     return chrome.storage.sync.get("shortcuts")
 }
@@ -25,15 +48,33 @@ const storeShortcut = () => {
                 shortcuts = fetchedShortcuts.shortcuts || {}
                 let storedShortcutKeys = Object.keys(shortcuts);
                 if (storedShortcutKeys.includes(newShortcutInput)) {
+                    Toastify({
+                        text: "shortcut key already used",
+                        style:{
+                            "background":"linear-gradient(to right, #c0392b, #e74c3c)",
+                            borderRadius : "8px"
+                        },
+                        ...toastifyObject
+                    }).showToast();
                     console.log("already stored in db ")
                 } else {
                     shortcuts[newShortcutInput] = {
+                        id:newShortcutInput,
                         url: currentTab[0].url,
                         invoke: 0,
-                        target: target
+                        target: target,
+                        createdTime : Date.now()
                     }
                     chrome.storage.sync.set({"shortcuts": shortcuts}).then(() => {
                         console.log("stored")
+                        shortcutInputField.val("")
+                        Toastify({
+                            style: {
+                                borderRadius : "8px"
+                            },
+                            text: "shortcut added",
+                            ...toastifyObject
+                        }).showToast();
                         loadAllShortcuts()
                     })
                     console.log(newShortcutInput)
@@ -55,7 +96,17 @@ const getCurrentActiveTab = () => {
     return chrome.tabs.query({active: true, currentWindow: true})
 }
 const openTarget = (shortcut) => {
-    console.log(shortcut.target)
+    shortcut.invoke++
+    getAllShortcuts().then(data=>{
+        let updatedShortcuts = data.shortcuts;
+        updatedShortcuts[shortcut.id] = shortcut
+        chrome.storage.sync.set({"shortcuts": updatedShortcuts}).then(data=>{
+            console.log(shortcut)
+            console.log(updatedShortcuts)
+            console.log("updated shortcuts");
+            loadAllShortcuts();
+        })
+    })
     if (shortcut.target === 1) {
         getCurrentActiveTab().then(tab => {
             goToUrl(tab[0].id, shortcut.url)
@@ -64,7 +115,8 @@ const openTarget = (shortcut) => {
         chrome.tabs.create({url: shortcut.url}).then(tab => {
             console.log(tab)
         })
-    } else if (shortcut.target === 3) {
+    }
+    else if (shortcut.target === 3) {
         createNewWindow().then(window => {
             let tab = window.tabs[0]
             console.log("Going to open new window")
@@ -74,22 +126,46 @@ const openTarget = (shortcut) => {
         })
     }
 }
+
 const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
     freqShortcutsWrapper.empty();
     let index = 1;
+    console.log(fetchedShortcuts.shortcuts)
+    fetchedShortcuts.shortcuts = Object.entries(fetchedShortcuts.shortcuts || {})
+        .sort((a, b) => b[1].invoke - a[1].invoke)
+        .reduce((acc, [key, value]) => {
+            acc[key] = value;
+            return acc;
+        }, {});
+
     Object.keys(fetchedShortcuts.shortcuts || {}).forEach(key => {
         if (key.includes(filter) || fetchedShortcuts.shortcuts[key].url.includes(filter)) {
 
             let shortcut = fetchedShortcuts.shortcuts[key]
             keyShorts[index] = shortcut
             let shortcutDiv = $(`<div/>`)
-            shortcutDiv.text(key.slice(0, 6))
-            if(index < 10){
-                let shortcutIcon = $(`<div class="keyShortcut"/>`);
-                shortcutIcon.text(index++)
-                shortcutIcon.prepend(keyIcon.clone())
-                shortcutDiv.append(shortcutIcon)
+            if(view.id === 1){
+                shortcutDiv[0].classList.add("grid")
+                if(index < 10){
+                    let shortcutIcon = $(`<div class="keyShortcut"/>`);
+                    shortcutIcon.text(index++)
+                    shortcutIcon.prepend(keyIcon.clone())
+                    shortcutDiv.append(shortcutIcon)
+                }
+                shortcutDiv[0].append(key.slice(0, 6))
             }
+            else {
+                let listView = $("<h6/>")
+                shortcutDiv[0].classList.add("list")
+                listView[0].append(index++, " .  ")
+                listView[0].append(shortcut.id)
+                console.log(listView[0])
+                shortcutDiv[0].append(listView[0])
+                let p = $("<p class='url'/>")
+                p.text(shortcut.url)
+                shortcutDiv[0].append(p[0])
+            }
+
             shortcutDiv.click(() => {
                 openTarget(shortcut)
             })
@@ -103,7 +179,6 @@ const loadAllShortcuts = () => {
     getAllShortcuts().then(createShortcutDOMs)
 }
 loadAllShortcuts();
-
 filterInput.focusin(() => {
     let tempFilterObjects;
     getAllShortcuts().then((keys) => {
@@ -134,5 +209,12 @@ page.keydown(key => {
 })
 saveShortcutButton.click(storeShortcut)
 shortcutInputField.focus()
+
+viewIcon.click(event=>{
+    changeView()
+})
+
+
+
 
 
