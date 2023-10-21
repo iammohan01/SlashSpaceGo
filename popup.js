@@ -5,7 +5,7 @@ const pageTargetInput = $("#target");
 const filterInput = $("#filterShortcuts");
 const freqShortcutsWrapper = $('.frq-shortcuts');
 const keyIcon = $("<img src='resources/icons/meta.svg' alt='shortcutIcons'/>")
-const viewIcon = $(".suggest-wrapper .view")
+const viewIcon = $(".freq-suggest-wrapper .view")
 const toastifyObject = {
     gravity: "top",
     position: "center",

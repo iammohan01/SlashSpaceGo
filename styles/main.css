@@ -178,7 +178,7 @@ body {
     }
 }
 
-.suggest-wrapper {
+.freq-suggest-wrapper {
     flex-grow: 1;
     overflow: hidden;
     display: flex;
