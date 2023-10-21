@@ -83,7 +83,14 @@ const storeShortcut = () => {
 
         })
     } else {
-        //toast a notification
+        Toastify({
+            text: "Enter shortcut key",
+            style:{
+                "background":"linear-gradient(to right, #c0392b, #e74c3c)",
+                borderRadius : "8px"
+            },
+            ...toastifyObject
+        }).showToast();
     }
 }
 const goToUrl = (tabId, url) => {
