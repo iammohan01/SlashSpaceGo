@@ -279,7 +279,12 @@ page.keydown(key => {
     }
     console.log(key.which)
     if (key.key === "Enter") {
-        storeShortcut()
+        if(shortcutInputField.is(":focus")){
+            storeShortcut()
+        }
+        else{
+            current[0].click()
+        }
     } else {
         console.log(key)
         let num = Number(key.key)
