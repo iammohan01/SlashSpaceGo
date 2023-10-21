@@ -17,9 +17,10 @@ tippy('.suggest-wrapper span', {
 });
 
 
-let addTippy = (selector, content, style) => {
+let addTippy = (selector, content, style,delay) => {
     tippy(selector, {
         content: content,
-        style: style
+        style: style,
+        delay : delay
     })
 }
