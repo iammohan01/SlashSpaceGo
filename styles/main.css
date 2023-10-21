@@ -187,7 +187,9 @@ body {
         justify-content: space-between;
 
     }
-
+    & span {
+        cursor: pointer;
+    }
     .frq-shortcuts {
         overflow: scroll;
         display: flex;
