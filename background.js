@@ -19,7 +19,7 @@ const openTarget =(shortcut)=>{
     console.log(shortcut)
     getAllShortcuts().then(data=>{
         let updatedShortcuts = data.shortcuts;
-        updatedShortcuts[shortcut.id] = shortcut
+        updatedShortcuts[shortcut.key] = shortcut
         chrome.storage.sync.set({"shortcuts": updatedShortcuts}).then(data=>{
             console.log(shortcut)
             console.log(updatedShortcuts)
