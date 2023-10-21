@@ -154,7 +154,7 @@ const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
 
             let shortcut = fetchedShortcuts.shortcuts[key]
             keyShorts[index] = shortcut
-            let shortcutDiv = $(`<div/>`)
+            let shortcutDiv = $(`<div tabindex="0" draggable="true"/>`)
             if(view.id === 1){
                 shortcutDiv[0].classList.add("grid")
                 let toolTip = $(`<p style="font-size: 10px">${shortcut.url}<p/>`)
@@ -264,7 +264,20 @@ filterInput.focusin(() => {
 })
 
 page.keydown(key => {
-    
+    let current = $(':focus');
+    if (key.which === 39) { // right arrow key code
+        current.next().focus();
+    }
+    else if (key.which === 37) { // right arrow key code
+        current.prev().focus();
+    }
+    else if (key.which === 40) { // down arrow key code
+        current.next().next().next().focus();
+    }
+    else if (key.which === 38) { // down arrow key code
+        current.prev().prev().prev().focus();
+    }
+    console.log(key.which)
     if (key.key === "Enter") {
         storeShortcut()
     } else {
