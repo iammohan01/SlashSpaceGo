@@ -137,6 +137,36 @@ const openTarget = (shortcut) => {
         })
     }
 }
+const createShortcutDiv = (shortcut,index)=>{
+    let shortcutDiv = $(`<div tabindex="0" draggable="true"/>`)
+    if(view.id === 1){
+        shortcutDiv[0].classList.add("grid")
+        let toolTip = $(`<p style="font-size: 10px">${shortcut.url}<p/>`)
+        addTippy(shortcutDiv[0],toolTip[0],null,1000)
+        if(index < 10){
+            let shortcutIcon = $(`<div class="keyShortcut"/>`);
+            shortcutIcon.text(index++)
+            shortcutIcon.prepend(keyIcon.clone())
+            shortcutDiv.append(shortcutIcon)
+        }
+        shortcutDiv[0].append(shortcut.key.slice(0, 6))
+    }
+    else {
+        let listView = $("<h6/>")
+        shortcutDiv[0].classList.add("list")
+        listView[0].append(index++, " .  ")
+        listView[0].append(shortcut.key)
+        shortcutDiv[0].append(listView[0])
+        let p = $("<p class='url'/>")
+        p.text(shortcut.url)
+        shortcutDiv[0].append(p[0])
+    }
+
+    shortcutDiv.click(() => {
+        openTarget(shortcut)
+    })
+    return shortcutDiv
+}
 
 const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
     freqShortcutsWrapper.empty();
@@ -149,43 +179,14 @@ const createShortcutDOMs = (fetchedShortcuts, filter = '') => {
             return acc;
         }, {});
 
-    Object.keys(fetchedShortcuts.shortcuts || {}).forEach(key => {
-        if (key.includes(filter) || fetchedShortcuts.shortcuts[key].url.includes(filter)) {
+    console.log(Object.values(fetchedShortcuts.shortcuts))
 
-            let shortcut = fetchedShortcuts.shortcuts[key]
-            keyShorts[index] = shortcut
-            let shortcutDiv = $(`<div tabindex="0" draggable="true"/>`)
-            if(view.id === 1){
-                shortcutDiv[0].classList.add("grid")
-                let toolTip = $(`<p style="font-size: 10px">${shortcut.url}<p/>`)
-                addTippy(shortcutDiv[0],toolTip[0],null,1000)
-                if(index < 10){
-                    let shortcutIcon = $(`<div class="keyShortcut"/>`);
-                    shortcutIcon.text(index++)
-                    shortcutIcon.prepend(keyIcon.clone())
-                    shortcutDiv.append(shortcutIcon)
-                }
-                shortcutDiv[0].append(key.slice(0, 6))
-            }
-            else {
-                let listView = $("<h6/>")
-                shortcutDiv[0].classList.add("list")
-                listView[0].append(index++, " .  ")
-                listView[0].append(shortcut.key)
-                console.log(listView[0])
-                shortcutDiv[0].append(listView[0])
-                let p = $("<p class='url'/>")
-                p.text(shortcut.url)
-                shortcutDiv[0].append(p[0])
-            }
-
-            shortcutDiv.click(() => {
-                openTarget(shortcut)
-            })
+    Object.values(fetchedShortcuts.shortcuts || {}).forEach(shortcuts => {
+        console.log(shortcuts)
+        if (shortcuts.key.includes(filter) || shortcuts.url.includes(filter)) {
+            let shortcutDiv = createShortcutDiv(shortcuts,index++)
             freqShortcutsWrapper.append(shortcutDiv)
-
         }
-        // console.log(shortcutDiv)
     })
 }
 const loadAllShortcuts = () => {
