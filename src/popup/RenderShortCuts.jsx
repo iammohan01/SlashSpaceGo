@@ -2,7 +2,10 @@ import PopupContext from "./context/PopupContext.jsx";
 import {useContext, useEffect, useRef, useState} from "react";
 import {Tooltip} from "antd";
 import {openTarget} from "../utils/utils.js"
-
+import listIcon from "../../public/resources/icons/view_list.svg";
+import gridIcon from "../../public/resources/icons/view_grid.svg"
+import metaIcon from "../../public/resources/icons/meta.svg"
+import ctrlIcon from "../../public/resources/icons/ctrl.svg"
 export default function RenderShortCuts() {
 
     const {shortCuts} = useContext(PopupContext);
@@ -83,7 +86,7 @@ export default function RenderShortCuts() {
                         })
                     }} className="view">
                     <img
-                        src={view === View.GRID ? "../../resources/icons/view_list.svg" : "../../resources/icons/view_grid.svg"}
+                        src={view === View.GRID ? listIcon : gridIcon}
                         alt="View List"/>
                 </span>
                 </Tooltip>
@@ -102,7 +105,7 @@ function LoadShortcut({shortCut, index, view, isMacOs}) {
     >
         <div tabIndex="0" draggable="true" className={view.toLowerCase()}>
             {index < 10 && <div className="keyShortcut"><img
-                src={isMacOs ? "../../resources/icons/meta.svg" : "../../resources/icons/ctrl.svg"}
+                src={isMacOs ? metaIcon : ctrlIcon}
                 alt="shortcutIcons"/>{index}</div>}
             {shortCut.key}
         </div>
