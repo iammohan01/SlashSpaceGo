@@ -1,12 +1,14 @@
+import light from "../../public/resources/icons/lightnig.svg"
+import share from "../../public/resources/icons/share.svg"
 export default function Header() {
     return (
         <div className="header">
             <div className="icon">
-                <img src="" alt="" srcSet="../../public/resources/icons/lightnig.svg"/>
+                <img src="" alt="" srcSet={light}/>
             </div>
             <div className="title">SLASH SPACE GO</div>
             <div className="share">
-                <img src="" alt="" srcSet="../../public/resources/icons/share.svg"/>
+                <img src="" alt="" srcSet={share}/>
             </div>
         </div>
     )

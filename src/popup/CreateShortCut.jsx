@@ -2,6 +2,7 @@ import {useContext, useEffect, useRef, useState} from "react";
 import {Alert, Tooltip} from "antd";
 import saveShortcut from "../utils/utils.js";
 import PopupContext from "./context/PopupContext.jsx";
+import helpIcon from "../../public/resources/icons/Help.svg"
 
 export default function CreateShortCut() {
 
@@ -92,7 +93,7 @@ export default function CreateShortCut() {
             </label>
             <Tooltip
                 title={`For quick access to a saved website: Press "/", followed by a space and the shortcut name. Then, hit Enter`}>
-                <img className="help-icon shortcut" src="" alt="" srcSet="../../public/resources/icons/Help.svg"/>
+                <img className="help-icon shortcut" src="" alt="" srcSet={helpIcon}/>
             </Tooltip>
         </div>
         <div className="button-fields" onClick={initSaveShortcut}>
