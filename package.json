@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/happy-work-theme": "^1.0.0",
     "@ant-design/icons": "^5.2.6",
+    "@fontsource/poppins": "^5.0.8",
     "antd": "^5.10.2",
     "idb": "^7.1.1",
     "material-icons": "^1.13.12",
