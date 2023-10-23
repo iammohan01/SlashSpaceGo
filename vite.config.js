@@ -13,12 +13,18 @@ export default defineConfig({
     })
   ],
   build: {
+    copyPublicDir:true,
     emptyOutDir: false,
     outDir: join(__dirname, "build"),
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
         admin: resolve(__dirname, 'popup.html')
+      },
+      output :{
+        entryFileNames: 'scripts/[name].js',
+        assetFileNames: 'assets/[name].[ext]',
+        chunkFileNames : "scripts/[name].js"
       }
     }
   }
