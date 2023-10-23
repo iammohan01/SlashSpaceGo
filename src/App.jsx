@@ -1,7 +1,6 @@
 import SideNavBar from "./navigation/NavBar.jsx";
 import SettingsPanel from "./setting_panel/SettingsPanel.jsx";
-import 'material-icons/iconfont/material-icons.css'
-
+import '@fontsource/poppins/';
 function App() {
     return (
         <>
