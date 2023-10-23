@@ -85,3 +85,20 @@ export function openTarget (shortcut) {
         })
     }
 }
+
+export function getAllShortcuts() {
+    return new Promise((resolve, reject) => {
+            getIndexDbConnection().then(db => {
+                const tx = db.transaction('shortcuts', 'readwrite');
+                db.getAll("shortcuts").then(data => {
+                    console.log(data)
+                    resolve(data)
+                }).catch(e=>{
+                    reject(e)
+                });
+            }).catch(e=>{
+                reject(e)
+            })
+        }
+    )
+}

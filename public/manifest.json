@@ -8,7 +8,8 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "service_worker": "scripts/background.js"
+    "service_worker": "scripts/background.js",
+    "type": "module"
   },
   "omnibox": {
     "keyword": "q"
