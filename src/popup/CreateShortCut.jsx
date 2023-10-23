@@ -1,5 +1,5 @@
 import {useContext, useEffect, useRef, useState} from "react";
-import {Alert, Tooltip} from "antd";
+import {Alert, Tooltip, message} from "antd";
 import saveShortcut from "../utils/utils.js";
 import PopupContext from "./context/PopupContext.jsx";
 import helpIcon from "../../public/resources/icons/Help.svg"
@@ -10,7 +10,7 @@ export default function CreateShortCut() {
     const [target, setTarget] = useState(1)
     const [showToast, setToast] = useState(<></>)
     const {shortCuts} = useContext(PopupContext)
-
+    const [messageApi, contextHolder] = message.useMessage();
     const inputRef = useRef(null);
     useEffect(() => {
         inputRef?.current?.focus()
@@ -23,52 +23,33 @@ export default function CreateShortCut() {
     function initSaveShortcut() {
         let trimmedKey = key.trim();
         if (trimmedKey) {
-            saveShortcut({key: trimmedKey, target}).then(data => {
-                setToast(
-                    <Alert style={{
-                        position: "absolute",
-                        top: 10,
-                        padding: "0.6rem 1.2rem"
-                    }}
-                           message={data.status}
-                           type="success"
-                           showIcon
-                    />)
-                shortCuts.setValue(p=>{
-                    let x = [ ...p,data.data]
-                    return(x)
+            messageApi.open({
+                type: 'loading',
+                content: 'Saving shortcut',
+                duration: 0.5,
+            }).then(() => {
+                saveShortcut({key: trimmedKey, target}).then(data => {
+                    message.success(data.status,2.5)
+                    shortCuts.setValue(p => {
+                        let x = [...p, data.data]
+                        return (x)
+                    })
+                    setKey("")
+                }).catch(err => {
+                    let errMsg =  "Something went wrong"
+                    if (err.error.name === "ConstraintError") {
+                        errMsg = "shortcut key already used"
+                    }
+                    console.error(typeof err.error, err.error)
+                    message.error(errMsg,2.5)
+
                 })
-                setKey("")
-            }).catch(err => {
-                let errMsg ;
-                if(err.error.name === "ConstraintError"){
-                    errMsg = "shortcut key already used"
-                }
-                console.error(typeof err.error,err.error)
-                setToast(
-                    <Alert style={{
-                        position: "absolute",
-                        top: 10,
-                        padding: "0.6rem 1.2rem"
-                    }}
-                           message={errMsg || "Something went wrong"}
-                           type="error"
-                           showIcon
-                    />)
-            }).finally(() => {
-                hideToast()
             })
         } else {
-            setToast(
-                <Alert style={{
-                    position: "absolute",
-                    top: 10,
-                    padding: "0.6rem 1.2rem"
-                }}
-                       message="Enter shortcut name"
-                       type="warning"
-                       showIcon
-                />)
+            messageApi.open({
+                type:'warning',
+                content : 'Enter shortcut name'
+            })
         }
         hideToast()
     }
@@ -78,6 +59,7 @@ export default function CreateShortCut() {
         }, 3000)
     }
     return <div tabIndex={-1} onKeyDown={handleKeyDown} className="create-shortcut-wrapper">
+        {contextHolder}
         {!!showToast && showToast}
         <div className="input-fields">
             <span>/ SPACE</span>
