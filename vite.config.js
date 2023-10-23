@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 import hotReloadExtension from 'hot-reload-extension-vite';
-import {resolve} from "path"
+import {resolve,join} from "path"
 
 export default defineConfig({
   plugins: [
@@ -14,6 +14,7 @@ export default defineConfig({
   ],
   build: {
     emptyOutDir: false,
+    outDir: join(__dirname, "build"),
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
