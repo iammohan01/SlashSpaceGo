@@ -18,13 +18,14 @@ export default defineConfig({
     outDir: join(__dirname, "build"),
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        admin: resolve(__dirname, 'popup.html')
+        index: resolve(__dirname, 'index.html'),
+        popup: resolve(__dirname, 'popup.html'),
+        background: resolve(__dirname, 'public/scripts/background.js')
       },
       output :{
         entryFileNames: 'scripts/[name].js',
         assetFileNames: 'assets/[name].[ext]',
-        chunkFileNames : "scripts/[name].js"
+        chunkFileNames : "scripts/[name].js",
       }
     }
   }
