@@ -65,7 +65,12 @@ export function getCurrentActiveTab () {
 }
 export function openTarget (shortcut) {
     shortcut.invoke++
-    //update indexed db
+    getIndexDbConnection().then(db=>{
+        db.put("shortcuts",shortcut).then(e=>{
+            console.log("invoke updated")
+        })
+    })
+    return
     if (shortcut.target === 1) {
         getCurrentActiveTab().then(tab => {
             goToUrl(tab[0].id, shortcut.url)
