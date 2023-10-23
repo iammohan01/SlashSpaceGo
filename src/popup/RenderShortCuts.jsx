@@ -110,7 +110,7 @@ function LoadShortcut({shortCut, index, isMacOs}) {
         {layout.value === View.LIST && <p className={"url"}><img src={shortCut.faviconUrl}/>{shortCut.url} </p>}
     </div>
 
-    return layout === View.GRID ?<Tooltip
+    return layout.value === View.GRID ?<Tooltip
         title={<span style={{fontSize: "0.6rem"}}>{shortCut.url}</span>}
         mouseEnterDelay={0.7}
         mouseLeaveDelay={0.5}
