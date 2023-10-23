@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     hotReloadExtension({
       log: true,
-      backgroundPath: 'path/to/background' // src/pages/background/index.ts
+      backgroundPath: 'path/to/background'
     })
   ],
   build: {
@@ -18,7 +18,7 @@ export default defineConfig({
     outDir: join(__dirname, "build"),
     rollupOptions: {
       input: {
-        index: resolve(__dirname, 'index.html'),
+        admin_page: resolve(__dirname, 'index.html'),
         popup: resolve(__dirname, 'popup.html'),
         background: resolve(__dirname, 'public/scripts/background.js')
       },
