@@ -1,5 +1,5 @@
 import {createContext, useEffect, useState} from "react";
-import getIndexDbConnection from "../../db_operations/DbOperations.js";
+import {getAllShortcuts} from "../../utils/utils.js";
 
 const PopupContext = createContext({});
 export default PopupContext;
@@ -8,16 +8,11 @@ export default PopupContext;
 export function ContextProvider({children}) {
     const [shortcuts,setShortcuts] = useState([])
     useEffect(() => {
-        getIndexDbConnection().then(db=>{
-            console.log(db)
-            const store = db.transaction("shortcuts","readwrite")
-            let shortCuts = store.objectStore("shortcuts")
-            shortCuts.getAll().then(async fetchedData => {
-                console.log(fetchedData)
-                setShortcuts(fetchedData)
-                await store.done;
-            })
-        })
+       getAllShortcuts().then(data=>{
+           setShortcuts(data)
+       }).catch(err=>{
+           console.log(err)
+       })
     }, []);
 
     return (<PopupContext.Provider
