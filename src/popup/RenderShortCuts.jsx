@@ -30,7 +30,8 @@ export default function RenderShortCuts() {
                     openTarget(sortedShortcuts[Number(event.key)])
                 } else if (!isMacOs && event.ctrlKey) {
                     event.preventDefault()
-                    console.log("windows")
+                    console.log("windows or linux")
+                    openTarget(sortedShortcuts[Number(event.key)])
                 }
                 Number(event.key)
                 return
