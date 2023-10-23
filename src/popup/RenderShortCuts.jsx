@@ -107,7 +107,7 @@ function LoadShortcut({shortCut, index, view, isMacOs}) {
         title={<span style={{fontSize: 10, lineHeight: "revert"}}>{shortCut.url}</span>}
         mouseEnterDelay={2}
     >
-        <div onClick={onclick} tabIndex="0" draggable="true" className={view.toLowerCase()}>
+        <div onClick={onclick} draggable="true" className={view.toLowerCase()}>
             {index < 10 && <div className="keyShortcut"><img
                 src={isMacOs ? metaIcon : ctrlIcon}
                 alt="shortcutIcons"/>{index}</div>}
