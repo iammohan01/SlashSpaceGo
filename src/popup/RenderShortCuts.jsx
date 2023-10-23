@@ -1,5 +1,5 @@
-import PopupContext from "./context/PopupContext.jsx";
-import {useContext, useEffect, useRef, useState} from "react";
+import PopupContext, {View,isMacOs} from "./context/PopupContext.jsx";
+import {useContext, useEffect, useState} from "react";
 import {Tooltip} from "antd";
 import {openTarget} from "../utils/utils.js"
 import listIcon from "../../public/resources/icons/view_list.svg";
@@ -8,20 +8,13 @@ import metaIcon from "../../public/resources/icons/meta.svg"
 import ctrlIcon from "../../public/resources/icons/ctrl.svg"
 export default function RenderShortCuts() {
 
-    const {shortCuts} = useContext(PopupContext);
+    const {shortCuts,layout} = useContext(PopupContext);
 
-    const View = Object.freeze({
-        GRID: "GRID",
-        LIST: "LIST"
-    })
 
     let [shortCutItems, setShortCutItems] = useState([])
-    let [view, setView] = useState(View.GRID)
-
 
     useEffect(() => {
         let sortedShortcuts;
-        const isMacOs = navigator.userAgentData.platform === "macOS";
 
         function attachKeyboardShortcut(event) {
             let key = event.which
@@ -50,7 +43,6 @@ export default function RenderShortCuts() {
                     <LoadShortcut
                         isMacOs={isMacOs}
                         key={index}
-                        view={view}
                         shortCut={val}
                         index={index}
                     />);
@@ -67,7 +59,7 @@ export default function RenderShortCuts() {
 
     return (
         <div className="freq-suggest-wrapper">
-            <input placeholder={"Search shortcut"}/>
+            <input style={{display: "none"}} placeholder={"Search shortcut"}/>
             <h4 className="title">
                 Frequently Used Shortcuts
                 <Tooltip
@@ -78,7 +70,7 @@ export default function RenderShortCuts() {
                 <span
                     style={{cursor: "pointer"}}
                     onClick={(event) => {
-                        setView(prev => {
+                        layout.setLayout(prev => {
                             if (prev === View.LIST) {
                                 return View.GRID
                             }
@@ -86,7 +78,7 @@ export default function RenderShortCuts() {
                         })
                     }} className="view">
                     <img
-                        src={view === View.GRID ? listIcon : gridIcon}
+                        src={layout.value === View.GRID ? listIcon : gridIcon}
                         alt="View List"/>
                 </span>
                 </Tooltip>
@@ -98,21 +90,31 @@ export default function RenderShortCuts() {
     );
 }
 
-function LoadShortcut({shortCut, index, view, isMacOs}) {
+function LoadShortcut({shortCut, index, isMacOs}) {
 
-    function onclick(e){
+    const {shortCuts,layout} = useContext(PopupContext);
+    index++;
+    function onclick(e) {
         openTarget(shortCut)
     }
-    return <Tooltip
+    let children =   <div onClick={onclick} draggable="true" className={layout.value}>
+        {layout.value ===View.GRID && index < 10 && <div className="keyShortcut">
+            <img
+                src={isMacOs ? metaIcon : ctrlIcon}
+                alt="shortcutIcons"
+            />
+            {index}
+        </div>}
+        {layout.value ===View.GRID && shortCut.key}
+        {layout.value === View.LIST && <h6>{index + " . " + shortCut.key}</h6>}
+        {layout.value === View.LIST && <p className={"url"}><img src={shortCut.faviconUrl}/>{shortCut.url} </p>}
+    </div>
+
+    return layout === View.GRID ?<Tooltip
         title={<span style={{fontSize: "0.6rem"}}>{shortCut.url}</span>}
         mouseEnterDelay={0.7}
         mouseLeaveDelay={0.5}
     >
-        <div onClick={onclick} draggable="true" className={view.toLowerCase()}>
-            {index < 10 && <div className="keyShortcut"><img
-                src={isMacOs ? metaIcon : ctrlIcon}
-                alt="shortcutIcons"/>{index}</div>}
-            {shortCut.key}
-        </div>
-    </Tooltip>;
+        {children}
+    </Tooltip> : children;
 }
