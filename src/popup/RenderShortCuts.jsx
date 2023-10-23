@@ -1,6 +1,6 @@
 import PopupContext, {isMacOs, View} from "./context/PopupContext.jsx";
 import {useContext, useEffect, useState} from "react";
-import {Tooltip} from "antd";
+import {Tooltip,Popover} from "antd";
 import {openTarget} from "../utils/utils.js"
 import listIcon from "../../public/resources/icons/view_list.svg";
 import gridIcon from "../../public/resources/icons/view_grid.svg"
@@ -113,15 +113,23 @@ function LoadShortcut({shortCut, index, isMacOs}) {
         {layout.value === View.GRID && <img style={{width:14,aspectRatio:"1/1"}} src={shortCut.favIconUrl ||emptyIcon }/>}
         {layout.value === View.GRID && (shortCut.key.slice(0, 10))}
         {layout.value === View.GRID && shortCut.key.length > 10 && "..."}
-        {layout.value === View.LIST && <h6><img style={{width:14,aspectRatio:"1/1"}} src={shortCut.favIconUrl ||emptyIcon }/> {shortCut.key}</h6>}
+        {layout.value === View.LIST && <h6><img style={{width:14,aspectRatio:"1/1"}} src={shortCut.favIconUrl ||emptyIcon }/> {index} . {shortCut.key}</h6>}
         {layout.value === View.LIST && <p className={"url"}>{shortCut.url} </p>}
     </div>
 
-    return layout.value === View.GRID ? <Tooltip
-        title={<span style={{fontSize: "0.6rem"}}>{shortCut.url}</span>}
-        mouseEnterDelay={0.7}
-        mouseLeaveDelay={0.5}
+    return <Popover
+        content={<div
+        style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",fontSize: "0.7rem"}}>
+            <span style={{fontSize: "0.7rem"}}>{shortCut.url}</span>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:"1rem"}}>
+                <a href={""}>edit</a>
+                <a onClick={()=>{shortCut.target=2;openTarget(shortCut)}} href={""}>new tab</a>
+                <a onClick={()=>{shortCut.target=3;openTarget(shortCut)}} href={""}>new window</a>
+            </div>
+        </div>}
+        mouseEnterDelay={0.5}
+        mouseLeaveDelay={0.3}
     >
         {children}
-    </Tooltip> : children;
+    </Popover>
 }
