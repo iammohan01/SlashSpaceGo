@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev-page": "vite",
-    "build" : "cp -r public/manifest.json background.js public/icon.png scripts styles public/resources  build/ && vite build",
+    "build": "vite build",
     "dev": "vite build --watch",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
