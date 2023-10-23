@@ -6,7 +6,7 @@
   "scripts": {
     "dev-page": "vite",
     "build": "vite build",
-    "dev": "vite build --watch",
+    "dev": "NODE_ENV=development vite build --watch",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -17,7 +17,8 @@
     "antd": "^5.10.2",
     "idb": "^7.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "vite-plugin-static-copy": "^0.17.0"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.248",

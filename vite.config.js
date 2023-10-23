@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-
 import hotReloadExtension from 'hot-reload-extension-vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 import {resolve,join} from "path"
 
 export default defineConfig({
@@ -9,11 +9,18 @@ export default defineConfig({
     react(),
     hotReloadExtension({
       log: true,
-      backgroundPath: 'path/to/background'
+      backgroundPath: 'scripts/background.js'
+    }),
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'manifest.json',
+          dest: '.'
+        }
+      ]
     })
   ],
   build: {
-    copyPublicDir:true,
     emptyOutDir: true,
     outDir: join(__dirname, "build"),
     rollupOptions: {
