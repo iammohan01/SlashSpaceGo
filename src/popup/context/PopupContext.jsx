@@ -10,7 +10,7 @@ export const View = Object.freeze({
 })
 export function ContextProvider({children}) {
     const [shortcuts,setShortcuts] = useState([])
-    let [layout, setLayout] = useState(View.LIST)
+    let [layout, setLayout] = useState(View.GRID)
 
     useEffect(() => {
        getAllShortcuts().then(data=>{
