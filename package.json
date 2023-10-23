@@ -10,8 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/happy-work-theme": "^1.0.0",
+    "@ant-design/icons": "^5.2.6",
+    "antd": "^5.10.2",
+    "idb": "^7.1.1",
+    "material-icons": "^1.13.12",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "resolve": "^2.0.0-next.5"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.248",
