@@ -33,7 +33,8 @@ export default function RenderShortCuts() {
         }
 
         if (shortCuts && shortCuts?.value && Array.isArray(shortCuts.value)) {
-            sortedShortcuts = shortCuts.value.sort((a, b) => b.createdTime - a.createdTime)
+            sortedShortcuts = shortCuts.value
+            sortedShortcuts.sort((a, b) => b.invoke - a.invoke)
             let renderedShortcuts = []
             document.addEventListener('keydown', attachKeyboardShortcut);
 
