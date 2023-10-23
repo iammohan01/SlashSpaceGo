@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {Alert, Tooltip} from "antd";
 import saveShortcut from "../utils/utils.js";
 import PopupContext from "./context/PopupContext.jsx";
@@ -9,6 +9,11 @@ export default function CreateShortCut() {
     const [target, setTarget] = useState(1)
     const [showToast, setToast] = useState(<></>)
     const {shortCuts} = useContext(PopupContext)
+
+    const inputRef = useRef(null);
+    useEffect(() => {
+        inputRef?.current?.focus()
+    }, []);
     const handleKeyDown = event => {
         if (event.which === 13) {
             initSaveShortcut()
@@ -75,7 +80,7 @@ export default function CreateShortCut() {
         {!!showToast && showToast}
         <div className="input-fields">
             <span>/ SPACE</span>
-            <input value={key} onChange={(e) => {
+            <input ref={inputRef} value={key} onChange={(e) => {
                 setKey(e.target.value.trim())
             }} id="create-input" type="text" placeholder="Enter a shortcut name"/>
             <label htmlFor="target">
