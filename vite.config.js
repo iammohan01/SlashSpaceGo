@@ -21,6 +21,7 @@ export default defineConfig({
     })
   ],
   build: {
+    chunkSizeWarningLimit: 1500,
     copyPublicDir:false,
     emptyOutDir: true,
     outDir: join(__dirname, "build"),
@@ -33,7 +34,7 @@ export default defineConfig({
       output :{
         entryFileNames: 'scripts/[name].js',
         assetFileNames: 'assets/[name].[ext]',
-        chunkFileNames : "scripts/[name].js",
+        chunkFileNames : "scripts/[name].js"
       }
     }
   }
