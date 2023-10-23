@@ -87,7 +87,7 @@ export default function CreateShortCut() {
             </label>
             <Tooltip
                 title={`For quick access to a saved website: Press "/", followed by a space and the shortcut name. Then, hit Enter`}>
-                <img className="help-icon shortcut" src="" alt="" srcSet="../../resources/icons/Help.svg"/>
+                <img className="help-icon shortcut" src="" alt="" srcSet="../../public/resources/icons/Help.svg"/>
             </Tooltip>
         </div>
         <div className="button-fields" onClick={initSaveShortcut}>

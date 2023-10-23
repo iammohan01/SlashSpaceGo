@@ -4,7 +4,7 @@ const saveShortcutButton = $("#saveButton");
 const pageTargetInput = $("#target");
 const filterInput = $("#filterShortcuts");
 const freqShortcutsWrapper = $('.frq-shortcuts');
-const keyIcon = $("<img src='resources/icons/meta.svg' alt='shortcutIcons'/>")
+const keyIcon = $("<img src='public/resources/icons/meta.svg' alt='shortcutIcons'/>")
 const freqSuggestWrapper = $(".freq-suggest-wrapper")
 const viewIcon = $(".freq-suggest-wrapper .view")
 const filterWrapper = $(".filter-wrapper")

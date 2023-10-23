@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev-page": "vite",
-    "build" : "cp -r manifest.json background.js icon.png scripts styles resources  build/ && vite build",
-    "dev": "cp -r manifest.json background.js icon.png scripts styles resources  build/ && vite build --watch",
+    "build" : "cp -r public/manifest.json background.js public/icon.png scripts styles public/resources  build/ && vite build",
+    "dev": "vite build --watch",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
