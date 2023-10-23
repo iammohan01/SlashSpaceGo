@@ -17,8 +17,7 @@
     "antd": "^5.10.2",
     "idb": "^7.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "vite-plugin-static-copy": "^0.17.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.248",
@@ -30,6 +29,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "hot-reload-extension-vite": "^1.0.10",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-static-copy": "^0.17.0"
   }
 }

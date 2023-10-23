@@ -21,6 +21,7 @@ export default defineConfig({
     })
   ],
   build: {
+    copyPublicDir:false,
     emptyOutDir: true,
     outDir: join(__dirname, "build"),
     rollupOptions: {
