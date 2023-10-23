@@ -55,7 +55,6 @@ export default function RenderShortCuts() {
             }
             setShortCutItems(renderedShortcuts)
         }
-        console.log(keyshortcutsRef)
 
         return () => {
             document.removeEventListener('keydown', attachKeyboardShortcut);
