@@ -99,11 +99,15 @@ export default function RenderShortCuts() {
 }
 
 function LoadShortcut({shortCut, index, view, isMacOs}) {
+
+    function onclick(e){
+        openTarget(shortCut)
+    }
     return <Tooltip
         title={<span style={{fontSize: 10, lineHeight: "revert"}}>{shortCut.url}</span>}
         mouseEnterDelay={2}
     >
-        <div tabIndex="0" draggable="true" className={view.toLowerCase()}>
+        <div onClick={onclick} tabIndex="0" draggable="true" className={view.toLowerCase()}>
             {index < 10 && <div className="keyShortcut"><img
                 src={isMacOs ? metaIcon : ctrlIcon}
                 alt="shortcutIcons"/>{index}</div>}
