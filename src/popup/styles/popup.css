@@ -192,6 +192,7 @@ body {
                 align-items: center;
                 justify-content: center;
                 position: relative;
+                gap: 0.3rem;
             }
             .list{
                 width: 100%;

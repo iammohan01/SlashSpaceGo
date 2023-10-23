@@ -1,4 +1,4 @@
-import PopupContext, {View,isMacOs} from "./context/PopupContext.jsx";
+import PopupContext, {isMacOs, View} from "./context/PopupContext.jsx";
 import {useContext, useEffect, useState} from "react";
 import {Tooltip} from "antd";
 import {openTarget} from "../utils/utils.js"
@@ -6,9 +6,11 @@ import listIcon from "../../public/resources/icons/view_list.svg";
 import gridIcon from "../../public/resources/icons/view_grid.svg"
 import metaIcon from "../../public/resources/icons/meta.svg"
 import ctrlIcon from "../../public/resources/icons/ctrl.svg"
+import emptyIcon from "../../public/resources/icons/empty.svg"
+
 export default function RenderShortCuts() {
 
-    const {shortCuts,layout} = useContext(PopupContext);
+    const {shortCuts, layout} = useContext(PopupContext);
 
 
     let [shortCutItems, setShortCutItems] = useState([])
@@ -93,25 +95,29 @@ export default function RenderShortCuts() {
 
 function LoadShortcut({shortCut, index, isMacOs}) {
 
-    const {shortCuts,layout} = useContext(PopupContext);
+    const {shortCuts, layout} = useContext(PopupContext);
     index++;
+
     function onclick(e) {
         openTarget(shortCut)
     }
-    let children =   <div onClick={onclick} draggable="true" className={layout.value}>
-        {layout.value ===View.GRID && index < 10 && <div className="keyShortcut">
+
+    let children = <div onClick={onclick} draggable="true" className={layout.value}>
+        {layout.value === View.GRID && index < 10 && <div className="keyShortcut">
             <img
                 src={isMacOs ? metaIcon : ctrlIcon}
                 alt="shortcutIcons"
             />
             {index}
         </div>}
-        {layout.value ===View.GRID && shortCut.key}
-        {layout.value === View.LIST && <h6>{index + " . " + shortCut.key}</h6>}
-        {layout.value === View.LIST && <p className={"url"}><img src={shortCut.faviconUrl}/>{shortCut.url} </p>}
+        {layout.value === View.GRID && <img style={{width:14,aspectRatio:"1/1"}} src={shortCut.favIconUrl ||emptyIcon }/>}
+        {layout.value === View.GRID && (shortCut.key.slice(0, 10))}
+        {layout.value === View.GRID && shortCut.key.length > 10 && "..."}
+        {layout.value === View.LIST && <h6><img style={{width:14,aspectRatio:"1/1"}} src={shortCut.favIconUrl ||emptyIcon }/> {shortCut.key}</h6>}
+        {layout.value === View.LIST && <p className={"url"}>{shortCut.url} </p>}
     </div>
 
-    return layout.value === View.GRID ?<Tooltip
+    return layout.value === View.GRID ? <Tooltip
         title={<span style={{fontSize: "0.6rem"}}>{shortCut.url}</span>}
         mouseEnterDelay={0.7}
         mouseLeaveDelay={0.5}
