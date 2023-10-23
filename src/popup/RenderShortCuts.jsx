@@ -26,14 +26,12 @@ export default function RenderShortCuts() {
                 if (isMacOs && event.metaKey) {
                     event.preventDefault()
                     console.log("mac os")
-                    console.log(sortedShortcuts[Number(event.key)])
                     openTarget(sortedShortcuts[Number(event.key)])
                 } else if (!isMacOs && event.ctrlKey) {
                     event.preventDefault()
                     console.log("windows or linux")
                     openTarget(sortedShortcuts[Number(event.key)])
                 }
-                Number(event.key)
                 return
             }
         }
