@@ -104,8 +104,9 @@ function LoadShortcut({shortCut, index, view, isMacOs}) {
         openTarget(shortCut)
     }
     return <Tooltip
-        title={<span style={{fontSize: 10, lineHeight: "revert"}}>{shortCut.url}</span>}
-        mouseEnterDelay={2}
+        title={<span style={{fontSize: "0.6rem"}}>{shortCut.url}</span>}
+        mouseEnterDelay={0.7}
+        mouseLeaveDelay={0.5}
     >
         <div onClick={onclick} draggable="true" className={view.toLowerCase()}>
             {index < 10 && <div className="keyShortcut"><img
