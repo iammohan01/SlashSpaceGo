@@ -96,7 +96,6 @@ export default function RenderShortCuts() {
 function LoadShortcut({shortCut, index, isMacOs}) {
 
     const {shortCuts, layout} = useContext(PopupContext);
-    index++;
 
     function onclick(e) {
         openTarget(shortCut)
