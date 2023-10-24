@@ -11,7 +11,6 @@
 html {
     height: 500px;
     width: 350px;
-    border: 1px solid red;
 }
 
 body {
@@ -206,6 +205,9 @@ body {
                     font-size: 13px;
                     font-weight: 500;
                     text-decoration: underline;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.6rem;
                 }
                 & > p{
                     font-size: 11px;
