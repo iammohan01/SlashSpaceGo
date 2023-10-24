@@ -1,4 +1,5 @@
 import getIndexDbConnection from "../db_operations/DbOperations.js";
+import cryptoRandomString from 'crypto-random-string';
 
 export default function saveShortcut({key, target}) {
     return new Promise((resolve, reject) => {
@@ -38,12 +39,7 @@ export default function saveShortcut({key, target}) {
 }
 
 export function generateRandomString(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let randomString = '';
-    for (let i = 0; i < length; i++) {
-        randomString += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return randomString;
+    return cryptoRandomString({length: length, type: 'alphanumeric'});
 }
 
 export function getActiveTab() {
@@ -63,23 +59,26 @@ export function createNewWindow () {
 export function getCurrentActiveTab () {
     return chrome.tabs.query({active: true, currentWindow: true})
 }
-export function openTarget (shortcut) {
+export function openTarget (shortcut ,target) {
     shortcut.invoke++
+    if(!target){
+        target = shortcut.target
+    }
     getIndexDbConnection().then(db=>{
         db.put("shortcuts",shortcut).then(e=>{
             console.log("invoke updated")
         })
     })
-    if (shortcut.target === 1) {
+    if (target === 1) {
         getCurrentActiveTab().then(tab => {
             goToUrl(tab[0].id, shortcut.url)
         })
-    } else if (shortcut.target === 2) {
+    } else if (target === 2) {
         chrome.tabs.create({url: shortcut.url}).then(tab => {
             console.log(tab)
         })
     }
-    else if (shortcut.target === 3) {
+    else if (target === 3) {
         createNewWindow().then(window => {
             let tab = window.tabs[0]
             console.log("Going to open new window")
@@ -100,6 +99,19 @@ export function getAllShortcuts() {
                 }).catch(e=>{
                     reject(e)
                 });
+            }).catch(e=>{
+                reject(e)
+            })
+        }
+    )
+}
+
+export function deleteShortcut(key) {
+    return new Promise((resolve, reject) => {
+            getIndexDbConnection().then(async db => {
+                const tx = db.transaction('shortcuts', 'readwrite');
+                console.log(await db.getAll("shortcuts"))
+                await db.delete("shortcuts", key,1)
             }).catch(e=>{
                 reject(e)
             })
