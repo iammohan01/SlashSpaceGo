@@ -1,5 +1,5 @@
 import {openTarget} from "../utils/utils.js";
-import fetchAllShortcuts from "../Models/SlashSpaceGo/ShortcutsUtils.js";
+import fetchAllShortcuts from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.js";
 
 let data = []
 

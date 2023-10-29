@@ -24,11 +24,7 @@ export function openTarget (shortcut ,target) {
     if(!target){
         target = shortcut.target
     }
-    getIndexDbConnection().then(db=>{
-        db.put("shortcuts",shortcut).then(e=>{
-            console.log("invoke updated")
-        })
-    })
+    updateInvoke(shortcut)
     if (target === 1) {
         getCurrentActiveTab().then(tab => {
             goToUrl(tab[0].id, shortcut.url)
@@ -54,7 +50,7 @@ export async function generateCurrentTabData(key,target) {
         let shortcutObject = {
             createdTime: Date.now(),
             favIconUrl: currentTab[0].favIconUrl,
-            id: generateRandomString(10),
+            id: generateRandomString(15),
             invoke: 0,
             key: key,
             modifiedTime: 1698000711201,

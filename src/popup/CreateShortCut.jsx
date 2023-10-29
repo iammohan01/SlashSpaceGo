@@ -1,9 +1,9 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import {message, Tooltip} from "antd";
-import  {generateCurrentTabData} from "../utils/utils.js";
+import {generateCurrentTabData} from "../utils/utils.js";
 import PopupContext from "./context/PopupContext.jsx";
 import helpIcon from "../../public/resources/icons/Help.svg"
-import {saveShortcut} from "../Models/SlashSpaceGo/ShortcutsUtils.js";
+import {saveShortcut} from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.js";
 
 export default function CreateShortCut() {
 
@@ -24,34 +24,38 @@ export default function CreateShortCut() {
     function initSaveShortcut() {
         let trimmedKey = key.trim();
         if (trimmedKey) {
-            messageApi.open({
-                type: 'loading',
-                content: 'Saving shortcut',
-                duration: 0.5,
-            }).then(async () => {
-                generateCurrentTabData(trimmedKey, target)
-                    .then(data => {
-                        saveShortcut(data).then(s=>{
-                            console.log("saved")
-                            console.log(s)
-                            shortCuts.setValue(prev=>[...prev,s])
-                            message.success("saved",3)
-                        })
-                            .catch(err=>{
-                                console.error(err)
-                                message.error("Shortcut Already Used",3)
-                            })
-
-                    })
-                    .catch(err=>{
-                    console.error(err)
-                    message.error("Something went wrong",3)
+            messageApi
+                .open({
+                    type: 'loading',
+                    content: 'Saving shortcut',
+                    duration: 0.5,
                 })
-            })
+                .then(async () => {
+                    generateCurrentTabData(trimmedKey, target)
+                        .then(data => {
+                            saveShortcut(data)
+                                .then(s => {
+                                    console.log("saved")
+                                    shortCuts.setValue(prev => [...prev, s])
+                                    message.success("saved", 3)
+                                })
+                                .catch(err => {
+                                    console.error(err)
+                                    message.error("Shortcut Already Used", 3)
+                                })
+
+
+                        })
+                        .catch(err => {
+                            console.error(err)
+                            message.error("Something went wrong", 3)
+                        })
+
+                })
         } else {
             messageApi.open({
-                type:'warning',
-                content : 'Enter shortcut name'
+                type: 'warning',
+                content: 'Enter shortcut name'
             })
         }
     }

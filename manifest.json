@@ -3,7 +3,7 @@
   "name": "Slash Space Go",
   "version": "3.2",
   "description": "Slash, Space, and Go - that's all it takes! With our extension, assign unique shortcuts to your favorite websites.",
-  "permissions": ["contextMenus", "storage", "tabs", "activeTab", "notifications","bookmarks","contextMenus"],
+  "permissions": ["contextMenus", "storage", "unlimitedStorage","tabs", "activeTab", "notifications","bookmarks","contextMenus"],
   "action": {
     "default_popup": "popup.html"
   },

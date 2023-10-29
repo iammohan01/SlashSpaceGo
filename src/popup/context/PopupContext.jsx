@@ -1,5 +1,5 @@
 import {createContext, useEffect, useState} from "react";
-import fetchAllShortcuts from "../../Models/SlashSpaceGo/ShortcutsUtils.js";
+import fetchAllShortcuts from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.js";
 
 const PopupContext = createContext({});
 export default PopupContext;
