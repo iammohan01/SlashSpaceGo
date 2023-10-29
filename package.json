@@ -14,22 +14,25 @@
     "@ant-design/happy-work-theme": "^1.0.0",
     "@ant-design/icons": "^5.2.6",
     "@fontsource/poppins": "^5.0.8",
+    "@n1md7/indexeddb-promise": "^7.1.0",
     "antd": "^5.10.2",
     "crypto-random-string": "^5.0.0",
     "idb": "^7.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.248",
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "^18.2.33",
+    "@types/react-dom": "^18.2.14",
     "@vitejs/plugin-react": "^4.0.3",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "hot-reload-extension-vite": "^1.0.10",
+    "typescript": "^5.2.2",
     "vite": "^4.4.5",
     "vite-plugin-static-copy": "^0.17.0"
   }
