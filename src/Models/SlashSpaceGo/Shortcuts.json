@@ -1,0 +1,15 @@
+{
+  "name": "shortcuts",
+  "primaryKey": {
+    "name": "key",
+    "autoIncrement": false,
+    "unique": true
+  },
+  "indexes": {
+    "id": {
+      "unique": true,
+      "multiEntry": false
+    }
+  },
+  "timestamps": true
+}

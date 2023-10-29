@@ -1,9 +1,10 @@
-import {getAllShortcuts, openTarget} from "../utils/utils.js";
+import {openTarget} from "../utils/utils.js";
+import fetchAllShortcuts from "../Models/SlashSpaceGo/ShortcutsUtils.js";
 
 let data = []
 
 chrome.omnibox.onInputStarted.addListener(() => {
-    getAllShortcuts().then(fetchedData => {
+    fetchAllShortcuts().then(fetchedData => {
         data = fetchedData
     })
 })
@@ -27,7 +28,7 @@ chrome.omnibox.onInputChanged.addListener((text = "", suggest) => {
 
 chrome.omnibox.onInputEntered.addListener(query => {
     if (!data) {
-        getAllShortcuts().then(fetchedData => {
+        fetchAllShortcuts().then(fetchedData => {
             data = fetchedData
         })
     }

@@ -1,8 +1,9 @@
 import {useContext, useEffect, useRef, useState} from "react";
-import {Alert, Tooltip, message} from "antd";
-import saveShortcut from "../utils/utils.js";
+import {message, Tooltip} from "antd";
+import  {generateCurrentTabData} from "../utils/utils.js";
 import PopupContext from "./context/PopupContext.jsx";
 import helpIcon from "../../public/resources/icons/Help.svg"
+import {saveShortcut} from "../Models/SlashSpaceGo/ShortcutsUtils.js";
 
 export default function CreateShortCut() {
 
@@ -27,22 +28,24 @@ export default function CreateShortCut() {
                 type: 'loading',
                 content: 'Saving shortcut',
                 duration: 0.5,
-            }).then(() => {
-                saveShortcut({key: trimmedKey, target}).then(data => {
-                    message.success(data.status,2.5)
-                    shortCuts.setValue(p => {
-                        let x = [...p, data.data]
-                        return (x)
-                    })
-                    setKey("")
-                }).catch(err => {
-                    let errMsg =  "Something went wrong"
-                    if (err.error.name === "ConstraintError") {
-                        errMsg = "shortcut key already used"
-                    }
-                    console.error(typeof err.error, err.error)
-                    message.error(errMsg,2.5)
+            }).then(async () => {
+                generateCurrentTabData(trimmedKey, target)
+                    .then(data => {
+                        saveShortcut(data).then(s=>{
+                            console.log("saved")
+                            console.log(s)
+                            shortCuts.setValue(prev=>[...prev,s])
+                            message.success("saved",3)
+                        })
+                            .catch(err=>{
+                                console.error(err)
+                                message.error("Shortcut Already Used",3)
+                            })
 
+                    })
+                    .catch(err=>{
+                    console.error(err)
+                    message.error("Something went wrong",3)
                 })
             })
         } else {
@@ -51,13 +54,8 @@ export default function CreateShortCut() {
                 content : 'Enter shortcut name'
             })
         }
-        hideToast()
     }
-    function hideToast() {
-        setTimeout(() => {
-            setToast(<></>)
-        }, 3000)
-    }
+
     return <div tabIndex={-1} onKeyDown={handleKeyDown} className="create-shortcut-wrapper">
         {contextHolder}
         {!!showToast && showToast}

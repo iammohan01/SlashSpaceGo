@@ -1,12 +1,13 @@
 import PopupContext, {isMacOs, View} from "./context/PopupContext.jsx";
 import {useContext, useEffect, useState} from "react";
 import {Popover, Tooltip} from "antd";
-import {deleteShortcut, openTarget} from "../utils/utils.js"
+import {openTarget} from "../utils/utils.js"
 import listIcon from "../../public/resources/icons/view_list.svg";
 import gridIcon from "../../public/resources/icons/view_grid.svg"
 import metaIcon from "../../public/resources/icons/meta.svg"
 import ctrlIcon from "../../public/resources/icons/ctrl.svg"
 import emptyIcon from "../../public/resources/icons/empty.svg"
+import {deleteShortcut} from "../Models/SlashSpaceGo/ShortcutsUtils.js";
 
 export default function RenderShortCuts() {
 
@@ -30,7 +31,7 @@ export default function RenderShortCuts() {
                     console.log("windows or linux")
                     openTarget(sortedShortcuts[Number(event.key)])
                 }
-                return
+
             }
         }
 
@@ -109,12 +110,10 @@ function LoadShortcut({shortCut, index, isMacOs}) {
             />
             {index}
         </div>}
-        {layout.value === View.GRID &&
-            <img style={{width: 14, aspectRatio: "1/1"}} src={shortCut.favIconUrl || emptyIcon}/>}
-        {layout.value === View.GRID && (shortCut.key.slice(0, 10))}
-        {layout.value === View.GRID && shortCut.key.length > 10 && "..."}
-        {layout.value === View.LIST && <h6><img style={{width: 14, aspectRatio: "1/1"}}
-                                                src={shortCut.favIconUrl || emptyIcon}/> {index} . {shortCut.key}</h6>}
+        {layout.value === View.GRID && <img style={{width: 14, aspectRatio: "1/1"}} src={shortCut.favIconUrl || emptyIcon}/>}
+        {layout.value === View.GRID && (shortCut.key.slice(0, 6))}
+        {layout.value === View.GRID && shortCut.key.length > 6 && "..."}
+        {layout.value === View.LIST && <h6><img style={{width: 14, aspectRatio: "1/1"}} src={shortCut.favIconUrl || emptyIcon}/> {index} . {shortCut.key}</h6>}
         {layout.value === View.LIST && <p className={"url"}>{shortCut.url} </p>}
     </div>
 
@@ -135,8 +134,9 @@ function LoadShortcut({shortCut, index, isMacOs}) {
             <div style={{display: "flex",fontSize: "0.7rem", alignItems: "center", justifyContent: "center", gap: "1rem"}}>
                 <a>Edit</a>
                 <a onClick={()=>{
-                    deleteShortcut(shortCuts.key).then(r =>{
+                    deleteShortcut(shortCut.key).then(r =>{
                         console.log(r,"deleted")
+                        shortCuts.setValue(prev=>prev.filter(obj=>obj.key!==shortCut.key))
                     })
                 }}>Delete</a>
                 <a onClick={() => {openTarget(shortCut,1)}}>open</a>

@@ -1,5 +1,5 @@
 import {createContext, useEffect, useState} from "react";
-import {getAllShortcuts} from "../../utils/utils.js";
+import fetchAllShortcuts from "../../Models/SlashSpaceGo/ShortcutsUtils.js";
 
 const PopupContext = createContext({});
 export default PopupContext;
@@ -13,10 +13,8 @@ export function ContextProvider({children}) {
     let [layout, setLayout] = useState(View.GRID)
 
     useEffect(() => {
-       getAllShortcuts().then(data=>{
-           setShortcuts(data)
-       }).catch(err=>{
-           console.log(err)
+       fetchAllShortcuts().then(shortcuts=>{
+           setShortcuts(shortcuts)
        })
     }, []);
 
