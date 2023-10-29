@@ -7,7 +7,7 @@ const db = new Database({
     name: 'slashGoo',
     tables: [shortcuts]
 })
-await db.connect();
+db.connect();
 const shortCutModel = db.useModel(shortcuts.name)
 
 export default async function fetchAllShortcuts() {
