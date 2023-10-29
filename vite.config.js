@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import hotReloadExtension from 'hot-reload-extension-vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import {resolve,join} from "path"
+import typescript from "typescript";
 
 export default defineConfig({
   plugins: [
@@ -21,11 +22,15 @@ export default defineConfig({
     })
   ],
   build: {
+    target: 'esnext',
     chunkSizeWarningLimit: 1500,
     copyPublicDir:false,
     emptyOutDir: true,
     outDir: join(__dirname, "build"),
     rollupOptions: {
+      external:[
+        'Shortcuts.json'
+      ],
       input: {
         admin_page: resolve(__dirname, 'index.html'),
         popup: resolve(__dirname, 'popup.html'),
