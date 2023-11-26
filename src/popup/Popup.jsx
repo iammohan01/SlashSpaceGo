@@ -5,10 +5,12 @@ import TextExpander from "./TextExpander/TextExpander.jsx";
 import {Radio} from 'antd';
 
 export default function Popup() {
-    const [view, setView] = useState(0);
+    const [view, setView] = useState(Number(localStorage.getItem("view")));
 
     function changeView(e) {
-        setView(e.target.value)
+        let val = e.target.value;
+        setView(val)
+        localStorage.setItem("view",val)
     }
 
     function ModeSwitch() {
@@ -18,7 +20,7 @@ export default function Popup() {
                 justifyContent:"center"
             }} value={view} onChange={changeView}>
                 <Radio.Button value={0}>Shortcuts</Radio.Button>
-                <Radio.Button value={1}>Text expander</Radio.Button>
+                <Radio.Button value={1}>Expander</Radio.Button>
             </Radio.Group>)
     }
 

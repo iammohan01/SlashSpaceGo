@@ -32,7 +32,8 @@ export default defineConfig({
       input: {
         admin_page: resolve(__dirname, 'index.html'),
         popup: resolve(__dirname, 'popup.html'),
-        background: resolve(__dirname, 'src/chrome/background.js')
+        background: resolve(__dirname, 'src/chrome/background.js'),
+        SlashSpaceGoHelper: resolve(__dirname, 'src/chrome/SlashSpaceGoHelper.js')
       },
       output :{
         entryFileNames: 'scripts/[name].js',

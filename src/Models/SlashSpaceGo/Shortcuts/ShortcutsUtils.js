@@ -4,7 +4,7 @@ export default async function fetchAllShortcuts() {
     return new Promise(async (resolve, reject) => {
         let data = await chrome.storage.local.get(["shortcuts"])
         if (data['shortcuts']) {
-            console.log("no of shorcuts : " , data["shortcuts"].length)
+            console.log("no of shortcuts : " , data["shortcuts"].length)
             resolve(data['shortcuts'])
         } else {
             console.log("fetched data :", data)

@@ -1,3 +1,7 @@
+import CreateExpander from "./CreateExpander.jsx";
+
 export default function TextExpander(){
-    return <></>
+    return (
+        <CreateExpander/>
+    )
 }

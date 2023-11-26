@@ -102,52 +102,50 @@ body {
             user-select: none;
         }
     }
+    .input-fields {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        /*border: 1px solid ;*/
+        gap: 0.5rem;
+
+        & span{
+            /*background-color: rgba(240, 240, 240, 0.75);*/
+            color: #ACACAC;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        & input {
+            border: none;
+            outline: none;
+            border-bottom: 1px solid black;
+            width: 50%;
+            /*text-align: center;*/
+        }
+        & select{
+            display: none;
+        }
+    }
+    .button-fields {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        gap: 1rem;
+
+        & button {
+            padding: 10px;
+            width: 100px;
+            margin: 0;
+        }
+    }
     .create-shortcut-wrapper {
         /*height: 25%;*/
         display: flex;
         flex-direction: column;
         align-items: center;
         /*justify-content: space-evenly;*/
-
-        .button-fields {
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-            gap: 1rem;
-
-            & button {
-                padding: 10px;
-                width: 100px;
-                margin: 0;
-            }
-        }
-
-        .input-fields {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            /*border: 1px solid ;*/
-            gap: 0.5rem;
-
-            & span{
-                /*background-color: rgba(240, 240, 240, 0.75);*/
-                color: #ACACAC;
-                padding: 10px;
-                border-radius: 8px;
-            }
-            & input {
-                border: none;
-                outline: none;
-                border-bottom: 1px solid black;
-                width: 50%;
-                /*text-align: center;*/
-            }
-            & select{
-                display: none;
-            }
-        }
     }
     .freq-suggest-wrapper{
         flex-grow: 1;

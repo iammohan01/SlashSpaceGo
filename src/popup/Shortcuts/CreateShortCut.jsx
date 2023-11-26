@@ -1,16 +1,16 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import {message, Tooltip} from "antd";
-import {generateCurrentTabData} from "../utils/utils.js";
-import PopupContext from "./context/PopupContext.jsx";
-import helpIcon from "../../public/resources/icons/Help.svg"
-import {saveShortcut} from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.js";
+import {generateCurrentTabData} from "../../utils/utils.js";
+import PopupContext from "../context/PopupContext.jsx";
+import helpIcon from "../../../public/resources/icons/Help.svg"
+import {saveShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.js";
 
 export default function CreateShortCut() {
 
-    const [key, setKey] = useState("")
+    const {shortCuts, shortcutKeyInput} = useContext(PopupContext)
+    const [key, setKey] = shortcutKeyInput
     const [target, setTarget] = useState(1)
     const [showToast, setToast] = useState(<></>)
-    const {shortCuts} = useContext(PopupContext)
     const [messageApi, contextHolder] = message.useMessage();
     const inputRef = useRef(null);
     useEffect(() => {
@@ -28,21 +28,24 @@ export default function CreateShortCut() {
                 .open({
                     type: 'loading',
                     content: 'Saving shortcut',
-                    duration: 0.5,
+                    duration: 0,
                 })
-                .then(async () => {
-                    generateCurrentTabData(trimmedKey, target)
+
+            generateCurrentTabData(trimmedKey, target)
                         .then(data => {
+                            console.log(data)
                             saveShortcut(data)
                                 .then(s => {
                                     console.log("saved")
                                     shortCuts.setValue(prev => [...prev, s])
-                                    message.success("saved", 3)
+                                    message.success("saved", 2)
                                 })
                                 .catch(err => {
                                     console.error(err)
                                     message.error("Shortcut Already Used", 3)
-                                })
+                                }).finally(()=>{
+                                    messageApi.destroy()
+                            })
 
 
                         })
@@ -51,7 +54,7 @@ export default function CreateShortCut() {
                             message.error("Something went wrong", 3)
                         })
 
-                })
+
         } else {
             messageApi.open({
                 type: 'warning',

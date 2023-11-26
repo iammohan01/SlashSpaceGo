@@ -10,7 +10,10 @@ export const View = Object.freeze({
 })
 export function ContextProvider({children}) {
     const [shortcuts,setShortcuts] = useState([])
-    let [layout, setLayout] = useState(View.GRID)
+    const [layout, setLayout] = useState(View.GRID)
+    const [shortCutKey, setShortcutKey] = useState("")
+    const [expanderKey,setExpanderKey] = useState("")
+    const [expanderInput,setExpanderInput] = useState("")
 
     useEffect(() => {
        fetchAllShortcuts().then(shortcuts=>{
@@ -26,7 +29,10 @@ export function ContextProvider({children}) {
                 },
                 layout:{
                     value: layout , setLayout: setLayout
-                }
+                },
+                shortcutKeyInput: [shortCutKey, setShortcutKey],
+                expanderKey:[expanderKey,setExpanderKey],
+                expanderInput:[expanderInput,setExpanderInput]
             }}
     >
             {children}

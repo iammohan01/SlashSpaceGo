@@ -54,7 +54,7 @@ export async function generateCurrentTabData(key,target) {
             id: generateRandomString(15),
             invoke: 0,
             key: key,
-            modifiedTime: 1698000711201,
+            modifiedTime: Date.now(),
             target: target || 1,
             title: currentTab[0].title,
             url: currentTab[0].url
