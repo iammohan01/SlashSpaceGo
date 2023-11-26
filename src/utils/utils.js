@@ -1,5 +1,6 @@
 import getIndexDbConnection from "../db_operations/DbOperations.js";
 import cryptoRandomString from 'crypto-random-string';
+import {updateInvoke} from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.js";
 
 
 export function generateRandomString(length) {

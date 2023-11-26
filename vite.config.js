@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 import hotReloadExtension from 'hot-reload-extension-vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import {resolve,join} from "path"
-import typescript from "typescript";
 
 export default defineConfig({
   plugins: [
@@ -22,8 +21,7 @@ export default defineConfig({
     })
   ],
   build: {
-    target: 'esnext',
-    chunkSizeWarningLimit: 1500,
+    chunkSizeWarningLimit: 500,
     copyPublicDir:false,
     emptyOutDir: true,
     outDir: join(__dirname, "build"),

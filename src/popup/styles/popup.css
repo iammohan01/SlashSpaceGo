@@ -223,4 +223,44 @@ body {
             justify-content: space-between;
         }
     }
+    .groups{
+        border: 1px solid red;
+        & *{
+            border: 1px solid red;
+        }
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        overflow: hidden;
+        .title{
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .groups-header{
+            display: flex;
+            overflow: scroll;
+            min-height: 2.5rem;
+            align-items: center;
+            & > div{
+                cursor: pointer;
+                margin: 0.2rem;
+                padding: 0.2rem 0.5rem;
+            }
+        }
+        .groups-grid{
+            display: flex;
+            flex-wrap: wrap;
+            overflow: scroll;
+            & > * {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px;
+                margin: 10px;
+                flex: 0 0 calc(33% - 20px);
+            }
+        }
+    }
 }
