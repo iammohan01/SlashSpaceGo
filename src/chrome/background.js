@@ -1,5 +1,6 @@
 import {openTarget} from "../utils/utils.js";
 import fetchAllShortcuts from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.js";
+import {fetchAllExpanders} from "../Models/SlashSpaceGo/TextExpander/TextExpanderUtils.js";
 
 let data = []
 
@@ -59,3 +60,25 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
         console.log(info);
     }
 });
+
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        console.log(request)
+        if (request.event === "expander") {
+            if(request.action==="getText"){
+                let inputValue = request.key || '';
+                fetchAllExpanders().then((val=[])=>{
+                    console.log(val)
+                    let filtered = val.filter(storedValues=>{
+                        console.log(storedValues.key,inputValue, inputValue.includes(storedValues.key))
+                        return inputValue.includes(storedValues.key)
+                    })
+                    console.log(filtered)
+                    sendResponse(filtered)
+                })
+            }
+        }
+        return true;  // Keeps the message channel open for asynchronous response
+    }
+);

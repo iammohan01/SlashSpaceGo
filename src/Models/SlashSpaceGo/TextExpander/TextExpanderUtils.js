@@ -31,7 +31,7 @@ export function saveExpander(key, value) {
 }
 
 
-async function fetchAllExpanders() {
+export async function fetchAllExpanders() {
     return new Promise(async (resolve, reject) => {
         let data = await chrome.storage.local.get(["expanders"])
         if (data['expanders']) {

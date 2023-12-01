@@ -16,8 +16,10 @@
   },
   "content_scripts": [
     {
+      "all_frames": true,
       "matches": ["<all_urls>"],
-      "js": ["scripts/SlashSpaceGoHelper.js"]
+      "js": ["scripts/SlashSpaceGoHelper.js"],
+      "run_at": "document_idle"
     }
   ]
 }
