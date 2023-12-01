@@ -29,6 +29,5 @@ export default function Popup() {
         <ModeSwitch/>
         {view === 0 && <Shortcuts/>}
         {view === 1 && <TextExpander/>}
-        {/*<RenderGroupsWrapper/>*/}
     </div>)
 }
