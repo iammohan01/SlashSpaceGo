@@ -1,19 +1,19 @@
 import Header from "./Header.jsx";
 import Shortcuts from "./Shortcuts/Shortcuts.jsx";
-import {useState} from "react";
+import React, {useState} from "react";
 import TextExpander from "./TextExpander/TextExpander.jsx";
-import {Radio} from 'antd';
+import {Radio, RadioChangeEvent} from 'antd';
 
 export default function Popup() {
     const [view, setView] = useState(Number(localStorage.getItem("view")));
 
-    function changeView(e) {
-        let val = e.target.value;
+    function changeView(e: RadioChangeEvent) {
+        const val = e.target.value;
         setView(val)
-        localStorage.setItem("view",val)
+        localStorage.setItem("view", val.toString())
     }
 
-    function ModeSwitch() {
+    function ModeSwitch(): React.JSX.Element {
         return (
             <Radio.Group style={{
                 display:"flex",

@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import {ContextProvider} from "./context/PopupContext.jsx";
-import Popup from "./Popup.jsx";
+import Popup from "./Popup.tsx";
 import "../styles/popup.css"
 import '@fontsource/poppins/';
 
