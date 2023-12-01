@@ -1,5 +1,6 @@
 import {createContext, useEffect, useState} from "react";
 import fetchAllShortcuts from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.js";
+import PropTypes from "prop-types";
 
 const PopupContext = createContext({});
 export default PopupContext;
@@ -37,4 +38,7 @@ export function ContextProvider({children}) {
     >
             {children}
     </PopupContext.Provider>)
+}
+ContextProvider.propTypes ={
+    children : PropTypes.element.isRequired
 }
