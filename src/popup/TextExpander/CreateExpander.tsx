@@ -37,11 +37,9 @@ export default function CreateExpander() {
                 }).then()
             saveExpander(key, value)
                 .then(() => {
-                    console.log("saved")
                     message.success("saved", 2).then()
                 })
-                .catch((err) => {
-                    console.error(err)
+                .catch(() => {
                     message.error("Key Already Used", 3).then()
                 })
                 .finally(() => {
@@ -49,7 +47,6 @@ export default function CreateExpander() {
                 })
 
         } else {
-            console.log(isKeyAvailable, isValueAvailable)
             messageApi.open({
                 type: 'warning',
                 content: `Enter Expander ${!isKeyAvailable ? "key" : "value"}`

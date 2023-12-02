@@ -7,7 +7,6 @@ function expander(e: Event) {
     const isTextArea = target?.tagName.toLowerCase() === 'textarea'
     const isInputOrTextarea = isInputFiled || isTextArea;
     const input = isTextArea || isInputFiled ? target?.value : target.innerText
-    console.log(input, target, target.value, target.innerText)
 
     if ((isInputOrTextarea || isContentEditable) && input.indexOf('/ ') >= 0) {
         chrome.runtime.sendMessage({

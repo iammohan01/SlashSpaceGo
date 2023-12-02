@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "lint": "eslint --ext .ts,.tsx --ignore-path .gitignore --fix src",
     "watch": "chokidar \"**/*.**\" -c \"npm run build\" -i \"build/**\" -i \"**/*.mjs\""
   },
   "dependencies": {

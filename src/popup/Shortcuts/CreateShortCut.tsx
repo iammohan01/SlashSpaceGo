@@ -34,32 +34,23 @@ export default function CreateShortCut(): React.ReactElement {
             }).then()
 
             generateCurrentTabData(trimmedKey, target).then(data => {
-                console.log(data)
                 saveShortcut(data).then(s => {
-                    console.log("saved")
                     if (setShortcutsInContext != null) {
                         setShortcutsInContext(prev => [...prev, s])
                     }
-                    message.success("saved", 2).then(() => {
-                        console.log("saved shortcuts")
-                    })
+                    message.success("saved", 2).then()
                 })
-                    .catch((err) => {
-                        console.error(err)
-                        message.error("Shortcut Already Used", 3).then(() => {
-                            console.log("key already used")
-                        })
+                    .catch(() => {
+                        message.error("Shortcut Already Used", 3).then()
                     }).finally(() => {
                     messageApi.destroy()
                 })
 
 
             })
-                .catch(err => {
-                    console.error(err)
+                .catch(() => {
                     message.error("Something went wrong", 3)
                         .then(() => {
-                            console.log("Something went wrong")
                         })
                 })
 

@@ -25,11 +25,9 @@ export default function RenderShortCutsWrapper() {
             if (48 <= key && key <= 57) {
                 if (isMacOs && event.metaKey) {
                     event.preventDefault()
-                    console.log("mac os")
                     openTarget(sortedShortcuts[Number(event.key)])
                 } else if (!isMacOs && event.ctrlKey) {
                     event.preventDefault()
-                    console.log("windows or linux")
                     openTarget(sortedShortcuts[Number(event.key)])
                 }
 
