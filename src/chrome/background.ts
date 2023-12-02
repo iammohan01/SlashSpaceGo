@@ -2,6 +2,7 @@ import fetchAllShortcuts from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 import {fetchAllExpanders} from "../Models/SlashSpaceGo/TextExpander/TextExpanderUtils";
 import {Shortcuts} from "../@types/shortcuts";
 import {openTarget} from "../utils/utils";
+import {request, RequestEvent} from "../@types/background";
 
 let shortcuts: Shortcuts[] = []
 
@@ -63,18 +64,14 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 
 chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        console.log(request)
-        if (request.event === "expander") {
+    function (request: request, sender, sendResponse) {
+        if (request.event === RequestEvent.EXPANDER) {
             if (request.action === "getText") {
                 const inputValue = request.key || '';
                 fetchAllExpanders().then((val = []) => {
-                    console.log(val)
                     const filtered = val.filter(storedValues => {
-                        console.log(storedValues.key, inputValue, inputValue.includes(storedValues.key))
                         return inputValue.includes(storedValues.key)
                     })
-                    console.log(filtered)
                     sendResponse(filtered)
                 })
             }

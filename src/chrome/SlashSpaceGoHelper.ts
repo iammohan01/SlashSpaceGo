@@ -1,3 +1,5 @@
+import {request, RequestEvent} from "../@types/background";
+
 function expander(e: Event) {
     const target = e.target as HTMLInputElement;
     const isContentEditable = !!target?.isContentEditable;
@@ -8,9 +10,11 @@ function expander(e: Event) {
     console.log(input, target, target.value, target.innerText)
 
     if ((isInputOrTextarea || isContentEditable) && input.indexOf('/ ') >= 0) {
-        console.log("search key : ", input)
-        chrome.runtime.sendMessage({event: "expander", action: "getText", key: input}, function (response) {
-            console.log("Response from background script: ", response);
+        chrome.runtime.sendMessage({
+            event: RequestEvent.EXPANDER,
+            action: "getText",
+            key: input
+        } as request, function (response) {
             if (response.length) {
                 const key = response[0]?.key
                 const value = response[0]?.value
