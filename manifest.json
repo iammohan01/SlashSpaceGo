@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Slash Space Go",
+  "name": "Slash Space Go New Ts",
   "version": "0.1",
   "description": "Slash, Space, and Go - that's all it takes! With our extension, assign unique shortcuts to your favorite websites.",
   "permissions": ["contextMenus", "storage", "unlimitedStorage","tabs", "activeTab", "notifications","bookmarks","contextMenus"],

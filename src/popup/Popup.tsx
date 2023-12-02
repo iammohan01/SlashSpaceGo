@@ -1,10 +1,10 @@
-import Header from "./Header.jsx";
-import Shortcuts from "./Shortcuts/Shortcuts.jsx";
+import Header from "./Header";
+import Shortcuts from "./Shortcuts/Shortcuts";
 import React, {useState} from "react";
-import TextExpander from "./TextExpander/TextExpander.jsx";
+import TextExpander from "./TextExpander/TextExpander";
 import {Radio, RadioChangeEvent} from 'antd';
 
-export default function Popup() {
+export default function Popup(): React.ReactElement {
     const [view, setView] = useState(Number(localStorage.getItem("view")));
 
     function changeView(e: RadioChangeEvent) {
