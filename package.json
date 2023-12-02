@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "watch": "chokidar \"**/*.**\" -c \"npm run build\" -i \"dist/**\" -i \"**/*.mjs\""
+    "watch": "chokidar \"**/*.**\" -c \"npm run build\" -i \"build/**\" -i \"**/*.mjs\""
   },
   "dependencies": {
     "@ant-design/happy-work-theme": "^1.0.0",
