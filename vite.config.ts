@@ -8,4 +8,5 @@ export default defineConfig({
     react(),
     crx({manifest}),
   ],
+  server: {port: 3000, hmr: {port: 3000}}
 })
