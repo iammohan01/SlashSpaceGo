@@ -1,39 +1,65 @@
-import {request, RequestEvent} from "../@types/background";
+import {RequestEvent} from "../@types/background";
 
+let inputForRequest: string | null = null;
+let target: HTMLInputElement | null = null
 function expander(e: Event) {
-    const target = e.target as HTMLInputElement;
+
+    target = e.target as HTMLInputElement;
     const isContentEditable = !!target?.isContentEditable;
     const isInputFiled = target?.tagName.toLowerCase() === 'input'
     const isTextArea = target?.tagName.toLowerCase() === 'textarea'
     const isInputOrTextarea = isInputFiled || isTextArea;
     const input = isTextArea || isInputFiled ? target?.value : target.innerText
+    const indexOfSlash = input.indexOf('/')
+    if ((isInputOrTextarea || isContentEditable) && indexOfSlash >= 0) {
+        inputForRequest = input.slice(indexOfSlash)
+        console.log(inputForRequest)
+    } else {
+        inputForRequest = null
+    }
+}
 
-    if ((isInputOrTextarea || isContentEditable) && input.indexOf('/ ') >= 0) {
+document.addEventListener("keydown", (e) => {
+    console.log(e)
+
+    const isInputFiled = target?.tagName.toLowerCase() === 'input'
+    const isTextArea = target?.tagName.toLowerCase() === 'textarea'
+    console.log(inputForRequest != null, target != null, e.key === "Tab")
+    if (inputForRequest != null && target != null && e.key === "Tab") {
         chrome.runtime.sendMessage({
             event: RequestEvent.EXPANDER,
             action: "getText",
-            key: input
-        } as request, function (response) {
+            key: inputForRequest
+        }, function (response) {
+            console.log(response);
             if (response.length) {
-                const key = response[0]?.key
-                const value = response[0]?.value
-                const x = input.replace("/ ", '').replace(key, value)
-                if (isInputFiled || isTextArea) {
-                    target.value = x;
-                } else {
-                    target.innerText = x
+                response = response as []
+                const data = response.filter((val) => {
+                    console.log(`/${val.key}`, inputForRequest)
+                    return `/${val.key}` === inputForRequest
+                })
+
+                console.log(data)
+                if (data) {
+                    if (inputForRequest != null && target != null) {
+                        const x = inputForRequest.replace("/", "").replace(data[0].key, data[0].value);
+                        if (isInputFiled || isTextArea) {
+                            target.value = x;
+                        } else {
+                            target.innerText = x;
+                        }
+                    }
                 }
             }
         });
     }
-}
-
+})
 document.addEventListener("input", expander)
 document.getElementsByName("iframe").forEach(node => {
     return node.addEventListener("input", expander)
 })
 
-function checkAndAttachToIframe(mutationsList: any, observer: any) {
+function checkAndAttachToIframe(mutationsList: any) {
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
             mutation.addedNodes.forEach(addInputListenerForMutated);

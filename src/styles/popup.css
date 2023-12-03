@@ -23,6 +23,15 @@ body {
     width: 100%;
     height: 100%;
  }
+
+.monospace {
+    font-family: 'Space Mono', monospace;
+}
+
+.rotate {
+    transition-duration: 250ms;
+    transition-timing-function: ease-in-out;
+}
 .main-frame-wrapper {
     width: 100%;
     height: 100%;
@@ -131,7 +140,7 @@ body {
     .button-fields {
         display: flex;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: center;
         gap: 1rem;
 
         & button {
@@ -147,78 +156,140 @@ body {
         align-items: center;
         /*justify-content: space-evenly;*/
     }
-    .freq-suggest-wrapper{
+
+    .expanders-list {
+        overflow: hidden;
+    }
+
+    .frq-shortcuts, .frq-expanders {
+        overflow: scroll;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        cursor: pointer;
+        /*border: 1px solid red;*/
+
+        .keyShortcut {
+            width: 11px;
+            aspect-ratio: 1/1;
+            display: flex;
+            /*border: 1px solid red;*/
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            bottom: 0;
+            right: 5px;
+        }
+
+        > * {
+            /*background-color: rgba(149, 157, 165, 0.05);*/
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.1);
+
+        }
+
+        > *:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .grid {
+            flex: 0 0 calc(33.333% - 10px);
+            margin: 5px;
+            aspect-ratio: 2/1;
+            /*border: 1px solid red;*/
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            gap: 0.3rem;
+        }
+
+        .list {
+            width: 100%;
+            /*flex-grow: 1;*/
+            /*border: 1px solid red;*/
+            padding: 10px;
+            margin-bottom: 3px;
+            overflow: hidden;
+            /*margin: 2px;*/
+
+            & > h6 {
+                font-size: 13px;
+                font-weight: 500;
+                text-decoration: underline;
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+            }
+
+            & > p {
+                font-size: 11px;
+                overflow: scroll;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+            }
+        }
+
+        .expander-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    .freq-suggest-wrapper {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         padding: 1rem;
         overflow: hidden;
-        .frq-shortcuts {
-            overflow: scroll;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            cursor: pointer;
-            /*border: 1px solid red;*/
-            .keyShortcut{
-                width: 11px;
-                aspect-ratio: 1/1;
-                display: flex;
-                /*border: 1px solid red;*/
-                align-items: center;
-                justify-content: center;
-                position: absolute;
-                bottom: 0;
-                right: 5px;
-            }
-            > *{
-                /*background-color: rgba(149, 157, 165, 0.05);*/
-                border-radius: 5px;
-                background: linear-gradient(270deg, rgba(2, 179, 241, 0.12) 0%, rgba(211, 125, 255, 0.11) 100%);
 
-            }
-            > *:hover{
-                background: linear-gradient(190deg, rgba(211, 125, 255, 0.3) 100%,rgba(2, 179, 241, 0.3) 0%);
-            }
-            .grid {
-                flex: 0 0 calc(33.333% - 10px);
-                margin: 5px;
-                aspect-ratio: 2/1;
-                /*border: 1px solid red;*/
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-                gap: 0.3rem;
-            }
-            .list{
-                width: 100%;
-                /*flex-grow: 1;*/
-                /*border: 1px solid red;*/
-                padding: 10px;
-                margin-bottom: 3px;
-                overflow: hidden;
-                /*margin: 2px;*/
-                & > h6{
-                    font-size: 13px;
-                    font-weight: 500;
-                    text-decoration: underline;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.6rem;
-                }
-                & > p{
-                    font-size: 11px;
-                    overflow: scroll;
-                    &::-webkit-scrollbar {
-                        display: none;
-                    }
-                }
-            }
-        }
         .title {
             display: flex;
             justify-content: space-between;
+        }
+    }
+
+    .frq-expanders {
+        overflow: scroll;
+        max-height: 100%;
+    }
+
+    .hover-visibility {
+        & i {
+            visibility: hidden;
+        }
+
+        &:hover i {
+            visibility: visible;
+        }
+
+        .expander-property {
+            padding: 5px;
+        }
+    }
+
+    .freq-expanders-wrapper {
+        padding: 14px;
+        flex-grow: 1;
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+
+        .title {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .expanders-wrapper {
+            & > h4 {
+                width: 100%;
+                display: flex;
+                justify-content: end;
+                cursor: pointer;
+            }
         }
     }
     .groups{

@@ -2,8 +2,8 @@ import PopupContext, {isMacOs} from "../context/PopupContext.js";
 import React, {useContext, useEffect, useState} from "react";
 import {Tooltip} from "antd";
 import {openTarget} from "../../utils/utils.js"
-import listIcon from "../../../public/resources/icons/view_list.svg";
-import gridIcon from "../../../public/resources/icons/view_grid.svg"
+import listIcon from "/resources/icons/view_list.svg";
+import gridIcon from "/resources/icons/view_grid.svg"
 import RenderShortcut from "./RenderShortcut.js";
 import {Shortcuts, View} from "../../@types/shortcuts";
 

@@ -55,7 +55,7 @@ chrome.runtime.onInstalled.addListener(function () {
 });
 
 // Set up a click event listener
-chrome.contextMenus.onClicked.addListener(function (info, tab) {
+chrome.contextMenus.onClicked.addListener(function (info) {
     if (info.menuItemId === "sampleFunction") {
         // Do something with the selected text
         console.log(info);
@@ -64,7 +64,8 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 
 chrome.runtime.onMessage.addListener(
-    function (request: request, sender, sendResponse) {
+    function (request: request, _sender, sendResponse) {
+        console.log(request)
         if (request.event === RequestEvent.EXPANDER) {
             if (request.action === "getText") {
                 const inputValue = request.key || '';
@@ -73,6 +74,12 @@ chrome.runtime.onMessage.addListener(
                         return inputValue.includes(storedValues.key)
                     })
                     sendResponse(filtered)
+                })
+            }
+            if (request.action === "getAll") {
+                fetchAllExpanders().then(expanders => {
+                    console.log(expanders)
+                    sendResponse(expanders)
                 })
             }
         }

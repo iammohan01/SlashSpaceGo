@@ -1,6 +1,7 @@
 import React, {createContext, useEffect, useState} from "react";
 import fetchAllShortcuts from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 import {Shortcuts, View} from "../../@types/shortcuts";
+import {Expanders} from "../../@types/expanders";
 
 
 export const isMacOs = true;//navigator.userAgentData.platform === "macOS";
@@ -8,6 +9,7 @@ export const isMacOs = true;//navigator.userAgentData.platform === "macOS";
 
 interface PopupContextType {
     shortCuts: [Shortcuts[], React.Dispatch<React.SetStateAction<Shortcuts[]>> | null];
+    expandersCtx: [Expanders[], React.Dispatch<React.SetStateAction<Expanders[]>> | null];
     layout: [View, React.Dispatch<React.SetStateAction<View>> | null];
     shortcutKeyInput: [string, React.Dispatch<React.SetStateAction<string>> | null];
     expanderKey: [string, React.Dispatch<React.SetStateAction<string>> | null];
@@ -16,6 +18,7 @@ interface PopupContextType {
 
 const PopupContext = createContext<PopupContextType>({
     expanderInput: ["", null],
+    expandersCtx: [[], null],
     expanderKey: ["", null],
     layout: [View.GRID, null],
     shortCuts: [[], null],
@@ -25,6 +28,7 @@ type Props = { children: React.ReactElement }
 
 export function ContextProvider({children}: Props) {
     const [shortcuts, setShortcuts] = useState<Shortcuts[]>([])
+    const [expanders, setExpanders] = useState<Expanders[]>([])
     const [layout, setLayout] = useState<View>(View.GRID)
     const [shortCutKey, setShortcutKey] = useState<string>("")
     const [expanderKey, setExpanderKey] = useState<string>("")
@@ -43,7 +47,8 @@ export function ContextProvider({children}: Props) {
                 layout: [layout, setLayout],
                 shortcutKeyInput: [shortCutKey, setShortcutKey],
                 expanderKey: [expanderKey, setExpanderKey],
-                expanderInput: [expanderInput, setExpanderInput]
+                expanderInput: [expanderInput, setExpanderInput],
+                expandersCtx: [expanders, setExpanders]
             }}
     >
         {children}
