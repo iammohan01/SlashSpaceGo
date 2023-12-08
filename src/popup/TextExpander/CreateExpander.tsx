@@ -1,7 +1,7 @@
 import {Input, message, Tooltip} from "antd";
 import helpIcon from "/resources/icons/Help.svg";
 import React, {useContext, useEffect, useRef, useState} from "react";
-import PopupContext from "../context/PopupContext";
+import PopupContext from "../../context/PopupContext.tsx";
 import {saveExpander} from "../../Models/SlashSpaceGo/TextExpander/TextExpanderUtils";
 
 

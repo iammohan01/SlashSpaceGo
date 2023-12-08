@@ -1,4 +1,4 @@
-import PopupContext, {isMacOs} from "../context/PopupContext.js";
+import PopupContext, {isMacOs} from "../../context/PopupContext.tsx";
 import React, {useContext, useEffect, useState} from "react";
 import {Tooltip} from "antd";
 import {openTarget} from "../../utils/utils.js"

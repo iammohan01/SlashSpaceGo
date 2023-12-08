@@ -1,6 +1,6 @@
 import {message, Tooltip} from "antd";
 import React, {useContext, useEffect, useRef, useState} from "react";
-import PopupContext from "../context/PopupContext.js";
+import PopupContext from "../../context/PopupContext.tsx";
 import helpIcon from "/resources/icons/Help.svg"
 import {UrlTarget} from "../../@types/shortcuts";
 import {generateCurrentTabData} from "../../utils/utils";

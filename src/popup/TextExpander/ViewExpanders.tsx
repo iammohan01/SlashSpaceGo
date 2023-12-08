@@ -1,6 +1,6 @@
 import {request, RequestEvent} from "../../@types/background";
 import React, {useContext, useEffect, useState} from "react";
-import PopupContext from "../context/PopupContext";
+import PopupContext from "../../context/PopupContext.tsx";
 import {Expanders} from "../../@types/expanders";
 import {View} from "../../@types/shortcuts";
 import listIcon from "/resources/icons/view_list.svg";
@@ -45,7 +45,6 @@ export function ViewExpanders() {
                     mouseLeaveDelay={0.25}
                 >
                 <span
-                    style={{cursor: "pointer"}}
                     onClick={() => {
                         if (setLayoutCtx != null) {
                             setLayoutCtx(prev => {
@@ -58,7 +57,7 @@ export function ViewExpanders() {
                     }} className="view">
                     <img
                         src={layoutCtx === View.GRID ? listIcon : gridIcon}
-                        alt="View List"/>
+                        alt="List"/>
                 </span>
                 </Tooltip>
             </h4>

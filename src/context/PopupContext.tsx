@@ -1,7 +1,7 @@
 import React, {createContext, useEffect, useState} from "react";
-import fetchAllShortcuts from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
-import {Shortcuts, View} from "../../@types/shortcuts";
-import {Expanders} from "../../@types/expanders";
+import fetchAllShortcuts from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.ts";
+import {Shortcuts, View} from "../@types/shortcuts.ts";
+import {Expanders} from "../@types/expanders.ts";
 
 
 export const isMacOs = true;//navigator.userAgentData.platform === "macOS";

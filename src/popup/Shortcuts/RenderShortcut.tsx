@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import PopupContext from "../context/PopupContext.js";
+import PopupContext from "../../context/PopupContext.tsx";
 import metaIcon from "/resources/icons/meta.svg";
 import ctrlIcon from "/resources/icons/ctrl.svg";
 import emptyIcon from "/resources/icons/empty.svg";
