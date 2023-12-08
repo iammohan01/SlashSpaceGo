@@ -8,5 +8,18 @@ export default defineConfig({
     react(),
     crx({manifest}),
   ],
-  server: {port: 3000, hmr: {port: 3000}}
+  server: {port: 3000, hmr: {port: 3000}},
+  build: {
+    minify: true,
+    chunkSizeWarningLimit: 500,
+    copyPublicDir: false,
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        entryFileNames: 'scripts/[name].js',
+        assetFileNames: 'assets/[name].[ext]',
+        chunkFileNames: "scripts/[name].js"
+      }
+    }
+  }
 })
