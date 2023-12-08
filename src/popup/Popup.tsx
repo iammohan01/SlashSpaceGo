@@ -3,6 +3,8 @@ import Shortcuts from "./Shortcuts/Shortcuts";
 import React, {useState} from "react";
 import TextExpander from "./TextExpander/TextExpander";
 import {Radio, RadioChangeEvent} from 'antd';
+import '@fontsource/space-mono/400.css';
+import '@fontsource/space-mono/700.css';
 
 export default function Popup(): React.ReactElement {
     const [view, setView] = useState(Number(localStorage.getItem("view")));

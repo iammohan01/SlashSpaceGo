@@ -1,6 +1,6 @@
 import React from "react"
-import light from "../../public/resources/icons/lightnig.svg"
-import share from "../../public/resources/icons/share.svg"
+import light from "/resources/icons/lightnig.svg"
+import share from "/resources/icons/share.svg"
 
 export default function Header(): React.ReactElement {
     return (

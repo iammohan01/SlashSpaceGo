@@ -1,8 +1,8 @@
 import React, {useContext} from "react";
-import PopupContext from "../context/PopupContext.js";
-import metaIcon from "../../../public/resources/icons/meta.svg";
-import ctrlIcon from "../../../public/resources/icons/ctrl.svg";
-import emptyIcon from "../../../public/resources/icons/empty.svg";
+import PopupContext from "../../context/PopupContext.tsx";
+import metaIcon from "/resources/icons/meta.svg";
+import ctrlIcon from "/resources/icons/ctrl.svg";
+import emptyIcon from "/resources/icons/empty.svg";
 import {Popover} from "antd";
 import {Shortcuts, View} from "../../@types/shortcuts";
 import {openTarget} from "../../utils/utils";
