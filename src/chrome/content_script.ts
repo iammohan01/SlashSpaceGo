@@ -10,43 +10,47 @@ function expander(e: Event) {
     const isTextArea = target?.tagName.toLowerCase() === 'textarea'
     const isInputOrTextarea = isInputFiled || isTextArea;
     const input = isTextArea || isInputFiled ? target?.value : target.innerText
-    const indexOfSlash = input.indexOf('/')
-    if ((isInputOrTextarea || isContentEditable) && indexOfSlash >= 0) {
-        inputForRequest = input.slice(indexOfSlash)
-        console.log(inputForRequest)
+    if ((isInputOrTextarea || isContentEditable) && input) {
+        const arrOfSplit = input.split(" ")
+        inputForRequest = arrOfSplit[arrOfSplit.length - 1]
     } else {
         inputForRequest = null
     }
 }
 
 document.addEventListener("keydown", (e) => {
-    console.log(e)
-
+    if (e.code === "Tab") {
+        e.preventDefault()
+    }
     const isInputFiled = target?.tagName.toLowerCase() === 'input'
     const isTextArea = target?.tagName.toLowerCase() === 'textarea'
-    console.log(inputForRequest != null, target != null, e.key === "Tab")
     if (inputForRequest != null && target != null && e.key === "Tab") {
         chrome.runtime.sendMessage({
             event: RequestEvent.EXPANDER,
             action: "getText",
             key: inputForRequest
         }, function (response) {
-            console.log(response);
             if (response.length) {
                 response = response as []
                 const data = response.filter((val) => {
-                    console.log(`/${val.key}`, inputForRequest)
-                    return `/${val.key}` === inputForRequest
+                    return val.key === inputForRequest
                 })
-
-                console.log(data)
                 if (data) {
                     if (inputForRequest != null && target != null) {
-                        const x = inputForRequest.replace("/", "").replace(data[0].key, data[0].value);
                         if (isInputFiled || isTextArea) {
-                            target.value = x;
+                            const value = target.value
+                            const indexOfKeyInInput = value.lastIndexOf(data[0].key);
+                            if (indexOfKeyInInput !== -1) {
+                                const updatedInput = value.substring(0, indexOfKeyInInput) + data[0].value + value.substring(indexOfKeyInInput + data[0].key.length);
+                                target.value = updatedInput;
+                            }
                         } else {
-                            target.innerText = x;
+                            const value = target.innerText
+                            const indexOfKeyInInput = value.lastIndexOf(data[0].key);
+                            if (indexOfKeyInInput !== -1) {
+                                const updatedInput = value.substring(0, indexOfKeyInInput) + data[0].value + value.substring(indexOfKeyInInput + data[0].key.length);
+                                target.innerText = updatedInput;
+                            }
                         }
                     }
                 }
@@ -72,9 +76,7 @@ function addInputListenerForMutated(node: {
     addEventListener: (arg0: string, arg1: { (e: Event): void; (e: Event): void; }) => void;
     hasAttribute: (arg0: string) => any;
 }) {
-    if (node.tagName === "INPUT") {
-        node.addEventListener("input", expander)
-    } else if (node.tagName === 'DIV' && node.hasAttribute("contenteditable")) {
+    if (node.tagName === "INPUT" || (node.tagName === 'DIV' && node.hasAttribute("contenteditable"))) {
         node.addEventListener("input", expander)
     }
 }
@@ -82,9 +84,7 @@ function addInputListenerForMutated(node: {
 const observer = new MutationObserver(checkAndAttachToIframe);
 observer.observe(document.body, {childList: true, subtree: true, attributeFilter: ["contenteditable"]});
 window.onload = function () {
-    console.log("Page fully loaded");
     const inputFields = document.querySelectorAll('textarea,input,*[contenteditable=true],[contenteditable=""],[contenteditable=plaintext-only]') || []
-    console.log("inputFields :", inputFields)
     inputFields.forEach(inputNode => {
         inputNode.addEventListener("change", expander)
     })
