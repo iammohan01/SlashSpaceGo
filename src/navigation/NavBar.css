@@ -1,0 +1,16 @@
+.side-nav-bar * {
+}
+
+.side-nav-bar {
+    border: 1px solid red;
+    width: max(250px, 15%);
+    display: flex;
+    flex-direction: column;
+
+    > .logo {
+        height: max(15%, 150px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

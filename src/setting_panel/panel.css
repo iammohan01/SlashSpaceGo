@@ -1,0 +1,53 @@
+.panel-wrapper, .panel-wrapper * {
+    /*border: 1px solid red;*/
+    /*background-color: rgba(0, 128, 0, 0.22);*/
+    flex-grow: 1;
+}
+
+.panel-wrapper {
+    display: flex;
+    /*align-items: center;*/
+    justify-content: center;
+
+    .panel-inner-wrapper {
+        height: 100%;
+        max-width: max(45%, 650px);
+        display: flex;
+        flex-direction: column;
+
+        .panel-header {
+            margin-top: min(150px, 15%);
+            margin-bottom: 1rem;
+            flex-grow: 0;
+
+            * {
+                font-size: 1.5rem;
+            }
+        }
+
+        > .empty {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shortcut {
+            cursor: pointer;
+            padding: 10px;
+
+            .edit {
+                visibility: hidden;
+                font-size: large;
+            }
+
+            &:hover .edit {
+                visibility: visible;
+            }
+
+            &:hover {
+                background-color: rgba(149, 157, 165, 0.05);
+            }
+        }
+    }
+}

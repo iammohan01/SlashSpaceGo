@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "id": "id of group",
+      "key": "Group",
+      "shortcuts_id": [
+        {
+          "id": "id of shortcut",
+          "pinned": true
+        }
+      ],
+      "create_at": 987654321,
+      "modified_at": 987654321,
+      "last_accessed": 987654321,
+      "icon": "https://favicon.com"
+    }
+  ]
+}
