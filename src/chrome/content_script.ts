@@ -1,4 +1,5 @@
 import {RequestEvent} from "../@types/background";
+import sound from '../../public/resources/sound/txtReplaceSound.wav?url'
 
 let inputForRequest: string | null = null;
 let target: HTMLInputElement | null = null
@@ -18,6 +19,11 @@ function expander(e: Event) {
     }
 }
 
+function playFillSound() {
+    const audioSrc = chrome.runtime.getURL(sound)
+    const audio = new Audio(audioSrc);
+    audio.play();
+}
 document.addEventListener("keydown", (e) => {
     if (e.code === "Tab") {
         e.preventDefault()
@@ -43,6 +49,8 @@ document.addEventListener("keydown", (e) => {
                             if (indexOfKeyInInput !== -1) {
                                 const updatedInput = value.substring(0, indexOfKeyInInput) + data[0].value + value.substring(indexOfKeyInInput + data[0].key.length);
                                 target.value = updatedInput;
+                                playFillSound()
+
                             }
                         } else {
                             const value = target.innerText
@@ -50,6 +58,8 @@ document.addEventListener("keydown", (e) => {
                             if (indexOfKeyInInput !== -1) {
                                 const updatedInput = value.substring(0, indexOfKeyInInput) + data[0].value + value.substring(indexOfKeyInInput + data[0].key.length);
                                 target.innerText = updatedInput;
+                                playFillSound()
+
                             }
                         }
                     }
