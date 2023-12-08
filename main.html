@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Space Slash Go</title>
+    <link href="styles/main.css" rel="stylesheet">
+    <link href="styles/toastify.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="main-frame-wrapper">
+    <div class="header">
+        <div class="icon">
+            <img alt="" src="" srcset="resources/icons/lightnig.svg">
+        </div>
+        <div class="title">SLASH SPACE GO</div>
+        <div class="share">
+            <img alt="" src="" srcset="resources/icons/share.svg">
+        </div>
+    </div>
+    <div class="create-shortcut-wrapper">
+        <div class="input-fields">
+            <span>/ SPACE</span>
+            <input id="create-input" placeholder="Enter a shortcut name" type="text">
+            <label for="target">
+                <select id="target" name="option for page">
+                    <option value="1">same tab</option>
+                    <option value="2">new tab</option>
+                    <option value="3">new window</option>
+                </select>
+            </label>
+            <img alt="" class="help-icon shortcut" src="" srcset="resources/icons/Help.svg">
+        </div>
+        <div class="button-fields">
+            <!--            <button class="button" id="cancelButton">Cancel</button>-->
+            <button class="button" id="saveButton">Save</button>
+        </div>
+    </div>
+    <div class="filter-wrapper">
+        <div class="input-fields">
+            <input class="inputs" id="filterShortcuts" placeholder="Search shortcut" type="text">
+        </div>
+    </div>
+    <div class="freq-suggest-wrapper">
+        <h4 class="title">Frequently Used Shortcuts. <span class="view"><img alt="" src="resources/icons/view_list.svg"></span>
+        </h4>
+        <div class="frq-shortcuts">
+        </div>
+    </div>
+</div>
+</body>
+<script src="scripts/jquery.min.js"></script>
+<script src="popup.js"></script>
+<script src="scripts/popper.js"></script>
+<script src="scripts/tippy.js"></script>
+<script src="scripts/help.js"></script>
+<script src="scripts/toastify.js" type="text/javascript"></script>
+
+</html>

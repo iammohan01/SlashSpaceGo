@@ -3,7 +3,7 @@
 
 .side-nav-bar {
     border: 1px solid red;
-    width: max(250px,15%);
+    width: max(250px, 15%);
     display: flex;
     flex-direction: column;
 

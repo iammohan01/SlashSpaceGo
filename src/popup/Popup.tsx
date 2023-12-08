@@ -18,8 +18,8 @@ export default function Popup(): React.ReactElement {
     function ModeSwitch(): React.JSX.Element {
         return (
             <Radio.Group style={{
-                display:"flex",
-                justifyContent:"center"
+                display: "flex",
+                justifyContent: "center"
             }} value={view} onChange={changeView}>
                 <Radio.Button value={0}>Shortcuts</Radio.Button>
                 <Radio.Button value={1}>Expander</Radio.Button>

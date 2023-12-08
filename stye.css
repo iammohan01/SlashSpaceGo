@@ -1,0 +1,311 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    width: 400px;
+    background: linear-gradient(50deg, rgba(0, 255, 225, 1) -2.29%, rgba(240, 176, 249, 0.75) 100.21%);
+    color: white;
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+#extension-title {
+    display: flex;
+    font-weight: 1600;
+    background: linear-gradient(90.12deg, #008BD9 -20.13%, #fa03fe 117.04%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 33px;
+    padding: 1px;
+    margin: 5px;
+    margin-left: 110px;
+    margin-top: 19px;
+}
+
+#shortcutName {
+    padding: 10px 0px;
+    font-size: 1rem;
+    outline: none;
+    width: 90%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #7070704D;
+    border-radius: 11px;
+    opacity: 3;
+    padding-left: 69px;
+    margin-top: 37px;
+}
+
+::placeholder {
+    color: #999;
+}
+
+#saveButton {
+    width: 111px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    margin-left: 20px;
+}
+
+#cancelButton:hover {
+    background-color: #ffffff;
+    color: #000000;
+    cursor: pointer;
+}
+
+#cancelButton {
+    width: 112px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+}
+
+#saveButton:hover {
+    background: linear-gradient(90deg, #58f4e4 -30%, #e47ffd 127.03%);
+    transition: 0.1s ease;
+    color: #fff;
+    cursor: pointer;
+}
+
+input {
+    border-radius: 10px;
+    padding-left: 37px;
+}
+
+.input-main {
+    background: #FFFFFF;
+    border: 0.3px solid rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+}
+
+#questionIcon {
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    display: inline-block;
+    left: 340px;
+    top: 114px;
+}
+
+.slash-icon {
+    background-image: url("images/slash-icon.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 55px;
+    height: 16px;
+    position: relative;
+    left: 16%;
+    top: 12%;
+    margin-top: 38px;
+}
+
+.saved-scs {
+    font-size: 15px;
+    font-family: sans-serif;
+    display: block;
+    margin: auto;
+}
+
+.saved-scs h3 {
+    margin-top: 3px;
+}
+
+li {
+    margin-top: 23px;
+    margin-bottom: 10px;
+    text-align: center;
+    cursor: pointer;
+
+}
+
+.saved-scs button {
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+#searchShortcuts {
+    width: 51%;
+    outline: none;
+    border: 0.3px solid rgba(0, 0, 0, 0.3);
+    height: 30px;
+    background-color: #FFFFFF;
+    border: 1px solid #7070704D;
+    border-radius: 6px;
+}
+
+.search {
+    margin-top: 30px;
+    margin-left: 10px;
+}
+
+.input-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+
+}
+
+.wrapper-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 23px;
+}
+
+.wrapper {
+    background: linear-gradient(50deg, rgba(109, 253, 236, 0.75) -2.29%, rgba(240, 176, 249, 0.75) 100.21%);
+}
+
+.search-head {
+    font-size: 14px;
+    color: #000000;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 10px;
+}
+
+#search-icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    width: 19px;
+    height: 20px;
+    display: inline-block;
+    left: 20px;
+    top: 239px;
+}
+
+.icon-ssg {
+    display: inline-block;
+    width: 78px;
+    height: 69px;
+    position: absolute;
+    left: 24px;
+    top: 59px;
+    margin-top: -47px;
+    border-radius: 7px 7px 7px 7px;
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 1px;
+    margin-top: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #7ccfff -20.13%, #fd8fff 117.04%);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #3eb8ff -20.13%, #fc45ff 117.04%);
+}
+
+li {
+    position: relative;
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+    color: #000000;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 7px;
+    width: 100px;
+}
+
+.delete-icon, .go-to-icon, .edit-icon {
+    display: inline-block;
+    width: 100%;
+    text-decoration: none;
+    border-right: 2px solid black;
+}
+
+.edit-icon {
+    background-image: url("images/edit.svg"); /* Replace with your edit icon */
+    margin-right: 7px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    background-color: #ffffffde; /* Replace with your preferred color */
+}
+
+/* Rest of your CSS code */
+
+.delete-icon {
+    background-image: url("images/trash.svg");
+    margin-right: 7px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    background-color: #ffffffde; /* Replace with your preferred color */
+
+}
+
+.go-to-icon {
+    background-image: url("images/maps-arrow-diagonal.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    background-color: #ffffffde; /* Replace with your preferred color */
+
+}
+
+.edit-icon:hover {
+    background-color: #daeff8; /* Highlight on hover */
+}
+
+.delete-icon:hover {
+    background-color: #ffe8e8; /* Highlight on hover */
+}
+
+.go-to-icon:hover {
+    background-color: #e8ffec; /* Highlight on hover */
+
+}
+
+li:hover .dropdown-menu {
+    display: block;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+}
+
+#shareButton {
+    position: absolute;
+    top: 3px;
+    right: 8px;
+    cursor: pointer;
+    width: 22px;
+    height: 23px;
+}
