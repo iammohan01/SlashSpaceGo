@@ -1,7 +1,7 @@
 import {Input, message, Tooltip} from "antd";
-import helpIcon from "../../../public/resources/icons/Help.svg";
-import React, {useContext, useEffect, useRef} from "react";
-import PopupContext from "../context/PopupContext";
+import helpIcon from "/resources/icons/Help.svg";
+import React, {useContext, useEffect, useRef, useState} from "react";
+import PopupContext from "../../context/PopupContext.tsx";
 import {saveExpander} from "../../Models/SlashSpaceGo/TextExpander/TextExpanderUtils";
 
 
@@ -19,10 +19,17 @@ type ValueInput = {
         setValue: React.Dispatch<React.SetStateAction<string>> | null
     ]
 }
+
+enum Hide {
+    SHOW,
+    HIDE
+}
 export default function CreateExpander() {
     const {expanderKey, expanderInput} = useContext(PopupContext)
     const [messageApi, contextHolder] = message.useMessage();
+    const [inputsVisibility, setInputsVisibility] = useState(true)
 
+    console.log(Hide)
     function initiateAddingTextExpander() {
         const key = expanderKey[0]
         const value = expanderInput[0]
@@ -37,11 +44,9 @@ export default function CreateExpander() {
                 }).then()
             saveExpander(key, value)
                 .then(() => {
-                    console.log("saved")
                     message.success("saved", 2).then()
                 })
-                .catch((err) => {
-                    console.error(err)
+                .catch(() => {
                     message.error("Key Already Used", 3).then()
                 })
                 .finally(() => {
@@ -49,7 +54,6 @@ export default function CreateExpander() {
                 })
 
         } else {
-            console.log(isKeyAvailable, isValueAvailable)
             messageApi.open({
                 type: 'warning',
                 content: `Enter Expander ${!isKeyAvailable ? "key" : "value"}`
@@ -64,14 +68,25 @@ export default function CreateExpander() {
     }
 
     return (
-        <>
+        <div style={{position: "relative"}} className={"expanders-wrapper"}>
             {contextHolder}
-            <KeyInput handleKeyDown={handleKeyDown} expanderKey={expanderKey}/>
-            <ValueInput expanderInput={expanderInput}/>
-            <div className="button-fields">
-                <button onClick={initiateAddingTextExpander} className="button" id="saveButton">Save</button>
-            </div>
-        </>
+            <p onClick={() => {
+                setInputsVisibility(prevState => !prevState)
+            }} style={{position: "absolute", right: 20, top: 0, cursor: "pointer"}}>
+                <span style={{display: "flex", gap: 10, userSelect: "none"}}>
+                    <span>{inputsVisibility ? "Hide" : "Show"}</span>
+                     <i style={inputsVisibility ? {rotate: "0deg"} : {rotate: "180deg"}}
+                        className={"bi bi-caret-down-fill rotate"}></i>
+                </span>
+            </p>
+            {inputsVisibility && <div>
+                <KeyInput handleKeyDown={handleKeyDown} expanderKey={expanderKey}/>
+                <ValueInput expanderInput={expanderInput}/>
+                <div className="button-fields">
+                    <button onClick={initiateAddingTextExpander} className="button" id="saveButton">Save</button>
+                </div>
+            </div>}
+        </div>
     )
 }
 
@@ -97,13 +112,7 @@ function KeyInput({expanderKey, handleKeyDown}: KeyInput) {
                id="create-input"
                type="text"
                placeholder="Enter a shortcut name"/>
-        <label htmlFor="target">
-            <select name="option for page" id="target">
-                <option value="1">same tab</option>
-                <option value="2">new tab</option>
-                <option value="3">new window</option>
-            </select>
-        </label>
+        <label htmlFor="target"></label>
         <Tooltip
             title={`For quick access to a saved large text with in shortcuts: Press "/", followed by a space and the shortcut name. Then, hit Enter`}>
             <img className="help-icon shortcut" src="" alt="" srcSet={helpIcon}/>
@@ -121,13 +130,13 @@ function ValueInput({expanderInput}: ValueInput) {
     }
 
     return (
-        <>
+        <div style={{margin: 14}}>
             <TextArea
                 value={value}
-                style={{margin: "5%", width: "90%", resize: "none", height: 180}}
+                style={{resize: "none", height: 100}}
                 showCount
                 onChange={updateInput}
                 placeholder="Paste or Enter Text here"
             />
-        </>)
+        </div>)
 }

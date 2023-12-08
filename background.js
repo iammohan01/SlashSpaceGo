@@ -1,4 +1,3 @@
-
 let data = {}
 
 const getAllShortcuts = () => {
@@ -10,17 +9,17 @@ const goToUrl = (tabId, url) => {
 const createNewWindow = () => {
     return chrome.windows.create()
 }
-const getCurrentActiveTab = ()=>{
-    return chrome.tabs.query({active:true,currentWindow:true})
+const getCurrentActiveTab = () => {
+    return chrome.tabs.query({active: true, currentWindow: true})
 }
 
-const openTarget =(shortcut)=>{
+const openTarget = (shortcut) => {
     shortcut.invoke++
     console.log(shortcut)
-    getAllShortcuts().then(data=>{
+    getAllShortcuts().then(data => {
         let updatedShortcuts = data.shortcuts;
         updatedShortcuts[shortcut.key] = shortcut
-        chrome.storage.sync.set({"shortcuts": updatedShortcuts}).then(data=>{
+        chrome.storage.sync.set({"shortcuts": updatedShortcuts}).then(data => {
             console.log(shortcut)
             console.log(updatedShortcuts)
             console.log("updated shortcuts");
@@ -44,23 +43,23 @@ const openTarget =(shortcut)=>{
         })
     }
 }
-chrome.omnibox.onInputStarted.addListener(()=>{
-    getAllShortcuts().then(fetchedData=>{
+chrome.omnibox.onInputStarted.addListener(() => {
+    getAllShortcuts().then(fetchedData => {
         data = fetchedData
     })
 })
-chrome.omnibox.onInputChanged.addListener((text="", suggest) => {
+chrome.omnibox.onInputChanged.addListener((text = "", suggest) => {
     // console.log('Input changed to: ' + a text);
     // console.log(data.shortcuts)
     let suggestEntries = []
 
 
-    Object.entries(data.shortcuts || []).forEach((props)=>{
+    Object.entries(data.shortcuts || []).forEach((props) => {
         let key = props[0]
-        if(key.includes(text.toLowerCase())){
+        if (key.includes(text.toLowerCase())) {
             let suggestion = {
-                content : key,
-                description : `${props[1].description || key}`
+                content: key,
+                description: `${props[1].description || key}`
             }
             suggestEntries.push(suggestion)
         }
@@ -70,16 +69,16 @@ chrome.omnibox.onInputChanged.addListener((text="", suggest) => {
 })
 
 
-chrome.omnibox.onInputEntered.addListener(e=>{
-    console.log("event",e)
-    if(!data){
-        getAllShortcuts().then(fetchedData=>{
+chrome.omnibox.onInputEntered.addListener(e => {
+    console.log("event", e)
+    if (!data) {
+        getAllShortcuts().then(fetchedData => {
             data = fetchedData
         })
     }
-    if(data){
-        Object.entries(data.shortcuts).forEach(items=>{
-            if(items[0] === e){
+    if (data) {
+        Object.entries(data.shortcuts).forEach(items => {
+            if (items[0] === e) {
                 console.log(items[1]);
                 openTarget(items[1])
             }

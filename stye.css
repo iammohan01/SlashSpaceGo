@@ -43,9 +43,11 @@ body {
     padding-left: 69px;
     margin-top: 37px;
 }
+
 ::placeholder {
     color: #999;
 }
+
 #saveButton {
     width: 111px;
     height: 35px;
@@ -53,29 +55,33 @@ body {
     border-radius: 10px;
     margin-left: 20px;
 }
-#cancelButton:hover{
+
+#cancelButton:hover {
     background-color: #ffffff;
     color: #000000;
     cursor: pointer;
 }
+
 #cancelButton {
     width: 112px;
     height: 35px;
     border: none;
     border-radius: 10px;
 }
-#saveButton:hover{
+
+#saveButton:hover {
     background: linear-gradient(90deg, #58f4e4 -30%, #e47ffd 127.03%);
     transition: 0.1s ease;
     color: #fff;
     cursor: pointer;
 }
-input{
+
+input {
     border-radius: 10px;
     padding-left: 37px;
 }
 
-.input-main{
+.input-main {
     background: #FFFFFF;
     border: 0.3px solid rgba(0, 0, 0, 0.3);
     border-radius: 6px;
@@ -90,7 +96,7 @@ input{
     top: 114px;
 }
 
-.slash-icon{
+.slash-icon {
     background-image: url("images/slash-icon.png");
     background-size: cover;
     background-repeat: no-repeat;
@@ -103,17 +109,18 @@ input{
     margin-top: 38px;
 }
 
-.saved-scs{
+.saved-scs {
     font-size: 15px;
     font-family: sans-serif;
     display: block;
     margin: auto;
 }
 
-.saved-scs h3{
+.saved-scs h3 {
     margin-top: 3px;
 }
-li{
+
+li {
     margin-top: 23px;
     margin-bottom: 10px;
     text-align: center;
@@ -121,12 +128,13 @@ li{
 
 }
 
-.saved-scs button{
+.saved-scs button {
     border-radius: 5px;
     cursor: pointer;
     border: none;
 }
-#searchShortcuts{
+
+#searchShortcuts {
     width: 51%;
     outline: none;
     border: 0.3px solid rgba(0, 0, 0, 0.3);
@@ -136,7 +144,7 @@ li{
     border-radius: 6px;
 }
 
-.search{
+.search {
     margin-top: 30px;
     margin-left: 10px;
 }
@@ -149,7 +157,7 @@ li{
 
 }
 
-.wrapper-btn{
+.wrapper-btn {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -157,18 +165,18 @@ li{
     margin-top: 23px;
 }
 
-.wrapper{
+.wrapper {
     background: linear-gradient(50deg, rgba(109, 253, 236, 0.75) -2.29%, rgba(240, 176, 249, 0.75) 100.21%);
 }
 
-.search-head{
+.search-head {
     font-size: 14px;
     color: #000000;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin-bottom: 10px;
 }
 
-#search-icon{
+#search-icon {
     background-repeat: no-repeat;
     background-size: cover;
     position: absolute;
@@ -179,7 +187,7 @@ li{
     top: 239px;
 }
 
-.icon-ssg{
+.icon-ssg {
     display: inline-block;
     width: 78px;
     height: 69px;
@@ -189,7 +197,6 @@ li{
     margin-top: -47px;
     border-radius: 7px 7px 7px 7px;
 }
-
 
 
 ::-webkit-scrollbar {
@@ -227,7 +234,7 @@ li {
     left: 50%;
     transform: translateX(-50%);
     background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     border-radius: 7px;
     width: 100px;
 }
@@ -248,6 +255,7 @@ li {
     height: 25px;
     background-color: #ffffffde; /* Replace with your preferred color */
 }
+
 /* Rest of your CSS code */
 
 .delete-icon {
@@ -275,7 +283,7 @@ li {
     background-color: #daeff8; /* Highlight on hover */
 }
 
-.delete-icon:hover{
+.delete-icon:hover {
     background-color: #ffe8e8; /* Highlight on hover */
 }
 
@@ -283,6 +291,7 @@ li {
     background-color: #e8ffec; /* Highlight on hover */
 
 }
+
 li:hover .dropdown-menu {
     display: block;
 }

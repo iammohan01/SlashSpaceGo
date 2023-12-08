@@ -3,21 +3,12 @@
   "name": "Slash Space Go",
   "version": "0.1",
   "description": "Slash, Space, and Go - that's all it takes! With our extension, assign unique shortcuts to your favorite websites.",
-  "permissions": [
-    "contextMenus",
-    "storage",
-    "unlimitedStorage",
-    "tabs",
-    "activeTab",
-    "notifications",
-    "bookmarks",
-    "contextMenus"
-  ],
+  "permissions": ["contextMenus", "storage", "unlimitedStorage","tabs", "activeTab", "notifications","bookmarks","contextMenus"],
   "action": {
     "default_popup": "popup.html"
   },
   "background": {
-    "service_worker": "scripts/background.js",
+    "service_worker": "src/chrome/background.ts",
     "type": "module"
   },
   "omnibox": {
@@ -26,11 +17,9 @@
   "content_scripts": [
     {
       "all_frames": true,
-      "matches": [
-        "<all_urls>"
-      ],
+      "matches": ["<all_urls>"],
       "js": [
-        "scripts/SlashSpaceGoHelper.js"
+        "src/chrome/content_script.ts"
       ],
       "run_at": "document_idle"
     }

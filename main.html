@@ -2,47 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Space Slash Go</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" type="text/css" href="styles/toastify.min.css">
+    <link href="styles/main.css" rel="stylesheet">
+    <link href="styles/toastify.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="main-frame-wrapper">
     <div class="header">
         <div class="icon">
-            <img src="" alt="" srcset="resources/icons/lightnig.svg">
+            <img alt="" src="" srcset="resources/icons/lightnig.svg">
         </div>
-        <div class="title">SLASH SPACE  GO</div>
+        <div class="title">SLASH SPACE GO</div>
         <div class="share">
-            <img src="" alt="" srcset="resources/icons/share.svg">
+            <img alt="" src="" srcset="resources/icons/share.svg">
         </div>
     </div>
     <div class="create-shortcut-wrapper">
         <div class="input-fields">
-                <span>/ SPACE</span>
-                <input id="create-input" type="text" placeholder="Enter a shortcut name">
+            <span>/ SPACE</span>
+            <input id="create-input" placeholder="Enter a shortcut name" type="text">
             <label for="target">
-                <select name="option for page" id="target">
-                    <option value="1">same tab </option>
+                <select id="target" name="option for page">
+                    <option value="1">same tab</option>
                     <option value="2">new tab</option>
                     <option value="3">new window</option>
                 </select>
             </label>
-            <img class="help-icon shortcut" src="" alt="" srcset="resources/icons/Help.svg">
+            <img alt="" class="help-icon shortcut" src="" srcset="resources/icons/Help.svg">
         </div>
         <div class="button-fields">
-<!--            <button class="button" id="cancelButton">Cancel</button>-->
+            <!--            <button class="button" id="cancelButton">Cancel</button>-->
             <button class="button" id="saveButton">Save</button>
         </div>
     </div>
     <div class="filter-wrapper">
         <div class="input-fields">
-                <input class="inputs" id="filterShortcuts" type="text" placeholder="Search shortcut">
+            <input class="inputs" id="filterShortcuts" placeholder="Search shortcut" type="text">
         </div>
     </div>
     <div class="freq-suggest-wrapper">
-        <h4 class="title">Frequently Used Shortcuts. <span class="view"><img src="resources/icons/view_list.svg" alt=""></span></h4>
+        <h4 class="title">Frequently Used Shortcuts. <span class="view"><img alt="" src="resources/icons/view_list.svg"></span>
+        </h4>
         <div class="frq-shortcuts">
         </div>
     </div>
@@ -53,6 +54,6 @@
 <script src="scripts/popper.js"></script>
 <script src="scripts/tippy.js"></script>
 <script src="scripts/help.js"></script>
-<script type="text/javascript" src="scripts/toastify.js"></script>
+<script src="scripts/toastify.js" type="text/javascript"></script>
 
 </html>

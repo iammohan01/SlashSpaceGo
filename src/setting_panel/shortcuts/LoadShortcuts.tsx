@@ -61,8 +61,6 @@ function renderShortcut({shortcuts}: RenderShortcuts): ReactElement {
         shortcuts = Object.entries(shortcuts)
             .sort((a, b) => b[1].invoke - a[1].invoke)
             .reduce((acc, [key, value]) => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
                 acc[key] = value;
                 return acc;
             }, []);
