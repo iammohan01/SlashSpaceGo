@@ -1,5 +1,5 @@
 import {RequestEvent} from "../@types/background";
-import sound from '../../public/resources/sound/txtReplaceSound.wav?url'
+import sound from '../../public/resources/sound/txtReplaceSound.mp3?url'
 
 let inputForRequest: string | null = null;
 let target: HTMLInputElement | null = null
@@ -48,7 +48,7 @@ document.addEventListener("keydown", (e) => {
                             const indexOfKeyInInput = value.lastIndexOf(data[0].key);
                             if (indexOfKeyInInput !== -1) {
                                 const updatedInput = value.substring(0, indexOfKeyInInput) + data[0].value + value.substring(indexOfKeyInInput + data[0].key.length);
-                                target.value = updatedInput;
+                                target.value = updatedInput + " ";
                                 playFillSound()
 
                             }
@@ -57,7 +57,7 @@ document.addEventListener("keydown", (e) => {
                             const indexOfKeyInInput = value.lastIndexOf(data[0].key);
                             if (indexOfKeyInInput !== -1) {
                                 const updatedInput = value.substring(0, indexOfKeyInInput) + data[0].value + value.substring(indexOfKeyInInput + data[0].key.length);
-                                target.innerText = updatedInput;
+                                target.innerText = updatedInput + " ";
                                 playFillSound()
 
                             }
