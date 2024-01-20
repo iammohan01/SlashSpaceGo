@@ -12,7 +12,7 @@
     "type": "module"
   },
   "omnibox": {
-    "keyword": "q"
+    "keyword": "/"
   },
   "content_scripts": [
     {
