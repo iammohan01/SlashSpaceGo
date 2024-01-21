@@ -53,7 +53,15 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
                 maxWidth: "90vw"
             }}
         >
-            <span style={{fontSize: "0.7rem", wordWrap: "break-word", whiteSpace: "pre-wrap"}}>{shortCut.url}</span>
+            <span style={{
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                maxWidth: "100%",
+                fontSize: "0.7rem"
+            }}>{
+                shortCut.url
+            }</span>
             <div
                 style={{
                     display: "flex",
