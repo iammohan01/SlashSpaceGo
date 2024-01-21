@@ -4,344 +4,204 @@
 @tailwind utilities;
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    @apply box-border m-0 p-0;
     font-family: Poppins, sans-serif;
-    background: transparent
+    background: transparent;
 }
-
 html {
-    height: 500px;
-    width: 350px
+    @apply h-[500px] w-[350px];
 }
-
 body {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, #FFFFFF 2.83%, #EFF9FF 12.24%, #EFF9FF 12.25%, #F0F9FF 16.29%, #F1F9FF 22.37%, #F2F8FF 26.91%, #F2F8FF 26.92%, #F3F8FF 31.98%, #F5F8FF 43.62%, #F5F8FF 46.15%, #F7F7FF 53.74%, #F8F7FE 62.35%, #F8F7FE 62.36%, #FAF7FE 72.97%, #FAF7FE 72.97%, #FCF6FE 84.11%, #FDF6FE 86.64%, #FDF6FE 91.7%, #FFF6FE 100%)
+    @apply w-full h-full;
+    background: linear-gradient(
+            180deg,
+            #ffffff 2.83%,
+            #eff9ff 12.24%,
+            #eff9ff 12.25%,
+            #f0f9ff 16.29%,
+            #f1f9ff 22.37%,
+            #f2f8ff 26.91%,
+            #f2f8ff 26.92%,
+            #f3f8ff 31.98%,
+            #f5f8ff 43.62%,
+            #f5f8ff 46.15%,
+            #f7f7ff 53.74%,
+            #f8f7fe 62.35%,
+            #f8f7fe 62.36%,
+            #faf7fe 72.97%,
+            #faf7fe 72.97%,
+            #fcf6fe 84.11%,
+            #fdf6fe 86.64%,
+            #fdf6fe 91.7%,
+            #fff6fe 100%
+    );
 }
-
 #root {
-    width: 100%;
-    height: 100%
+    @apply w-full h-full;
 }
-
 .monospace {
-    font-family: Space Mono, monospace
+    font-family: Space Mono, monospace;
 }
-
 .rotate {
-    transition-duration: .25s;
-    transition-timing-function: ease-in-out
+    @apply duration-[0.25s] ease-[ease-in-out];
 }
-
 .main-frame-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden
+    @apply w-full h-full flex flex-col overflow-hidden;
 }
-
 .main-frame-wrapper .inputs {
-    border: none;
+    @apply border-b-[black] border-[none] border-b border-solid;
     outline: none;
-    border-bottom: 1px solid black
 }
-
 .main-frame-wrapper .button {
+    @apply appearance-none bg-[#fafbfc] border shadow-[#1b1f230a_0_1px,#ffffff40_0_1px_inset] box-border text-[#24292e] cursor-pointer inline-block text-sm font-medium leading-5 relative transition-[background-color] duration-[0.2s] ease-[cubic-bezier(.3,0,0.5,1)] select-none touch-manipulation align-middle whitespace-nowrap px-4 py-1.5 rounded-md border-solid border-[rgba(27,31,35,0.15)] hover:bg-gray-100 hover:no-underline hover:duration-[0.1s] disabled:bg-[#fafbfc] disabled:text-[#959da5] disabled:cursor-default disabled:border-[#1b1f2326] active:bg-[#edeff2] active:shadow-[#e1e4e833_0_1px_inset] active:transition-none active:duration-[0s] before:hidden;
     -webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none;
-    background-color: #fafbfc;
-    border: 1px solid rgba(27, 31, 35, .15);
-    border-radius: 6px;
-    box-shadow: #1b1f230a 0 1px, #ffffff40 0 1px inset;
-    box-sizing: border-box;
-    color: #24292e;
-    cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system, system-ui, Segoe UI, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 20px;
+    font-family: -apple-system, system-ui, Segoe UI, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
     list-style: none;
-    padding: 6px 16px;
-    position: relative;
-    transition: background-color .2s cubic-bezier(.3, 0, .5, 1);
-    user-select: none;
     -webkit-user-select: none;
-    touch-action: manipulation;
-    vertical-align: middle;
-    white-space: nowrap;
-    word-wrap: break-word
+    word-wrap: break-word;
 }
-
-.main-frame-wrapper .button:hover {
-    background-color: #f3f4f6;
-    text-decoration: none;
-    transition-duration: .1s
-}
-
-.main-frame-wrapper .button:disabled {
-    background-color: #fafbfc;
-    border-color: #1b1f2326;
-    color: #959da5;
-    cursor: default
-}
-
-.main-frame-wrapper .button:active {
-    background-color: #edeff2;
-    box-shadow: #e1e4e833 0 1px inset;
-    transition: none 0s
-}
-
 .main-frame-wrapper .button:focus {
-    outline: 1px transparent
+    outline: 1px transparent;
 }
-
-.main-frame-wrapper .button:before {
-    display: none
-}
-
 .main-frame-wrapper .button::-webkit-details-marker {
-    display: none
+    @apply hidden;
 }
-
 .main-frame-wrapper .header {
-    height: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between
+    @apply h-[10%] flex items-center justify-between;
 }
-
 .main-frame-wrapper .header > div {
-    margin: 10px
+    @apply m-2.5;
 }
-
 .main-frame-wrapper .header .title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    background: linear-gradient(270deg, #02B3F1 0%, #D37DFF 100%);
+    @apply text-2xl font-semibold select-none;
+    background: linear-gradient(270deg, #02b3f1 0%, #d37dff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-user-select: none;
-    user-select: none
 }
-
 .main-frame-wrapper .input-fields {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    gap: .5rem
+    @apply w-full flex items-center justify-center gap-2 p-2.5;
 }
-
 .main-frame-wrapper .input-fields span {
-    color: #acacac;
-    padding: 10px;
-    border-radius: 8px
+    @apply text-[#acacac] p-2.5 rounded-lg;
 }
-
 .main-frame-wrapper .input-fields input {
-    border: none;
+    @apply w-6/12 border-b-[black] border-[none] border-b border-solid;
     outline: none;
-    border-bottom: 1px solid black;
-    width: 50%
 }
-
 .main-frame-wrapper .input-fields select {
-    display: none
+    @apply hidden;
 }
-
 .main-frame-wrapper .button-fields {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem
+    @apply flex items-center justify-center gap-4;
 }
-
 .main-frame-wrapper .button-fields button {
-    padding: 10px;
-    width: 100px;
-    margin: 0
+    @apply w-[100px] m-0 p-2.5;
 }
-
 .main-frame-wrapper .create-shortcut-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center
+    @apply flex flex-col items-center;
 }
-
 .main-frame-wrapper .expanders-list {
-    overflow: hidden
+    @apply overflow-hidden;
 }
 
-.main-frame-wrapper .frq-shortcuts, .main-frame-wrapper .frq-expanders {
-    overflow: scroll;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    cursor: pointer
-}
-
-.main-frame-wrapper .frq-shortcuts .keyShortcut, .main-frame-wrapper .frq-expanders .keyShortcut {
-    width: 11px;
-    aspect-ratio: 1/1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 0;
-    right: 5px
-}
-
-.main-frame-wrapper .frq-shortcuts > *, .main-frame-wrapper .frq-expanders > * {
-    border-radius: 5px;
-    background: rgba(0, 0, 0, .1)
-}
-
-.main-frame-wrapper .frq-shortcuts > *:hover, .main-frame-wrapper .frq-expanders > *:hover {
-    background: rgba(0, 0, 0, .2)
-}
-
-.main-frame-wrapper .frq-shortcuts .grid, .main-frame-wrapper .frq-expanders .grid {
-    flex: 0 0 calc(33.333% - 10px);
-    margin: 5px;
-    aspect-ratio: 2/1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    gap: .3rem
-}
-
-.main-frame-wrapper .frq-shortcuts .list, .main-frame-wrapper .frq-expanders .list {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 3px;
-    overflow: hidden
-}
-
-.main-frame-wrapper .frq-shortcuts .list > h6, .main-frame-wrapper .frq-expanders .list > h6 {
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: underline;
-    display: flex;
-    align-items: center;
-    gap: .6rem
-}
-
-.main-frame-wrapper .frq-shortcuts .list > p, .main-frame-wrapper .frq-expanders .list > p {
-    font-size: 11px;
-    overflow: scroll
-}
-
-.main-frame-wrapper .frq-shortcuts .list > p::-webkit-scrollbar, .main-frame-wrapper .frq-expanders .list > p::-webkit-scrollbar {
-    display: none
-}
-
-.main-frame-wrapper .frq-shortcuts .expander-title, .main-frame-wrapper .frq-expanders .expander-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center
-}
-
-.main-frame-wrapper .freq-suggest-wrapper {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    overflow: hidden
-}
-
-.main-frame-wrapper .freq-suggest-wrapper .title {
-    display: flex;
-    justify-content: space-between
-}
-
+.main-frame-wrapper .frq-shortcuts,
 .main-frame-wrapper .frq-expanders {
-    overflow: scroll;
-    max-height: 100%
+    @apply overflow-scroll flex flex-wrap justify-start cursor-pointer;
 }
 
+.main-frame-wrapper .frq-shortcuts .keyShortcut,
+.main-frame-wrapper .frq-expanders .keyShortcut {
+    @apply w-[11px] aspect-[1/1] flex items-center justify-center absolute right-[5px] bottom-0;
+}
+
+.main-frame-wrapper .frq-shortcuts > *,
+.main-frame-wrapper .frq-expanders > * {
+    @apply rounded-[5px];
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.main-frame-wrapper .frq-shortcuts > *:hover,
+.main-frame-wrapper .frq-expanders > *:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.main-frame-wrapper .frq-shortcuts .grid,
+.main-frame-wrapper .frq-expanders .grid {
+    @apply flex-[0_0_calc(33.333%_-_10px)] aspect-[2/1] flex items-center justify-center relative gap-[0.3rem] m-[5px];
+}
+
+.main-frame-wrapper .frq-shortcuts .list,
+.main-frame-wrapper .frq-expanders .list {
+    @apply w-full overflow-hidden mb-[3px] p-2.5;
+}
+
+.main-frame-wrapper .frq-shortcuts .list > h6,
+.main-frame-wrapper .frq-expanders .list > h6 {
+    @apply text-[13px] font-medium underline flex items-center gap-[0.6rem];
+}
+
+.main-frame-wrapper .frq-shortcuts .list > p,
+.main-frame-wrapper .frq-expanders .list > p {
+    @apply text-[11px] overflow-scroll;
+}
+
+.main-frame-wrapper .frq-shortcuts .list > p::-webkit-scrollbar,
+.main-frame-wrapper .frq-expanders .list > p::-webkit-scrollbar {
+    @apply hidden;
+}
+
+.main-frame-wrapper .frq-shortcuts .expander-title,
+.main-frame-wrapper .frq-expanders .expander-title {
+    @apply flex justify-between items-center;
+}
+.main-frame-wrapper .freq-suggest-wrapper {
+    @apply grow flex flex-col overflow-hidden p-4;
+}
+.main-frame-wrapper .freq-suggest-wrapper .title {
+    @apply flex justify-between;
+}
+.main-frame-wrapper .frq-expanders {
+    @apply overflow-scroll max-h-full;
+}
 .main-frame-wrapper .hover-visibility i {
-    visibility: hidden
+    @apply invisible;
 }
-
 .main-frame-wrapper .hover-visibility:hover i {
-    visibility: visible
+    @apply visible;
 }
-
 .main-frame-wrapper .hover-visibility .expander-property {
-    padding: 5px
+    @apply p-[5px];
 }
-
 .main-frame-wrapper .freq-expanders-wrapper {
-    padding: 14px;
-    flex-grow: 1;
-    overflow: scroll;
-    display: flex;
-    flex-direction: column
+    @apply grow overflow-scroll flex flex-col p-3.5;
 }
-
 .main-frame-wrapper .freq-expanders-wrapper .title {
-    display: flex;
-    justify-content: space-between
+    @apply flex justify-between;
 }
-
 .main-frame-wrapper .freq-expanders-wrapper .expanders-wrapper > h4 {
-    width: 100%;
-    display: flex;
-    justify-content: end;
-    cursor: pointer
+    @apply w-full flex cursor-pointer justify-end;
 }
-
 .main-frame-wrapper .groups {
-    border: 1px solid red;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    overflow: hidden
+    @apply border grow flex flex-col overflow-hidden p-4 border-solid border-[red];
 }
-
 .main-frame-wrapper .groups * {
-    border: 1px solid red
+    @apply border border-solid border-[red];
 }
-
 .main-frame-wrapper .groups .title {
-    display: flex;
-    align-items: center;
-    gap: .5rem
+    @apply flex items-center gap-2;
 }
-
 .main-frame-wrapper .groups .groups-header {
-    display: flex;
-    overflow: scroll;
-    min-height: 2.5rem;
-    align-items: center
+    @apply flex overflow-scroll min-h-[2.5rem] items-center;
 }
-
 .main-frame-wrapper .groups .groups-header > div {
-    cursor: pointer;
-    margin: .2rem;
-    padding: .2rem .5rem
+    @apply cursor-pointer m-[0.2rem] px-2 py-[0.2rem];
 }
-
 .main-frame-wrapper .groups .groups-grid {
-    display: flex;
-    flex-wrap: wrap;
-    overflow: scroll
+    @apply flex flex-wrap overflow-scroll;
 }
-
 .main-frame-wrapper .groups .groups-grid > * {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    margin: 10px;
-    flex: 0 0 calc(33% - 20px)
+    @apply flex items-center justify-center flex-[0_0_calc(33%_-_20px)] m-2.5 p-2.5;
 }
