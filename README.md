@@ -8,6 +8,8 @@ With our extension, assign unique shortcuts to your favorite websites and text s
 Hit `/` (slash) and `space` on your omnibox/search bar and hit your shortcut name to Go on any saved website and to
 enter a snippet write the snippet shortcut hit tab to auto-fill text.
 
+![usage gif](public/resources/gif/usage.gif)
+
 ## Slash Space Go Search:
 
 Click on the extension icon while on any site, enter your desired shortcut, and save it. Now, to visit that website,
