@@ -34,6 +34,12 @@ export default function CreateShortCut(): React.ReactElement {
             }).then()
 
             generateCurrentTabData(trimmedKey, target).then(data => {
+                if (data.url.startsWith("chrome://newtab/")) {
+                    message.warning("empty url or new tab", 2).then()
+                    messageApi.destroy()
+                    return
+                }
+
                 saveShortcut(data).then(s => {
                     if (setShortcutsInContext != null) {
                         setShortcutsInContext(prev => [...prev, s])
