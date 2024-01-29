@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useEffect, useState, useRef, useReducer } from "react";
 import fetchAllShortcuts from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.ts";
 import {Shortcuts, View} from "../@types/shortcuts.ts";
 import {Expanders} from "../@types/expanders.ts";
@@ -33,6 +33,10 @@ export function ContextProvider({children}: Props) {
     const [shortCutKey, setShortcutKey] = useState<string>("")
     const [expanderKey, setExpanderKey] = useState<string>("")
     const [expanderInput, setExpanderInput] = useState<string>("")
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const selectedEditShortcut=useRef<HTMLInputElement>(null);
+    const [urlKey,setUrlKey] =  useState<string>(null)
+    const [, forceUpdate] = useReducer((x: number) => x + 1, 0);
 
     useEffect(() => {
         fetchAllShortcuts().then(shortcuts => {
@@ -45,10 +49,14 @@ export function ContextProvider({children}: Props) {
             {{
                 shortCuts: [shortcuts, setShortcuts],
                 layout: [layout, setLayout],
+                isEditable:[editMode, setEditMode],
                 shortcutKeyInput: [shortCutKey, setShortcutKey],
                 expanderKey: [expanderKey, setExpanderKey],
+                forceUpdate,
                 expanderInput: [expanderInput, setExpanderInput],
-                expandersCtx: [expanders, setExpanders]
+                expandersCtx: [expanders, setExpanders],
+                selectedEditShortcut:selectedEditShortcut,
+                urlEditInput:[urlKey,setUrlKey] 
             }}
     >
         {children}

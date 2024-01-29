@@ -6,7 +6,7 @@ import emptyIcon from "/resources/icons/empty.svg";
 import {Popover} from "antd";
 import {Shortcuts, View} from "../../@types/shortcuts";
 import {openTarget} from "../../utils/utils";
-import {deleteShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
+import { deleteShortcut } from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 
 type RenderShortcut = {
     shortCut: Shortcuts;
@@ -16,34 +16,43 @@ type RenderShortcut = {
 
 export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcut): React.ReactElement {
 
-    const {shortCuts, layout} = useContext(PopupContext);
-    const [_, setShortCuts] = shortCuts
+    const {shortCuts, layout , shortcutKeyInput,isEditable,selectedEditShortcut,urlEditInput } = useContext(PopupContext);
+    const [_shortcut, setShortCuts] = shortCuts
     const [layoutCtx, __] = layout
+    const [_,setUrlKey] = urlEditInput
+    const [editMode, setEditMode] = isEditable;
+    const [_shortcutkey, setShortcutKey] = shortcutKeyInput
 
     function onclick() {
         openTarget(shortCut)
     }
 
-    const children = <div onClick={onclick} draggable="true" className={layoutCtx === View.GRID ? "grid" : "list"}>
-        {layoutCtx === View.GRID && index < 10 && <div className="keyShortcut">
-            <img
-                src={isMacOs ? metaIcon : ctrlIcon}
-                alt="shortcutIcons"
-            />
-            {index}
-        </div>}
-        {layoutCtx === View.GRID &&
-            <img style={{width: 14, aspectRatio: "1/1"}} src={shortCut.favIconUrl || emptyIcon} alt={"fav icon"}/>}
-        {layoutCtx === View.GRID && (shortCut.key.slice(0, 6))}
-        {layoutCtx === View.GRID && shortCut.key.length > 6 && "..."}
-        {layoutCtx === View.LIST && <h6><img style={{width: 14, aspectRatio: "1/1"}}
-                                             src={shortCut.favIconUrl || emptyIcon} alt={""}/> {index} . {shortCut.key}
-        </h6>}
-        {layoutCtx === View.LIST && <p className={"url"}>{shortCut.url} </p>}
-    </div>
+    function handleEdit() {
+        if(editMode){
+            setEditMode(()=>false)
+            return 
+        }
+        selectedEditShortcut.current = {...shortCut}
+        setShortcutKey(selectedEditShortcut.current.key)
+        setUrlKey(selectedEditShortcut.current.url)
+        setEditMode(()=>true)
+    }
 
-    return <Popover
-        content={<div
+    function handleDelete() {
+        deleteShortcut(shortCut.key).then((r) => {
+            console.log(r, "deleted")
+            if (setShortCuts != null) {
+                setShortCuts(prev => prev.filter(obj => obj.key !== shortCut.key))
+            }
+        })
+    }
+
+    function handleOpen() {
+        openTarget(shortCut, 1)
+    }
+
+    const popoverContent = () => (
+        <div
             style={{
                 display: "flex",
                 flexDirection: "column",
@@ -62,20 +71,33 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
                     justifyContent: "center",
                     gap: "1rem"
                 }}>
-                <a>Edit</a>
-                <a onClick={() => {
-                    deleteShortcut(shortCut.key).then((r) => {
-                        console.log(r, "deleted")
-                        if (setShortCuts != null) {
-                            setShortCuts(prev => prev.filter(obj => obj.key !== shortCut.key))
-                        }
-                    })
-                }}>Delete</a>
-                <a onClick={() => {
-                    openTarget(shortCut, 1)
-                }}>open</a>
+                <a onClick={handleEdit}>Edit</a>
+                <a onClick={handleDelete}>Delete</a>
+                <a onClick={handleOpen}>open</a>
             </div>
+        </div>
+    )
+
+    const children = <div onClick={onclick} draggable="true" className={layoutCtx === View.GRID ? "grid" : "list"}>
+        {layoutCtx === View.GRID && index < 10 && <div className="keyShortcut">
+            <img
+                src={isMacOs ? metaIcon : ctrlIcon}
+                alt="shortcutIcons"
+            />
+            {index}
         </div>}
+        {layoutCtx === View.GRID &&
+            <img style={{width: 14, aspectRatio: "1/1"}} src={shortCut.favIconUrl || emptyIcon} alt={"fav icon"}/>}
+        {layoutCtx === View.GRID && (shortCut.key.slice(0, 6))}
+        {layoutCtx === View.GRID && shortCut.key.length > 6 && "..."}
+        {layoutCtx === View.LIST && <h6><img style={{width: 14, aspectRatio: "1/1"}}
+        src={shortCut.favIconUrl || emptyIcon} alt={""}/> {index} . {shortCut.key}
+        </h6>}
+        {layoutCtx === View.LIST && <p className={"url"}>{shortCut.url} </p>}
+    </div>
+
+    return <Popover
+        content={popoverContent()}
         mouseEnterDelay={0.5}
         mouseLeaveDelay={0.3}
     >
