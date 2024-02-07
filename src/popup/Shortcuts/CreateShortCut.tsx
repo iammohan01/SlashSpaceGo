@@ -1,8 +1,8 @@
-import {message, Tooltip} from "antd";
+import {Input, message, Tooltip} from "antd";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import PopupContext from "../../context/PopupContext.tsx";
 import helpIcon from "/resources/icons/Help.svg"
-import {UrlTarget} from "../../@types/shortcuts";
+import {UrlTarget, UserTabData} from "../../@types/shortcuts";
 import {generateCurrentTabData} from "../../utils/utils";
 import {saveShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 
@@ -15,9 +15,36 @@ export default function CreateShortCut(): React.ReactElement {
     const [showToast, ___] = useState<React.ReactElement>(<></>)
     const [messageApi, contextHolder] = message.useMessage();
     const inputRef = useRef<HTMLInputElement>(null);
+    const [url, setUrl] = useState<string>();
+    const [currentTabData, setCurrentTabData] = useState<UserTabData>();
+
     useEffect(() => {
         inputRef?.current?.focus()
+        generateCurrentTabData(key, target).then(currentTabData => {
+            setCurrentTabData(currentTabData)
+            setUrl(currentTabData.url)
+            console.log(currentTabData)
+        }).catch((err) => {
+            console.error(err)
+            message.error("Something went wrong while fetching current tab data", 3)
+                .then()
+        })
     }, []);
+
+
+    useEffect(() => {
+        if (currentTabData) {
+            setCurrentTabData(val => {
+                val.url = url
+                val.key = key
+                return val
+            })
+        }
+    }, [url, key]);
+
+
+
+
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             initSaveShortcut()
@@ -33,32 +60,17 @@ export default function CreateShortCut(): React.ReactElement {
                 duration: 0,
             }).then()
 
-            generateCurrentTabData(trimmedKey, target).then(data => {
-                if (data.url.startsWith("chrome://newtab/")) {
-                    message.warning("empty url or new tab", 2).then()
-                    messageApi.destroy()
-                    return
+            saveShortcut(currentTabData).then(s => {
+                if (setShortcutsInContext != null) {
+                    setShortcutsInContext(prev => [...prev, s])
                 }
-
-                saveShortcut(data).then(s => {
-                    if (setShortcutsInContext != null) {
-                        setShortcutsInContext(prev => [...prev, s])
-                    }
-                    message.success("saved", 2).then()
-                })
-                    .catch(() => {
-                        message.error("Shortcut Already Used", 3).then()
-                    }).finally(() => {
-                    messageApi.destroy()
-                })
-
-
+                message.success("saved", 2).then()
             })
                 .catch(() => {
-                    message.error("Something went wrong", 3)
-                        .then(() => {
-                        })
-                })
+                    message.error("Shortcut Already Used", 3).then()
+                }).finally(() => {
+                messageApi.destroy()
+            })
 
 
         } else {
@@ -70,6 +82,10 @@ export default function CreateShortCut(): React.ReactElement {
         }
     }
 
+    function changeUrl(input: { target: { value: React.SetStateAction<string>; }; }) {
+        console.log(input.target.value)
+        setUrl(input.target.value)
+    }
     return <div tabIndex={-1} onKeyDown={handleKeyDown} className="create-shortcut-wrapper">
         {contextHolder}
         {!!showToast && showToast}
@@ -91,6 +107,9 @@ export default function CreateShortCut(): React.ReactElement {
                 title={`For quick access to a saved website: Press "/", followed by a space and the shortcut name. Then, hit Enter`}>
                 <img className="help-icon shortcut" src="" alt="" srcSet={helpIcon}/>
             </Tooltip>
+        </div>
+        <div className={"w-[80%] border-b mb-[0.6rem]"}>
+            <Input placeholder="Enter Url" variant="borderless" onChange={changeUrl} value={url}/>
         </div>
         <div className="button-fields" onClick={initSaveShortcut}>
             <button className="button" id="saveButton">Save</button>
