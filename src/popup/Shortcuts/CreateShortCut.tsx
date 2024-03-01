@@ -1,8 +1,8 @@
-import {message, Tooltip} from "antd";
+import {Input, message, Tooltip} from "antd";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import PopupContext from "../../context/PopupContext.tsx";
 import helpIcon from "/resources/icons/Help.svg"
-import {UrlTarget} from "../../@types/shortcuts";
+import {UrlTarget, UserTabData} from "../../@types/shortcuts";
 import {generateCurrentTabData} from "../../utils/utils";
 import {saveShortcut, updateShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 
@@ -19,9 +19,32 @@ export default function CreateShortCut(): React.ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const editInputRef=useRef<HTMLInputElement>(null);
 
+    const [url, setUrl] = useState<string>();
+    const [currentTabData, setCurrentTabData] = useState<UserTabData>();
+
     useEffect(() => {
         inputRef?.current?.focus()
+        generateCurrentTabData(key, target).then(currentTabData => {
+            setCurrentTabData(currentTabData)
+            setUrl(currentTabData.url)
+            console.log(currentTabData)
+        }).catch((err) => {
+            console.error(err)
+            message.error("Something went wrong while fetching current tab data", 3)
+                .then()
+        })
     }, []);
+
+
+    useEffect(() => {
+        if (currentTabData) {
+            setCurrentTabData(val => {
+                val.url = url
+                val.key = key
+                return val
+            })
+        }
+    }, [url, key]);
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
@@ -69,26 +92,17 @@ export default function CreateShortCut(): React.ReactElement {
                 duration: 0,
             }).then()
 
-            generateCurrentTabData(trimmedKey, target).then(data => {
-                saveShortcut(data).then(s => {
-                    if (setShortcutsInContext != null) {
-                        setShortcutsInContext(prev => [...prev, s])
-                    }
-                    message.success("saved", 2).then()
-                })
-                    .catch(() => {
-                        message.error("Shortcut Already Used", 3).then()
-                    }).finally(() => {
-                        messageApi.destroy()
-                    })
-
-
+            saveShortcut(currentTabData).then(s => {
+                if (setShortcutsInContext != null) {
+                    setShortcutsInContext(prev => [...prev, s])
+                }
+                message.success("saved", 2).then()
             })
                 .catch(() => {
-                    message.error("Something went wrong", 3)
-                        .then(() => {
-                        })
-                })
+                    message.error("Shortcut Already Used", 3).then()
+                }).finally(() => {
+                messageApi.destroy()
+            })
 
 
         } else {
@@ -98,6 +112,10 @@ export default function CreateShortCut(): React.ReactElement {
             }).then(() => {
             })
         }
+    }
+    function changeUrl(input: { target: { value: React.SetStateAction<string>; }; }) {
+        console.log(input.target.value)
+        setUrl(input.target.value)
     }
 
     const renderCreateInput = () => (
@@ -138,6 +156,9 @@ export default function CreateShortCut(): React.ReactElement {
         {!!showToast && showToast}
         {renderCreateInput()}
         {editMode && renderEditInput()}
+        <div className={"w-[80%] border-b mb-[0.6rem]"}>
+            <Input placeholder="Enter Url" variant="borderless" onChange={changeUrl} value={url}/>
+        </div>
         <div className="button-fields" onClick={initSaveShortcut}>
             <button className="button" id="saveButton">Save</button>
         </div>
