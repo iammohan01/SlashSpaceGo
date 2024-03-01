@@ -53,6 +53,7 @@ export default function CreateShortCut(): React.ReactElement {
                 modifiedTime:Date.now()
             }
             updateShortcut(updatedShortcut).then((updatedValues)=>{
+                message.success("Shortcuts updated", 2).then();
                 return handlePostEdits(updatedValues);
             }).catch(err => {
                 message.error(err, 3).then()
