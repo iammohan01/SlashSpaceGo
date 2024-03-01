@@ -77,7 +77,7 @@ export async function updateShortcut(data: Shortcuts) {
     return new Promise<void>((resolve, reject) => {
 
     fetchAllShortcuts().then((shortcuts = []) => {
-        if (shortcuts.filter(shortcut => shortcut.key === data.key).length > 0) {
+        if (shortcuts.filter(shortcut => shortcut.key.toLowerCase() === data.key.toLowerCase()).length > 0) {
             reject("Key already exists");
             return
         }
