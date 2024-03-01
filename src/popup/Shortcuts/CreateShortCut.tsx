@@ -1,10 +1,10 @@
-import { message, Tooltip } from "antd";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import {message, Tooltip} from "antd";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import PopupContext from "../../context/PopupContext.tsx";
 import helpIcon from "/resources/icons/Help.svg"
-import { UrlTarget } from "../../@types/shortcuts";
-import { generateCurrentTabData } from "../../utils/utils";
-import { saveShortcut, updateShortcut } from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
+import {UrlTarget} from "../../@types/shortcuts";
+import {generateCurrentTabData} from "../../utils/utils";
+import {saveShortcut, updateShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 
 export default function CreateShortCut(): React.ReactElement {
 
@@ -54,6 +54,8 @@ export default function CreateShortCut(): React.ReactElement {
             }
             updateShortcut(updatedShortcut).then((updatedValues)=>{
                 return handlePostEdits(updatedValues);
+            }).catch(err => {
+                message.error(err, 3).then()
             });
             setEditMode(false);
             return

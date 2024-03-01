@@ -74,9 +74,13 @@ export async function updateInvoke(data: Shortcuts) {
 }
 
 export async function updateShortcut(data: Shortcuts) {
-    return  new Promise<void>((resolve) =>{
+    return new Promise<void>((resolve, reject) => {
 
     fetchAllShortcuts().then((shortcuts = []) => {
+        if (shortcuts.filter(shortcut => shortcut.key === data.key).length > 0) {
+            reject("Key already exists");
+            return
+        }
         const updatedShortcuts = shortcuts.map((shortcut) => shortcut.id === data.id ? data : shortcut)
         chrome.storage.local.set({"shortcuts": updatedShortcuts}).then(() => {
             resolve(updatedShortcuts);
