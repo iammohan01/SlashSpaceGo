@@ -72,13 +72,14 @@ export default function CreateShortCut(): React.ReactElement {
             const updatedShortcut = {
                 ...selectedEditShortcut.current,
                 key,
-                url:editInputRef.current.value,
+                url: urlKey,
                 modifiedTime:Date.now()
             }
             updateShortcut(updatedShortcut).then((updatedValues)=>{
                 message.success("Shortcuts updated", 2).then();
                 return handlePostEdits(updatedValues);
             }).catch(err => {
+                setEditMode(true)
                 message.error(err, 3).then()
             });
             setEditMode(false);
@@ -113,9 +114,13 @@ export default function CreateShortCut(): React.ReactElement {
             })
         }
     }
+
     function changeUrl(input: { target: { value: React.SetStateAction<string>; }; }) {
-        console.log(input.target.value)
-        setUrl(input.target.value)
+        if (editMode) {
+            handleOnchange(input)
+        } else {
+            setUrl(input.target.value)
+        }
     }
 
     const renderCreateInput = () => (
@@ -140,24 +145,32 @@ export default function CreateShortCut(): React.ReactElement {
         </div>
     )
 
-    const renderEditInput = () => (
-        <div className="input-fields">
-            <span>Edit Url</span>
-            <input ref={editInputRef}
-            value={urlKey}
-            onChange={handleOnchange}
-                id="create-input" type="text" placeholder="Enter a shortcut name" />
-            {/* <Tooltip> </Tooltip> */}
-        </div>
-    )
+
 
     return <div tabIndex={-1} onKeyDown={handleKeyDown} className="create-shortcut-wrapper">
         {contextHolder}
         {!!showToast && showToast}
-        {renderCreateInput()}
-        {editMode && renderEditInput()}
+        <div className="input-fields">
+            <span>{editMode ? "Edit shortcut" : "/ SPACE"}</span>
+            <input ref={inputRef} value={key} onChange={(e) => {
+                if (setKey != null) {
+                    setKey(e.target.value.trim())
+                }
+            }} id="create-input" type="text" placeholder="Enter a shortcut name"/>
+            <label htmlFor="target">
+                <select name="option for page" id="target">
+                    <option value="1">same tab</option>
+                    <option value="2">new tab</option>
+                    <option value="3">new window</option>
+                </select>
+            </label>
+            <Tooltip
+                title={`For quick access to a saved website: Press "/", followed by a space and the shortcut name. Then, hit Enter`}>
+                <img className="help-icon shortcut" src="" alt="" srcSet={helpIcon}/>
+            </Tooltip>
+        </div>
         <div className={"w-[80%] border-b mb-[0.6rem]"}>
-            <Input placeholder="Enter Url" variant="borderless" onChange={changeUrl} value={url}/>
+            <Input placeholder="Enter Url" variant="borderless" onChange={changeUrl} value={editMode ? urlKey : url}/>
         </div>
         <div className="button-fields" onClick={initSaveShortcut}>
             <button className="button" id="saveButton">Save</button>
