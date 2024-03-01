@@ -4,17 +4,21 @@ import PopupContext from "../../context/PopupContext.tsx";
 import helpIcon from "/resources/icons/Help.svg"
 import {UrlTarget, UserTabData} from "../../@types/shortcuts";
 import {generateCurrentTabData} from "../../utils/utils";
-import {saveShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
+import {saveShortcut, updateShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 
 export default function CreateShortCut(): React.ReactElement {
 
-    const {shortCuts, shortcutKeyInput} = useContext(PopupContext)
+    const { shortCuts, shortcutKeyInput, isEditable, selectedEditShortcut, urlEditInput, forceUpdate } = useContext(PopupContext)
     const [_, setShortcutsInContext] = shortCuts
     const [key, setKey] = shortcutKeyInput
+    const [editMode, setEditMode] = isEditable;
+    const [urlKey,setUrlKey] = urlEditInput
     const [target, __] = useState<UrlTarget>(UrlTarget.SAME_TAB)
     const [showToast, ___] = useState<React.ReactElement>(<></>)
     const [messageApi, contextHolder] = message.useMessage();
     const inputRef = useRef<HTMLInputElement>(null);
+    const editInputRef=useRef<HTMLInputElement>(null);
+
     const [url, setUrl] = useState<string>();
     const [currentTabData, setCurrentTabData] = useState<UserTabData>();
 
@@ -42,16 +46,45 @@ export default function CreateShortCut(): React.ReactElement {
         }
     }, [url, key]);
 
-
-
-
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             initSaveShortcut()
         }
     };
 
+    const handleOnchange = (e)=>{
+        setUrlKey(e.target.value.trim())
+    }
+
+    const handlePostEdits = (shortCuts)=>{
+        forceUpdate();
+        setUrlKey("");
+        setKey("");
+        if (setShortcutsInContext != null) {
+            console.log( shortCuts,"New shortCuts");
+            setShortcutsInContext(shortCuts)
+        }
+        [inputRef.current, selectedEditShortcut.current, editInputRef.current] = [selectedEditShortcut.current?.key,null,null];
+    }
+
     function initSaveShortcut() {
+        if (editMode) {
+            const updatedShortcut = {
+                ...selectedEditShortcut.current,
+                key,
+                url: urlKey,
+                modifiedTime:Date.now()
+            }
+            updateShortcut(updatedShortcut).then((updatedValues)=>{
+                message.success("Shortcuts updated", 2).then();
+                return handlePostEdits(updatedValues);
+            }).catch(err => {
+                setEditMode(true)
+                message.error(err, 3).then()
+            });
+            setEditMode(false);
+            return
+        }
         const trimmedKey = key.trim();
         if (trimmedKey) {
             messageApi.open({
@@ -83,14 +116,42 @@ export default function CreateShortCut(): React.ReactElement {
     }
 
     function changeUrl(input: { target: { value: React.SetStateAction<string>; }; }) {
-        console.log(input.target.value)
-        setUrl(input.target.value)
+        if (editMode) {
+            handleOnchange(input)
+        } else {
+            setUrl(input.target.value)
+        }
     }
+
+    const renderCreateInput = () => (
+        <div className="input-fields">
+            <span>{editMode ? "Edit shortcut" :"/ SPACE"}</span>
+            <input ref={inputRef} value={key} onChange={(e) => {
+                if (setKey != null) {
+                    setKey(e.target.value.trim())
+                }
+            }} id="create-input" type="text" placeholder="Enter a shortcut name" />
+            <label htmlFor="target">
+                <select name="option for page" id="target">
+                    <option value="1">same tab</option>
+                    <option value="2">new tab</option>
+                    <option value="3">new window</option>
+                </select>
+            </label>
+            <Tooltip
+                title={`For quick access to a saved website: Press "/", followed by a space and the shortcut name. Then, hit Enter`}>
+                <img className="help-icon shortcut" src="" alt="" srcSet={helpIcon} />
+            </Tooltip>
+        </div>
+    )
+
+
+
     return <div tabIndex={-1} onKeyDown={handleKeyDown} className="create-shortcut-wrapper">
         {contextHolder}
         {!!showToast && showToast}
         <div className="input-fields">
-            <span>/ SPACE</span>
+            <span>{editMode ? "Edit shortcut" : "/ SPACE"}</span>
             <input ref={inputRef} value={key} onChange={(e) => {
                 if (setKey != null) {
                     setKey(e.target.value.trim())
@@ -109,7 +170,7 @@ export default function CreateShortCut(): React.ReactElement {
             </Tooltip>
         </div>
         <div className={"w-[80%] border-b mb-[0.6rem]"}>
-            <Input placeholder="Enter Url" variant="borderless" onChange={changeUrl} value={url}/>
+            <Input placeholder="Enter Url" variant="borderless" onChange={changeUrl} value={editMode ? urlKey : url}/>
         </div>
         <div className="button-fields" onClick={initSaveShortcut}>
             <button className="button" id="saveButton">Save</button>

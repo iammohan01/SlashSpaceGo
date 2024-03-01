@@ -68,18 +68,25 @@ export function deleteShortcut(key: string) {
     })
 }
 
-export function updateInvoke(data: Shortcuts) {
+export async function updateInvoke(data: Shortcuts) {
     console.log("update invoke for ", data)
-    updateShortcut(data)
+    await updateShortcut(data)
 }
 
-export function updateShortcut(data: Shortcuts) {
+export async function updateShortcut(data: Shortcuts) {
+    return new Promise<void>((resolve, reject) => {
+
     fetchAllShortcuts().then((shortcuts = []) => {
-        const updatedShortcuts = shortcuts.map((shortcut) => shortcut.key === data.key ? data : shortcut)
+        if (shortcuts.filter(shortcut => shortcut.key.toLowerCase() === data.key.toLowerCase()).length > 0) {
+            reject("Key already exists");
+            return
+        }
+        const updatedShortcuts = shortcuts.map((shortcut) => shortcut.id === data.id ? data : shortcut)
         chrome.storage.local.set({"shortcuts": updatedShortcuts}).then(() => {
-            console.log("updated")
+            resolve(updatedShortcuts);
         })
         console.log("updatedShortcuts", updatedShortcuts)
     })
+})
 }
 
