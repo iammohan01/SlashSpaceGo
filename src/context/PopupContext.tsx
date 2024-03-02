@@ -16,7 +16,7 @@ interface PopupContextType {
     expanderInput: [string, React.Dispatch<React.SetStateAction<string>> | null];
     isEditable: [boolean, React.Dispatch<React.SetStateAction<boolean>> | null];
     forceUpdate: React.DispatchWithoutAction;
-    selectedEditShortcut: React.MutableRefObject<HTMLInputElement>;
+    selectedEditShortcut: React.MutableRefObject<Shortcuts>;
     urlEditInput: [string, React.Dispatch<React.SetStateAction<string>> | null];
 }
 
