@@ -50,7 +50,7 @@ export async function openTarget(shortcut: Shortcuts, target: UrlTarget = UrlTar
         if (existingTab) {
             await goToUrl(existingTab.id, null);
         } else {
-            await openTarget(shortcut, UrlTarget.SAME_TAB);
+            await chrome.tabs.create({url: shortcut.url});
         }
     }
 }
