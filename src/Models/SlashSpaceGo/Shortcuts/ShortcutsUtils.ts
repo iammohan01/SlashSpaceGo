@@ -6,11 +6,8 @@ export default async function fetchAllShortcuts() {
         chrome.storage.local.get(["shortcuts"])
             .then(data => {
                 if (data['shortcuts']) {
-                    console.log("no of shortcuts : ", data["shortcuts"].length)
                     resolve(data['shortcuts'])
                 } else {
-                    console.log("fetched data :", data)
-                    console.error("Some thing went wrong while getting shortcuts from chrome.storage, but returning empty array")
                     resolve([])
                 }
             })
