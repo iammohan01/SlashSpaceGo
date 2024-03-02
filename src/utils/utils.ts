@@ -12,7 +12,7 @@ export function getActiveTab() {
 }
 
 export function goToUrl(tabId: number, url: string) {
-    return chrome.tabs.update(tabId, {url: url})
+    return chrome.tabs.update(tabId, {url: url, active: true})
 }
 
 export function createNewWindow() {
@@ -23,36 +23,35 @@ export function getCurrentActiveTab() {
     return chrome.tabs.query({active: true, currentWindow: true})
 }
 
-export function openTarget(shortcut: Shortcuts, target: UrlTarget = UrlTarget.SAME_TAB) {
+export async function openTarget(shortcut: Shortcuts, target: UrlTarget = UrlTarget.SAME_TAB) {
     shortcut.invoke++
     if (!target) {
         target = shortcut.target
     }
-    updateInvoke(shortcut)
+    await updateInvoke(shortcut)
     if (target === UrlTarget.SAME_TAB) {
-        getCurrentActiveTab().then(tab => {
-            if (tab !== undefined && tab[0] && tab[0].id !== undefined) {
-                goToUrl(tab[0].id, shortcut.url).then(() => {
-                    console.log("target opened")
-                })
-            }
-        })
+        const tabs = await getCurrentActiveTab();
+        const activeTab = tabs[0];
+        if (activeTab?.id) {
+            await goToUrl(activeTab.id, shortcut.url);
+        }
     } else if (target === UrlTarget.NEW_TAB) {
-        chrome.tabs.create({url: shortcut.url}).then(tab => {
-            console.log(tab)
-        })
+        await chrome.tabs.create({url: shortcut.url});
     } else if (target === UrlTarget.NEW_WINDOW) {
-        createNewWindow().then(window => {
-            if (window.tabs && window.tabs[0] && window.tabs[0] !== undefined) {
-                const tab = window.tabs[0]
-                console.log("Going to open new window")
-                if (tab !== undefined && tab.id !== undefined) {
-                    goToUrl(tab.id, shortcut.url).then(() => {
-                        console.log("new window opened")
-                    })
-                }
-            }
-        })
+        const window = await createNewWindow();
+        const tab = window.tabs?.[0];
+        if (tab?.id) {
+            await goToUrl(tab.id, shortcut.url);
+        }
+    } else if (target === UrlTarget.IN_EXISTING_TAB) {
+        const tabs = await chrome.tabs.query({active: false, currentWindow: true});
+        const existingTab = tabs.find(tab => tab.url && tab.url.includes(shortcut.url));
+
+        if (existingTab) {
+            await goToUrl(existingTab.id, null);
+        } else {
+            await openTarget(shortcut, UrlTarget.SAME_TAB);
+        }
     }
 }
 

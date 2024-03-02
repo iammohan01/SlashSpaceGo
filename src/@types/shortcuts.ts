@@ -19,6 +19,7 @@ type UserTabData = {
 
 enum UrlTarget {
     SAME_TAB,
+    IN_EXISTING_TAB,
     NEW_TAB,
     NEW_WINDOW
 }

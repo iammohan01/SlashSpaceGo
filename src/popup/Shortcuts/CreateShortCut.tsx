@@ -13,7 +13,7 @@ export default function CreateShortCut(): React.ReactElement {
     const [key, setKey] = shortcutKeyInput
     const [editMode, setEditMode] = isEditable;
     const [urlKey,setUrlKey] = urlEditInput
-    const [target, __] = useState<UrlTarget>(UrlTarget.SAME_TAB)
+    const [target, setTarget] = useState<UrlTarget>(UrlTarget.SAME_TAB)
     const [showToast, ___] = useState<React.ReactElement>(<></>)
     const [messageApi, contextHolder] = message.useMessage();
     const inputRef = useRef<HTMLInputElement>(null);
@@ -44,8 +44,7 @@ export default function CreateShortCut(): React.ReactElement {
                 return val
             })
         }
-    }, [url, key]);
-
+    }, [url, key, target]);
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             initSaveShortcut()
@@ -73,7 +72,8 @@ export default function CreateShortCut(): React.ReactElement {
                 ...selectedEditShortcut.current,
                 key,
                 url: urlKey,
-                modifiedTime:Date.now()
+                modifiedTime: Date.now(),
+                target: target
             }
             updateShortcut(updatedShortcut).then((updatedValues)=>{
                 message.success("Shortcuts updated", 2).then();
@@ -93,7 +93,7 @@ export default function CreateShortCut(): React.ReactElement {
                 duration: 0,
             }).then()
 
-            saveShortcut(currentTabData).then(s => {
+            saveShortcut({...currentTabData, target: target}).then(s => {
                 if (setShortcutsInContext != null) {
                     setShortcutsInContext(prev => [...prev, s])
                 }
@@ -123,27 +123,6 @@ export default function CreateShortCut(): React.ReactElement {
         }
     }
 
-    const renderCreateInput = () => (
-        <div className="input-fields">
-            <span>{editMode ? "Edit shortcut" :"/ SPACE"}</span>
-            <input ref={inputRef} value={key} onChange={(e) => {
-                if (setKey != null) {
-                    setKey(e.target.value.trim())
-                }
-            }} id="create-input" type="text" placeholder="Enter a shortcut name" />
-            <label htmlFor="target">
-                <select name="option for page" id="target">
-                    <option value="1">same tab</option>
-                    <option value="2">new tab</option>
-                    <option value="3">new window</option>
-                </select>
-            </label>
-            <Tooltip
-                title={`For quick access to a saved website: Press "/", followed by a space and the shortcut name. Then, hit Enter`}>
-                <img className="help-icon shortcut" src="" alt="" srcSet={helpIcon} />
-            </Tooltip>
-        </div>
-    )
 
 
 
@@ -172,6 +151,16 @@ export default function CreateShortCut(): React.ReactElement {
         <div className={"w-[80%] border-b mb-[0.6rem]"}>
             <Input placeholder="Enter Url" variant="borderless" onChange={changeUrl} value={editMode ? urlKey : url}/>
         </div>
+        <p className={'flex justify-between gap-1'}>
+            <input id={"open-in-previous-tab"} onChange={ch => {
+                if (ch.target.checked) {
+                    setTarget(UrlTarget.IN_EXISTING_TAB)
+                } else {
+                    setTarget(UrlTarget.NEW_TAB)
+                }
+            }} type={"checkbox"}/>
+            <label htmlFor={"open-in-previous-tab"}>Open in already opened tab</label>
+        </p>
         <div className="button-fields" onClick={initSaveShortcut}>
             <button className="button" id="saveButton">Save</button>
         </div>
