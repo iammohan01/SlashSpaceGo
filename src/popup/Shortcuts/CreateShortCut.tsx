@@ -66,24 +66,28 @@ export default function CreateShortCut(): React.ReactElement {
         [inputRef.current, selectedEditShortcut.current, editInputRef.current] = [selectedEditShortcut.current?.key,null,null];
     }
 
+    function editAndUpdateShortcut() {
+        const updatedShortcut = {
+            ...selectedEditShortcut.current,
+            key,
+            url: urlKey,
+            modifiedTime: Date.now(),
+            target: target
+        }
+        updateShortcut(updatedShortcut).then((updatedValues) => {
+            message.success("Shortcuts updated", 2).then();
+            return handlePostEdits(updatedValues);
+        }).catch(err => {
+            setEditMode(true)
+            message.error(err, 3).then()
+        });
+        setEditMode(false);
+        return
+    }
+
     function initSaveShortcut() {
         if (editMode) {
-            const updatedShortcut = {
-                ...selectedEditShortcut.current,
-                key,
-                url: urlKey,
-                modifiedTime: Date.now(),
-                target: target
-            }
-            updateShortcut(updatedShortcut).then((updatedValues)=>{
-                message.success("Shortcuts updated", 2).then();
-                return handlePostEdits(updatedValues);
-            }).catch(err => {
-                setEditMode(true)
-                message.error(err, 3).then()
-            });
-            setEditMode(false);
-            return
+            editAndUpdateShortcut();
         }
         const trimmedKey = key.trim();
         if (trimmedKey) {
