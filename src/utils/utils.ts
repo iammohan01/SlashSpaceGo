@@ -73,11 +73,10 @@ export async function generateCurrentTabData(key: string, target: UrlTarget): Pr
 
 }
 
-export function copyTextToClipboard(text) {
+export function copyTextToClipboard(text: string) {
     //Create a textbox field where we can insert text to.
     const copyFrom = document.createElement("textarea");
 
-    console.log(copyFrom)
     //Set the text content to be the text you wished to copy.
     copyFrom.textContent = text;
 
