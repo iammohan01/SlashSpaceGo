@@ -17,7 +17,7 @@ export default function CreateShortCut(): React.ReactElement {
     const [showToast, ___] = useState<React.ReactElement>(<></>)
     const [messageApi, contextHolder] = message.useMessage();
     const inputRef = useRef<HTMLInputElement>(null);
-    const editInputRef=useRef<HTMLInputElement>(null);
+    // const editInputRef=useRef<HTMLInputElement>(null);
 
     const [url, setUrl] = useState<string>();
     const [currentTabData, setCurrentTabData] = useState<UserTabData>();
@@ -65,7 +65,7 @@ export default function CreateShortCut(): React.ReactElement {
             console.log( shortCuts,"New shortCuts");
             setShortcutsInContext(shortCuts)
         }
-        [inputRef.current, selectedEditShortcut.current, editInputRef.current] = [selectedEditShortcut.current?.key,null,null];
+        // [inputRef.current, selectedEditShortcut.current, editInputRef.current] = [selectedEditShortcut.current?.key,null,null];
     }
 
     function editAndUpdateShortcut() {
