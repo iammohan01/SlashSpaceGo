@@ -32,7 +32,10 @@ export default function CreateShortCut(): React.ReactElement {
             message.error("Something went wrong while fetching current tab data", 3)
                 .then()
         })
-    }, []);
+    });
+    useEffect(() => {
+        setTarget(selectedEditShortcut?.current?.target)
+    }, [editMode, selectedEditShortcut])
 
 
     useEffect(() => {
@@ -73,7 +76,7 @@ export default function CreateShortCut(): React.ReactElement {
             modifiedTime: Date.now(),
             target: target
         }
-        updateShortcut(updatedShortcut).then((updatedValues) => {
+        updateShortcut(updatedShortcut,true).then((updatedValues) => {
             message.success("Shortcuts updated", 2).then();
             return handlePostEdits(updatedValues);
         }).catch(err => {
@@ -87,6 +90,7 @@ export default function CreateShortCut(): React.ReactElement {
     function initSaveShortcut() {
         if (editMode) {
             editAndUpdateShortcut();
+            return
         }
         const trimmedKey = key.trim();
         if (trimmedKey) {
@@ -155,8 +159,8 @@ export default function CreateShortCut(): React.ReactElement {
             <Input placeholder="Enter Url" variant="borderless" onChange={changeUrl} value={editMode ? urlKey : url}/>
         </div>
         <p className={'flex justify-between gap-1'}>
-            <input id={"open-in-previous-tab"} onChange={ch => {
-                if (ch.target.checked) {
+            <input id={"open-in-previous-tab"} checked={target == UrlTarget.IN_EXISTING_TAB} onChange={event => {
+                if (event.target.checked) {
                     setTarget(UrlTarget.IN_EXISTING_TAB)
                 } else {
                     setTarget(UrlTarget.NEW_TAB)
