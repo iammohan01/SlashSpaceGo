@@ -39,8 +39,7 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
     }
 
     function handleDelete() {
-        deleteShortcut(shortCut.key).then((r) => {
-            console.log(r, "deleted")
+        deleteShortcut(shortCut.key).then(() => {
             if (setShortCuts != null) {
                 setShortCuts(prev => prev.filter(obj => obj.key !== shortCut.key))
             }
