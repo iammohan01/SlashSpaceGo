@@ -16,7 +16,6 @@ chrome.omnibox.onInputChanged.addListener((text = "", suggest) => {
     shortcuts.forEach((props) => {
         const key: string = props.key
         if (key.includes(text.toLowerCase()) || props.url?.includes(text.toLowerCase())) {
-            console.log(props)
             const suggestion = {
                 content: key,
                 description: key
@@ -24,7 +23,6 @@ chrome.omnibox.onInputChanged.addListener((text = "", suggest) => {
             suggestEntries.push(suggestion)
         }
     })
-    console.log(suggestEntries)
     suggest(suggestEntries);
 })
 
