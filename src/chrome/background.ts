@@ -65,7 +65,6 @@ chrome.contextMenus.onClicked.addListener(function (info) {
 
 chrome.runtime.onMessage.addListener(
     function (request: request, _sender, sendResponse) {
-        console.log(request)
         if (request.event === RequestEvent.EXPANDER) {
             if (request.action === "getText") {
                 const inputValue = request.key || '';
@@ -78,7 +77,6 @@ chrome.runtime.onMessage.addListener(
             }
             if (request.action === "getAll") {
                 fetchAllExpanders().then(expanders => {
-                    console.log(expanders)
                     sendResponse(expanders)
                 })
             }
