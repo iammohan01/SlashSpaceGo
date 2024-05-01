@@ -13,27 +13,34 @@ export default function CreateShortCut(): React.ReactElement {
     const [key, setKey] = shortcutKeyInput
     const [editMode, setEditMode] = isEditable;
     const [urlKey,setUrlKey] = urlEditInput
-    const [target, __] = useState<UrlTarget>(UrlTarget.SAME_TAB)
+    const [target, setTarget] = useState<UrlTarget>(UrlTarget.IN_EXISTING_TAB)
     const [showToast, ___] = useState<React.ReactElement>(<></>)
     const [messageApi, contextHolder] = message.useMessage();
     const inputRef = useRef<HTMLInputElement>(null);
-    const editInputRef=useRef<HTMLInputElement>(null);
+    // const editInputRef=useRef<HTMLInputElement>(null);
 
     const [url, setUrl] = useState<string>();
     const [currentTabData, setCurrentTabData] = useState<UserTabData>();
 
     useEffect(() => {
+        // to focus input element on popup open
         inputRef?.current?.focus()
         generateCurrentTabData(key, target).then(currentTabData => {
             setCurrentTabData(currentTabData)
             setUrl(currentTabData.url)
-            console.log(currentTabData)
         }).catch((err) => {
             console.error(err)
             message.error("Something went wrong while fetching current tab data", 3)
                 .then()
         })
-    }, []);
+    },[]);
+
+    useEffect(() => {
+        //by default this will be trigger, in that this will set target to undefined so that's the reason for this condition check
+        if(selectedEditShortcut?.current?.target){
+            setTarget(selectedEditShortcut?.current?.target);
+        }
+    }, [editMode, selectedEditShortcut])
 
 
     useEffect(() => {
@@ -44,7 +51,7 @@ export default function CreateShortCut(): React.ReactElement {
                 return val
             })
         }
-    }, [url, key]);
+    }, [url, key, target]);
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
@@ -64,25 +71,31 @@ export default function CreateShortCut(): React.ReactElement {
             console.log( shortCuts,"New shortCuts");
             setShortcutsInContext(shortCuts)
         }
-        [inputRef.current, selectedEditShortcut.current, editInputRef.current] = [selectedEditShortcut.current?.key,null,null];
+        // [inputRef.current, selectedEditShortcut.current, editInputRef.current] = [selectedEditShortcut.current?.key,null,null];
+    }
+
+    function editAndUpdateShortcut() {
+        const updatedShortcut = {
+            ...selectedEditShortcut.current,
+            key,
+            url: urlKey,
+            modifiedTime: Date.now(),
+            target: target
+        }
+        updateShortcut(updatedShortcut,true).then((updatedValues) => {
+            message.success("Shortcuts updated", 2).then();
+            return handlePostEdits(updatedValues);
+        }).catch(err => {
+            setEditMode(true)
+            message.error(err, 3).then()
+        });
+        setEditMode(false);
+        return
     }
 
     function initSaveShortcut() {
         if (editMode) {
-            const updatedShortcut = {
-                ...selectedEditShortcut.current,
-                key,
-                url: urlKey,
-                modifiedTime:Date.now()
-            }
-            updateShortcut(updatedShortcut).then((updatedValues)=>{
-                message.success("Shortcuts updated", 2).then();
-                return handlePostEdits(updatedValues);
-            }).catch(err => {
-                setEditMode(true)
-                message.error(err, 3).then()
-            });
-            setEditMode(false);
+            editAndUpdateShortcut();
             return
         }
         const trimmedKey = key.trim();
@@ -93,7 +106,7 @@ export default function CreateShortCut(): React.ReactElement {
                 duration: 0,
             }).then()
 
-            saveShortcut(currentTabData).then(s => {
+            saveShortcut({...currentTabData, target: target}).then(s => {
                 if (setShortcutsInContext != null) {
                     setShortcutsInContext(prev => [...prev, s])
                 }
@@ -123,27 +136,6 @@ export default function CreateShortCut(): React.ReactElement {
         }
     }
 
-    const renderCreateInput = () => (
-        <div className="input-fields">
-            <span>{editMode ? "Edit shortcut" :"/ SPACE"}</span>
-            <input ref={inputRef} value={key} onChange={(e) => {
-                if (setKey != null) {
-                    setKey(e.target.value.trim())
-                }
-            }} id="create-input" type="text" placeholder="Enter a shortcut name" />
-            <label htmlFor="target">
-                <select name="option for page" id="target">
-                    <option value="1">same tab</option>
-                    <option value="2">new tab</option>
-                    <option value="3">new window</option>
-                </select>
-            </label>
-            <Tooltip
-                title={`For quick access to a saved website: Press "/", followed by a space and the shortcut name. Then, hit Enter`}>
-                <img className="help-icon shortcut" src="" alt="" srcSet={helpIcon} />
-            </Tooltip>
-        </div>
-    )
 
 
 
@@ -172,6 +164,16 @@ export default function CreateShortCut(): React.ReactElement {
         <div className={"w-[80%] border-b mb-[0.6rem]"}>
             <Input placeholder="Enter Url" variant="borderless" onChange={changeUrl} value={editMode ? urlKey : url}/>
         </div>
+        <p className={'flex justify-between gap-1'}>
+            <input id={"open-in-previous-tab"} checked={target == UrlTarget.IN_EXISTING_TAB} onChange={event => {
+                if (event.target.checked) {
+                    setTarget(UrlTarget.IN_EXISTING_TAB)
+                } else {
+                    setTarget(UrlTarget.NEW_TAB)
+                }
+            }} type={"checkbox"}/>
+            <label htmlFor={"open-in-previous-tab"}>Open in already opened tab</label>
+        </p>
         <div className="button-fields" onClick={initSaveShortcut}>
             <button className="button" id="saveButton">Save</button>
         </div>

@@ -6,7 +6,7 @@ import emptyIcon from "/resources/icons/empty.svg";
 import {Popover} from "antd";
 import {Shortcuts, View} from "../../@types/shortcuts";
 import {openTarget} from "../../utils/utils";
-import { deleteShortcut } from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
+import {deleteShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 
 type RenderShortcut = {
     shortCut: Shortcuts;
@@ -23,8 +23,8 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
     const [editMode, setEditMode] = isEditable;
     const [_shortcutkey, setShortcutKey] = shortcutKeyInput
 
-    function onclick() {
-        openTarget(shortCut)
+    async function onclick() {
+        await openTarget(shortCut)
     }
 
     function handleEdit() {
@@ -39,16 +39,15 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
     }
 
     function handleDelete() {
-        deleteShortcut(shortCut.key).then((r) => {
-            console.log(r, "deleted")
+        deleteShortcut(shortCut.key).then(() => {
             if (setShortCuts != null) {
                 setShortCuts(prev => prev.filter(obj => obj.key !== shortCut.key))
             }
         })
     }
 
-    function handleOpen() {
-        openTarget(shortCut, 1)
+    async function handleOpen() {
+        await openTarget(shortCut, 1)
     }
 
     const popoverContent = () => (

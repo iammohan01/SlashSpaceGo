@@ -6,11 +6,8 @@ export default async function fetchAllShortcuts() {
         chrome.storage.local.get(["shortcuts"])
             .then(data => {
                 if (data['shortcuts']) {
-                    console.log("no of shortcuts : ", data["shortcuts"].length)
                     resolve(data['shortcuts'])
                 } else {
-                    console.log("fetched data :", data)
-                    console.error("Some thing went wrong while getting shortcuts from chrome.storage, but returning empty array")
                     resolve([])
                 }
             })
@@ -51,7 +48,6 @@ export function deleteShortcut(key: string) {
             const updatedShortcuts = data.filter((shortcut) => shortcut.key !== key)
             if (data.length === updatedShortcuts.length) {
                 const errorMessage = "Shortcut key not found"
-                console.error(errorMessage, key)
                 reject(errorMessage)
             } else {
                 chrome.storage.local.set({"shortcuts": updatedShortcuts})
@@ -69,24 +65,20 @@ export function deleteShortcut(key: string) {
 }
 
 export async function updateInvoke(data: Shortcuts) {
-    console.log("update invoke for ", data)
-    await updateShortcut(data)
+    await updateShortcut(data, true)
 }
 
-export async function updateShortcut(data: Shortcuts) {
-    return new Promise<void>((resolve, reject) => {
+export async function updateShortcut(data: Shortcuts, updateInvokeOnly = false) {
+    const shortcuts = await fetchAllShortcuts();
 
-    fetchAllShortcuts().then((shortcuts = []) => {
-        if (shortcuts.filter(shortcut => shortcut.key.toLowerCase() === data.key.toLowerCase()).length > 0) {
-            reject("Key already exists");
-            return
-        }
-        const updatedShortcuts = shortcuts.map((shortcut) => shortcut.id === data.id ? data : shortcut)
-        chrome.storage.local.set({"shortcuts": updatedShortcuts}).then(() => {
-            resolve(updatedShortcuts);
-        })
-        console.log("updatedShortcuts", updatedShortcuts)
-    })
-})
+    if (!updateInvokeOnly && shortcuts.some(shortcut => shortcut.key.toLowerCase() === data.key.toLowerCase())) {
+        throw new Error("Key already exists");
+    }
+
+    const updatedShortcuts = shortcuts.map(shortcut => shortcut.id === data.id ? data : shortcut);
+
+    await chrome.storage.local.set({"shortcuts": updatedShortcuts});
+
+    return updatedShortcuts;
 }
 

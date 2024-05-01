@@ -16,7 +16,7 @@ interface PopupContextType {
     expanderInput: [string, React.Dispatch<React.SetStateAction<string>> | null];
     isEditable: [boolean, React.Dispatch<React.SetStateAction<boolean>> | null];
     forceUpdate: React.DispatchWithoutAction;
-    selectedEditShortcut: React.MutableRefObject<HTMLInputElement>;
+    selectedEditShortcut: React.MutableRefObject<Shortcuts>;
     urlEditInput: [string, React.Dispatch<React.SetStateAction<string>> | null];
 }
 
@@ -42,7 +42,7 @@ export function ContextProvider({children}: Props) {
     const [expanderKey, setExpanderKey] = useState<string>("")
     const [expanderInput, setExpanderInput] = useState<string>("")
     const [editMode, setEditMode] = useState<boolean>(false);
-    const selectedEditShortcut = useRef<HTMLInputElement>(null);
+    const selectedEditShortcut = useRef<Shortcuts>(null);
     const [urlKey, setUrlKey] = useState<string>(null)
     const [, forceUpdate] = useReducer((x: number) => x + 1, 0);
 

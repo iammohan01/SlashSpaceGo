@@ -2,7 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+*::-webkit-scrollbar {
+    display: none;
+}
 * {
     @apply box-border m-0 p-0;
     font-family: Poppins, sans-serif;

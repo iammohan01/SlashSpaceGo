@@ -16,8 +16,6 @@ export function saveExpander(key: string, value: string) {
         modifiedTime: Date.now(),
     } as Expanders
 
-    console.log(newData)
-
     return new Promise((resolve, reject) => {
         fetchAllExpanders().then(data => {
             for (const expander of data) {
@@ -45,7 +43,6 @@ export async function fetchAllExpanders(): Promise<Expanders[]> {
             if (data['expanders']) {
                 resolve(data['expanders'])
             } else {
-                console.log("fetched data :", data)
                 console.error("Some thing went wrong while getting expanders from chrome.storage, but returning empty array")
                 resolve([])
             }
