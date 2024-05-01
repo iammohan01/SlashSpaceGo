@@ -15,6 +15,7 @@ type UserTabData = {
     modifiedTime: number
     title: string | undefined;
     url: string | undefined;
+    target  : UrlTarget
 }
 
 enum UrlTarget {
