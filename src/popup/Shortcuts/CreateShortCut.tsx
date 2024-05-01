@@ -23,6 +23,7 @@ export default function CreateShortCut(): React.ReactElement {
     const [currentTabData, setCurrentTabData] = useState<UserTabData>();
 
     useEffect(() => {
+        // to focus input element on popup open
         inputRef?.current?.focus()
         generateCurrentTabData(key, target).then(currentTabData => {
             setCurrentTabData(currentTabData)
@@ -32,9 +33,13 @@ export default function CreateShortCut(): React.ReactElement {
             message.error("Something went wrong while fetching current tab data", 3)
                 .then()
         })
-    });
+    },[]);
+
     useEffect(() => {
-        setTarget(selectedEditShortcut?.current?.target)
+        //by default this will be trigger, in that this will set target to undefined so that's the reason for this condition check
+        if(selectedEditShortcut?.current?.target){
+            setTarget(selectedEditShortcut?.current?.target);
+        }
     }, [editMode, selectedEditShortcut])
 
 
@@ -47,6 +52,7 @@ export default function CreateShortCut(): React.ReactElement {
             })
         }
     }, [url, key, target]);
+
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             initSaveShortcut()
