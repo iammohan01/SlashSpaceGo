@@ -13,7 +13,7 @@ export default function CreateShortCut(): React.ReactElement {
     const [key, setKey] = shortcutKeyInput
     const [editMode, setEditMode] = isEditable;
     const [urlKey,setUrlKey] = urlEditInput
-    const [target, setTarget] = useState<UrlTarget>(UrlTarget.SAME_TAB)
+    const [target, setTarget] = useState<UrlTarget>(UrlTarget.IN_EXISTING_TAB)
     const [showToast, ___] = useState<React.ReactElement>(<></>)
     const [messageApi, contextHolder] = message.useMessage();
     const inputRef = useRef<HTMLInputElement>(null);
