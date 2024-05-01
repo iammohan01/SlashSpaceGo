@@ -27,7 +27,6 @@ export default function CreateShortCut(): React.ReactElement {
         generateCurrentTabData(key, target).then(currentTabData => {
             setCurrentTabData(currentTabData)
             setUrl(currentTabData.url)
-            console.log(currentTabData)
         }).catch((err) => {
             console.error(err)
             message.error("Something went wrong while fetching current tab data", 3)
