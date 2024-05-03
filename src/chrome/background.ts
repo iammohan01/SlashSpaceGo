@@ -1,6 +1,6 @@
 import fetchAllShortcuts from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 import {fetchAllExpanders} from "../Models/SlashSpaceGo/TextExpander/TextExpanderUtils";
-import {Shortcuts} from "../@types/shortcuts";
+import {Shortcuts, UrlTarget} from "../@types/shortcuts";
 import {openTarget} from "../utils/utils";
 import {request, RequestEvent} from "../@types/background";
 
@@ -16,7 +16,6 @@ chrome.omnibox.onInputChanged.addListener((text = "", suggest) => {
     shortcuts.forEach((props) => {
         const key: string = props.key
         if (key.includes(text.toLowerCase()) || props.url?.includes(text.toLowerCase())) {
-            console.log(props)
             const suggestion = {
                 content: key,
                 description: key
@@ -24,7 +23,6 @@ chrome.omnibox.onInputChanged.addListener((text = "", suggest) => {
             suggestEntries.push(suggestion)
         }
     })
-    console.log(suggestEntries)
     suggest(suggestEntries);
 })
 
@@ -37,8 +35,14 @@ chrome.omnibox.onInputEntered.addListener(query => {
     }
     if (shortcuts) {
         shortcuts.forEach(shortcut => {
-            if (shortcut.key === query) {
-                openTarget(shortcut)
+            // here we should split input and and that splited string len must be 2 and 1 index must be number and eiter 0 or 1
+            const searchInputs = query.split(" ").filter(a=>!!a) // [ssg , 1] [ssg]
+            if (searchInputs.length === 1 && shortcut.key === searchInputs[0]) {
+                // open in the configured target
+                openTarget(shortcut).then();
+            } else if (shortcut.key === searchInputs[0]) {
+                // open in new tab
+                openTarget(shortcut, searchInputs.length == 2 && searchInputs[1] === "1" ? UrlTarget.NEW_TAB : undefined).then();
             }
         })
     }
