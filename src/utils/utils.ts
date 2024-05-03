@@ -29,13 +29,20 @@ export async function openTarget(shortcut: Shortcuts, target: UrlTarget = UrlTar
         target = shortcut.target
     }
     await updateInvoke(shortcut)
+    const tabs = await getCurrentActiveTab();
+    const activeTab = tabs[0];
     if (target === UrlTarget.SAME_TAB) {
-        const tabs = await getCurrentActiveTab();
-        const activeTab = tabs[0];
         if (activeTab?.id) {
             await goToUrl(activeTab.id, shortcut.url);
         }
     } else if (target === UrlTarget.NEW_TAB) {
+        // check that current tab is empty
+        if (activeTab.url.trim() === "chrome://newtab/") {
+            if (activeTab?.id) {
+                await goToUrl(activeTab.id, shortcut.url);
+                return
+            }
+        }
         await chrome.tabs.create({url: shortcut.url});
     } else if (target === UrlTarget.NEW_WINDOW) {
         const window = await createNewWindow();
@@ -49,9 +56,13 @@ export async function openTarget(shortcut: Shortcuts, target: UrlTarget = UrlTar
 
         if (existingTab) {
             await goToUrl(existingTab.id, null);
-        } else {
-            await chrome.tabs.create({url: shortcut.url});
+        } else if (activeTab.url.trim() === "chrome://newtab/") {
+            if (activeTab?.id) {
+                await goToUrl(activeTab.id, shortcut.url);
+                return
+            }
         }
+        await chrome.tabs.create({url: shortcut.url});
     }
 }
 
