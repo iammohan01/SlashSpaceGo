@@ -1,4 +1,5 @@
 import {Shortcuts, UserTabData} from "../../../@types/shortcuts";
+import {forbiddenUrl} from "../../../utils/utils.ts";
 
 export default async function fetchAllShortcuts() {
 
