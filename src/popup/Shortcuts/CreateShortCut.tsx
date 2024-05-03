@@ -112,8 +112,8 @@ export default function CreateShortCut(): React.ReactElement {
                 }
                 message.success("saved", 2).then()
             })
-                .catch(() => {
-                    message.error("Shortcut Already Used", 3).then()
+                .catch((e) => {
+                    message.error(e,3).then()
                 }).finally(() => {
                 messageApi.destroy()
             })

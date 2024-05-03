@@ -16,12 +16,13 @@ export default async function fetchAllShortcuts() {
 
 export function saveShortcut(userData: UserTabData): Promise<Shortcuts> {
     return new Promise((resolve, reject) => {
+        if(forbiddenUrl.includes(userData.url)){
+            reject("can't store empty tabs")
+        }
         fetchAllShortcuts().then((data = []) => {
-            console.log(data)
             for (const shortcut of data) {
                 if (shortcut.key === userData.key) {
                     const err = "Shortcut key already used"
-                    console.error(err)
                     reject(err)
                     return
                 }
