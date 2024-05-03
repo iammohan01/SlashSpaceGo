@@ -56,6 +56,7 @@ export async function openTarget(shortcut: Shortcuts, target: UrlTarget = UrlTar
 
         if (existingTab) {
             await goToUrl(existingTab.id, null);
+            return
         } else if (activeTab.url.trim() === "chrome://newtab/") {
             if (activeTab?.id) {
                 await goToUrl(activeTab.id, shortcut.url);
