@@ -23,10 +23,6 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
     const [editMode, setEditMode] = isEditable;
     const [_shortcutkey, setShortcutKey] = shortcutKeyInput
 
-    async function onclick() {
-        await openTarget(shortCut)
-    }
-
     function handleEdit() {
         if(editMode){
             setEditMode(()=>false)
@@ -47,7 +43,7 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
     }
 
     async function handleOpen() {
-        await openTarget(shortCut, 1)
+        await openTarget(shortCut, shortCut.target)
     }
 
     const popoverContent = () => (
@@ -80,12 +76,13 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
                 }}>
                 <a onClick={handleEdit}>Edit</a>
                 <a onClick={handleDelete}>Delete</a>
-                <a onClick={handleOpen}>open</a>
+                {/*commented this since it duplicates same functionality for onclick*/}
+                {/*<a onClick={handleOpen}>Open in new Tab</a>*/}
             </div>
         </div>
     )
 
-    const children = <div onClick={onclick} draggable="true" className={layoutCtx === View.GRID ? "grid" : "list"}>
+    const children = <div onClick={handleOpen} draggable="true" className={layoutCtx === View.GRID ? "grid" : "list"}>
         {layoutCtx === View.GRID && index < 10 && <div className="keyShortcut">
             <img
                 src={isMacOs ? metaIcon : ctrlIcon}
