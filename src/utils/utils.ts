@@ -108,3 +108,6 @@ export function copyTextToClipboard(text: string) {
     //other elements can get access to this.
     document.body.removeChild(copyFrom);
 }
+
+
+export const forbiddenUrl = ["chrome://newtab/","chrome://newtab"];
