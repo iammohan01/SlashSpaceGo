@@ -8,7 +8,14 @@ import {saveShortcut, updateShortcut} from "../../Models/SlashSpaceGo/Shortcuts/
 
 export default function CreateShortCut(): React.ReactElement {
 
-    const { shortCuts, shortcutKeyInput, isEditable, selectedEditShortcut, urlEditInput, forceUpdate } = useContext(PopupContext)
+    const {
+        shortCuts,
+        shortcutKeyInput,
+        isEditable,
+        selectedEditShortcut,
+        urlEditInput,
+        forceUpdate
+    } = useContext(PopupContext)
     const [_, setShortcutsInContext] = shortCuts
     const [key, setKey] = shortcutKeyInput
     const [editMode, setEditMode] = isEditable;
