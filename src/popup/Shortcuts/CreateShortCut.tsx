@@ -19,7 +19,7 @@ export default function CreateShortCut(): React.ReactElement {
     const [_, setShortcutsInContext] = shortCuts
     const [key, setKey] = shortcutKeyInput
     const [editMode, setEditMode] = isEditable;
-    const [urlKey,setUrlKey] = urlEditInput
+    const [urlKey, setUrlKey] = urlEditInput
     const [target, setTarget] = useState<UrlTarget>(UrlTarget.IN_EXISTING_TAB)
     const [showToast, ___] = useState<React.ReactElement>(<></>)
     const [messageApi, contextHolder] = message.useMessage();
@@ -30,7 +30,7 @@ export default function CreateShortCut(): React.ReactElement {
     const [currentTabData, setCurrentTabData] = useState<UserTabData>();
 
     useEffect(() => {
-        // to focus input element on popup open
+        // to focus an input element on popup open
         inputRef?.current?.focus()
         generateCurrentTabData(key, target).then(currentTabData => {
             setCurrentTabData(currentTabData)
@@ -40,11 +40,12 @@ export default function CreateShortCut(): React.ReactElement {
             message.error("Something went wrong while fetching current tab data", 3)
                 .then()
         })
-    },[]);
+    }, []);
 
     useEffect(() => {
-        //by default this will be trigger, in that this will set target to undefined so that's the reason for this condition check
-        if(selectedEditShortcut?.current?.target){
+        //by default, this will be trigger,
+        //in that this will set target to undefined so that's the reason for this condition check
+        if (selectedEditShortcut?.current?.target) {
             setTarget(selectedEditShortcut?.current?.target);
         }
     }, [editMode, selectedEditShortcut])
@@ -66,16 +67,16 @@ export default function CreateShortCut(): React.ReactElement {
         }
     };
 
-    const handleOnchange = (e)=>{
+    const handleOnchange = (e) => {
         setUrlKey(e.target.value.trim())
     }
 
-    const handlePostEdits = (shortCuts)=>{
+    const handlePostEdits = (shortCuts) => {
         forceUpdate();
         setUrlKey("");
         setKey("");
         if (setShortcutsInContext != null) {
-            console.log( shortCuts,"New shortCuts");
+            console.log(shortCuts, "New shortCuts");
             setShortcutsInContext(shortCuts)
         }
         // [inputRef.current, selectedEditShortcut.current, editInputRef.current] = [selectedEditShortcut.current?.key,null,null];
@@ -89,7 +90,7 @@ export default function CreateShortCut(): React.ReactElement {
             modifiedTime: Date.now(),
             target: target
         }
-        updateShortcut(updatedShortcut,true).then((updatedValues) => {
+        updateShortcut(updatedShortcut, true).then((updatedValues) => {
             message.success("Shortcuts updated", 2).then();
             return handlePostEdits(updatedValues);
         }).catch(err => {
@@ -120,7 +121,7 @@ export default function CreateShortCut(): React.ReactElement {
                 message.success("saved", 2).then()
             })
                 .catch((e) => {
-                    message.error(e,3).then()
+                    message.error(e, 3).then()
                 }).finally(() => {
                 messageApi.destroy()
             })
