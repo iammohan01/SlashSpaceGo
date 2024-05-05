@@ -3,9 +3,30 @@ import {fetchAllExpanders} from "../Models/SlashSpaceGo/TextExpander/TextExpande
 import {Shortcuts, UrlTarget} from "../@types/shortcuts";
 import {openTarget} from "../utils/utils";
 import {request, RequestEvent} from "../@types/background";
+import {Logger} from "tslog";
+
+export const logger = new Logger({name: "ssg"});
+
+logger.attachTransport((logObj) => {
+    insertLogs(logObj)
+});
+
 
 let shortcuts: Shortcuts[] = []
 
+const logs = [];
+
+function insertLogs(log) {
+    if (logs.length >= 100) {
+        logs.shift()
+    }
+    logs.push(log)
+}
+
+export function getLogs() {
+    console.log(logs)
+    return logs;
+}
 chrome.omnibox.onInputStarted.addListener(() => {
     fetchAllShortcuts().then(fetchedData => {
         shortcuts = fetchedData
