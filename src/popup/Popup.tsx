@@ -5,8 +5,10 @@ import TextExpander from "./TextExpander/TextExpander";
 import {Radio, RadioChangeEvent} from 'antd';
 import '@fontsource/space-mono/400.css';
 import '@fontsource/space-mono/700.css';
+import {logger} from "../chrome/background.ts";
 
 export default function Popup(): React.ReactElement {
+    logger.trace("popup opened")
     const [view, setView] = useState(Number(localStorage.getItem("view")));
 
     function changeView(e: RadioChangeEvent) {

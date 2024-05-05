@@ -5,6 +5,7 @@ import helpIcon from "/resources/icons/Help.svg"
 import {UrlTarget, UserTabData} from "../../@types/shortcuts";
 import {generateCurrentTabData} from "../../utils/utils";
 import {saveShortcut, updateShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
+import {logger} from "../../chrome/background.ts";
 
 export default function CreateShortCut(): React.ReactElement {
 
@@ -32,12 +33,12 @@ export default function CreateShortCut(): React.ReactElement {
     useEffect(() => {
         // to focus an input element on popup open
         inputRef?.current?.focus()
-        generateCurrentTabData(key, target).then(currentTabData => {
         generateCurrentTabData().then(currentTabData => {
+            logger.info("generated current tab data", currentTabData);
             setCurrentTabData(currentTabData)
             setUrl(currentTabData.url)
         }).catch((err) => {
-            console.error(err)
+            logger.error(err)
             message.error("Something went wrong while fetching current tab data", 3)
                 .then()
         })
@@ -53,6 +54,7 @@ export default function CreateShortCut(): React.ReactElement {
 
 
     useEffect(() => {
+        logger.info(`url=> ${url}, key=> ${key}, target=> ${target} some thing changed`)
         if (currentTabData) {
             setCurrentTabData(val => {
                 val.url = url
@@ -145,7 +147,7 @@ export default function CreateShortCut(): React.ReactElement {
         }
     }
 
-
+    logger.trace("create shortcut re-rendered");
 
 
     return <div tabIndex={-1} onKeyDown={handleKeyDown} className="create-shortcut-wrapper">
