@@ -2,7 +2,7 @@ import {Input, message, Tooltip} from "antd";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import PopupContext from "../../context/PopupContext.tsx";
 import helpIcon from "/resources/icons/Help.svg"
-import {UrlTarget, UserTabData} from "../../@types/shortcuts";
+import {Shortcuts, UrlTarget, UserTabData} from "../../@types/shortcuts";
 import {generateCurrentTabData} from "../../utils/utils";
 import {saveShortcut, updateShortcut} from "../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 import {logger} from "../../chrome/background.ts";
@@ -74,7 +74,7 @@ export default function CreateShortCut(): React.ReactElement {
         setUrlKey(e.target.value.trim())
     }
 
-    const handlePostEdits = (shortCuts) => {
+    const handlePostEdits = (shortCuts: React.SetStateAction<Shortcuts[]>) => {
         forceUpdate();
         setUrlKey("");
         setKey("");
