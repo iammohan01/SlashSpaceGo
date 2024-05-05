@@ -67,7 +67,7 @@ export async function openTarget(shortcut: Shortcuts, target: UrlTarget = UrlTar
     }
 }
 
-export async function generateCurrentTabData(key: string, target: UrlTarget): Promise<UserTabData> {
+export async function generateCurrentTabData(key?: string, target?: UrlTarget): Promise<UserTabData> {
     return getActiveTab().then(currentTab => {
         return {
             createdTime: Date.now(),
@@ -80,6 +80,8 @@ export async function generateCurrentTabData(key: string, target: UrlTarget): Pr
             title: currentTab[0].title,
             url: currentTab[0].url
         }
+    }).catch(e => {
+        return e
     })
 
 }

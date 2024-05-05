@@ -33,6 +33,7 @@ export default function CreateShortCut(): React.ReactElement {
         // to focus an input element on popup open
         inputRef?.current?.focus()
         generateCurrentTabData(key, target).then(currentTabData => {
+        generateCurrentTabData().then(currentTabData => {
             setCurrentTabData(currentTabData)
             setUrl(currentTabData.url)
         }).catch((err) => {
@@ -59,7 +60,7 @@ export default function CreateShortCut(): React.ReactElement {
                 return val
             })
         }
-    }, [url, key, target]);
+    }, [url, key, target, currentTabData]);
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
