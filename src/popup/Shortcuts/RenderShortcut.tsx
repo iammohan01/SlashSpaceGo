@@ -91,11 +91,23 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
             {index}
         </div>}
         {layoutCtx === View.GRID &&
-            <img style={{width: 14, aspectRatio: "1/1"}} src={shortCut.favIconUrl || emptyIcon} alt={"fav icon"}/>}
+            <img style={{width: 14, aspectRatio: "1/1"}}
+                 loading="lazy" src={shortCut.favIconUrl || emptyIcon}
+                 onError={(({currentTarget}) => {
+                     currentTarget.onerror = null; // prevents looping
+                     currentTarget.src = emptyIcon;
+                 })} alt={"icon"}/>}
         {layoutCtx === View.GRID && (shortCut.key.slice(0, 6))}
         {layoutCtx === View.GRID && shortCut.key.length > 6 && "..."}
-        {layoutCtx === View.LIST && <h6><img style={{width: 14, aspectRatio: "1/1"}}
-        src={shortCut.favIconUrl || emptyIcon} alt={""}/> {index} . {shortCut.key}
+        {layoutCtx === View.LIST && <h6>
+            <img style={{width: 14, aspectRatio: "1/1"}}
+                 loading="lazy"
+                 src={shortCut.favIconUrl || emptyIcon}
+                 onError={(({currentTarget}) => {
+                     currentTarget.onerror = null; // prevents looping
+                     currentTarget.src = emptyIcon;
+                 })}
+                 alt={"icon"}/> {index} . {shortCut.key}
         </h6>}
         {layoutCtx === View.LIST && <p className={"url"}>{shortCut.url} </p>}
     </div>
