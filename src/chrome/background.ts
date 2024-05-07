@@ -1,45 +1,57 @@
 import fetchAllShortcuts from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils";
 import {fetchAllExpanders} from "../Models/SlashSpaceGo/TextExpander/TextExpanderUtils";
-import {Shortcuts, UrlTarget} from "../@types/shortcuts";
-import {openTarget} from "../utils/utils";
+import {Shortcuts} from "../@types/shortcuts";
+import {openShortcut} from "../utils/utils";
 import {request, RequestEvent} from "../@types/background";
 import {Logger} from "tslog";
 
-export const logger = new Logger({name: "ssg"});
-
-logger.attachTransport((logObj) => {
+export const mainLogger = new Logger({name: "ssg", type: "pretty"});
+const logger = mainLogger.getSubLogger({name: "background.ts"})
+mainLogger.attachTransport((logObj) => {
     insertLogs(logObj)
 });
 
 
-let shortcuts: Shortcuts[] = []
+export let shortcuts: Shortcuts[] = []
 
 const logs = [];
-
+let logId = 0;
 function insertLogs(log) {
     if (logs.length >= 100) {
         logs.shift()
     }
+    delete log._meta.runtime
+    delete log._meta.logLevelId
+    delete log._meta.path
+    delete log._meta.browser
+    log.id = logId++
     logs.push(log)
 }
 
 export function getLogs() {
-    console.log(logs)
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logs));
+    const dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", "slash_space_go_logs.json");
+    chrome.tabs.create({url: dataStr});
+    dlAnchorElem.click();
     return logs;
 }
 chrome.omnibox.onInputStarted.addListener(() => {
+    logger.info("omnibox.onInputStarted");
     fetchAllShortcuts().then(fetchedData => {
+        logger.info("fetchedShortcuts", fetchedData)
         shortcuts = fetchedData
     })
 })
 chrome.omnibox.onInputChanged.addListener((text = "", suggest) => {
-    const suggestEntries: { content: string; description: string; }[] = []
+    const suggestEntries: chrome.omnibox.SuggestResult[] = []
     shortcuts.forEach((props) => {
         const key: string = props.key
         if (key.includes(text.toLowerCase()) || props.url?.includes(text.toLowerCase())) {
             const suggestion = {
                 content: key,
-                description: key
+                description: key,
             }
             suggestEntries.push(suggestion)
         }
@@ -49,24 +61,7 @@ chrome.omnibox.onInputChanged.addListener((text = "", suggest) => {
 
 
 chrome.omnibox.onInputEntered.addListener(query => {
-    if (!shortcuts) {
-        fetchAllShortcuts().then(fetchedData => {
-            shortcuts = fetchedData
-        })
-    }
-    if (shortcuts) {
-        shortcuts.forEach(shortcut => {
-            // here we should split input and and that splited string len must be 2 and 1 index must be number and eiter 0 or 1
-            const searchInputs = query.split(" ").filter(a=>!!a) // [ssg , 1] [ssg]
-            if (searchInputs.length === 1 && shortcut.key === searchInputs[0]) {
-                // open in the configured target
-                openTarget(shortcut).then();
-            } else if (shortcut.key === searchInputs[0]) {
-                // open in new tab
-                openTarget(shortcut, searchInputs.length == 2 && searchInputs[1] === "1" ? UrlTarget.NEW_TAB : undefined).then();
-            }
-        })
-    }
+    openShortcut(query)
 })
 
 
