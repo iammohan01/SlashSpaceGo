@@ -42,7 +42,8 @@ body {
     @apply w-full h-full;
 }
 .monospace {
-    font-family: Space Mono, monospace;
+    font-family: Space Mono,
+    monospace;
 }
 .rotate {
     @apply duration-[0.25s] ease-[ease-in-out];
@@ -58,8 +59,14 @@ body {
     @apply appearance-none bg-[#fafbfc] border shadow-[#1b1f230a_0_1px,#ffffff40_0_1px_inset] box-border text-[#24292e] cursor-pointer inline-block text-sm font-medium leading-5 relative transition-[background-color] duration-[0.2s] ease-[cubic-bezier(.3,0,0.5,1)] select-none touch-manipulation align-middle whitespace-nowrap px-4 py-1.5 rounded-md border-solid border-[rgba(27,31,35,0.15)] hover:bg-gray-100 hover:no-underline hover:duration-[0.1s] disabled:bg-[#fafbfc] disabled:text-[#959da5] disabled:cursor-default disabled:border-[#1b1f2326] active:bg-[#edeff2] active:shadow-[#e1e4e833_0_1px_inset] active:transition-none active:duration-[0s] before:hidden;
     -webkit-appearance: none;
     -moz-appearance: none;
-    font-family: -apple-system, system-ui, Segoe UI, Helvetica, Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji";
+    font-family: -apple-system,
+    system-ui,
+    Segoe UI,
+    Helvetica,
+    Arial,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji';
     list-style: none;
     -webkit-user-select: none;
     word-wrap: break-word;

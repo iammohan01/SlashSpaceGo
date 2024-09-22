@@ -1,86 +1,99 @@
-import {Shortcuts, UserTabData} from "../../../@types/shortcuts";
-import {forbiddenUrl} from "../../../utils/utils.ts";
+import {Shortcuts, UserTabData} from '../../../@types/shortcuts';
+import {forbiddenUrl} from '../../../utils/utils.ts';
 
 export default async function fetchAllShortcuts() {
-
     return new Promise<Shortcuts[]>((resolve) => {
-        chrome.storage.local.get(["shortcuts"])
-            .then(data => {
-                if (data['shortcuts']) {
-                    resolve(data['shortcuts'])
-                } else {
-                    resolve([])
-                }
-            })
-    })
+        chrome.storage.local.get(['shortcuts']).then((data) => {
+            if (data['shortcuts']) {
+                resolve(data['shortcuts']);
+            } else {
+                resolve([]);
+            }
+        });
+    });
 }
 
 export function saveShortcut(userData: UserTabData): Promise<Shortcuts> {
     return new Promise((resolve, reject) => {
-        if(forbiddenUrl.includes(userData.url)){
-            reject("can't store empty tabs")
+        if (forbiddenUrl.includes(userData.url)) {
+            reject("can't store empty tabs");
         }
         fetchAllShortcuts().then((data = []) => {
             for (const shortcut of data) {
                 if (shortcut.key === userData.key) {
-                    const err = "Shortcut key already used"
-                    reject(err)
-                    return
+                    const err = 'Shortcut key already used';
+                    reject(err);
+                    return;
                 }
             }
-            chrome.storage.local.set({"shortcuts": [...data, userData]})
+            chrome.storage.local
+                .set({shortcuts: [...data, userData]})
                 .then(() => {
-                    resolve(userData as unknown as Shortcuts)
+                    resolve(userData as unknown as Shortcuts);
                 })
                 .catch((err) => {
-                    const errorMessage = "Some thing went wrong while adding shortcuts"
-                    console.error(errorMessage, err)
-                    reject(errorMessage)
-                })
-
-        })
-    })
-
+                    const errorMessage =
+                        'Some thing went wrong while adding shortcuts';
+                    console.error(errorMessage, err);
+                    reject(errorMessage);
+                });
+        });
+    });
 }
 
 export function deleteShortcut(key: string) {
-    console.log("delete", key)
+    console.log('delete', key);
     return new Promise((resolve, reject) => {
         fetchAllShortcuts().then((data = []) => {
-            const updatedShortcuts = data.filter((shortcut) => shortcut.key !== key)
+            const updatedShortcuts = data.filter(
+                (shortcut) => shortcut.key !== key
+            );
             if (data.length === updatedShortcuts.length) {
-                const errorMessage = "Shortcut key not found"
-                reject(errorMessage)
+                const errorMessage = 'Shortcut key not found';
+                reject(errorMessage);
             } else {
-                chrome.storage.local.set({"shortcuts": updatedShortcuts})
+                chrome.storage.local
+                    .set({shortcuts: updatedShortcuts})
                     .then(() => {
-                        resolve(key)
+                        resolve(key);
                     })
-                    .catch(err => {
-                        const errMessage = "something went wrong"
-                        console.error("Error while removing shortcut from storage", err)
-                        reject(errMessage)
-                    })
+                    .catch((err) => {
+                        const errMessage = 'something went wrong';
+                        console.error(
+                            'Error while removing shortcut from storage',
+                            err
+                        );
+                        reject(errMessage);
+                    });
             }
-        })
-    })
+        });
+    });
 }
 
 export async function updateInvoke(data: Shortcuts) {
-    await updateShortcut(data, true)
+    await updateShortcut(data, true);
 }
 
-export async function updateShortcut(data: Shortcuts, updateInvokeOnly = false) {
+export async function updateShortcut(
+    data: Shortcuts,
+    updateInvokeOnly = false
+) {
     const shortcuts = await fetchAllShortcuts();
 
-    if (!updateInvokeOnly && shortcuts.some(shortcut => shortcut.key.toLowerCase() === data.key.toLowerCase())) {
-        throw new Error("Key already exists");
+    if (
+        !updateInvokeOnly &&
+        shortcuts.some(
+            (shortcut) => shortcut.key.toLowerCase() === data.key.toLowerCase()
+        )
+    ) {
+        throw new Error('Key already exists');
     }
 
-    const updatedShortcuts = shortcuts.map(shortcut => shortcut.id === data.id ? data : shortcut);
+    const updatedShortcuts = shortcuts.map((shortcut) =>
+        shortcut.id === data.id ? data : shortcut
+    );
 
-    await chrome.storage.local.set({"shortcuts": updatedShortcuts});
+    await chrome.storage.local.set({shortcuts: updatedShortcuts});
 
     return updatedShortcuts;
 }
-

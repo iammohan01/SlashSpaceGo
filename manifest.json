@@ -1,33 +1,44 @@
 {
-  "manifest_version": 3,
-  "name": "Slash Space Go",
-  "version": "0.1",
-  "description": "Slash, Space, and Go - that's all it takes! With our extension, assign unique shortcuts to your favorite websites.",
-  "permissions": ["contextMenus", "storage", "unlimitedStorage","tabs", "activeTab", "notifications","bookmarks","contextMenus"],
-  "action": {
-    "default_popup": "popup.html"
-  },
-  "background": {
-    "service_worker": "src/chrome/background.ts",
-    "type": "module"
-  },
-  "omnibox": {
-    "keyword": "/"
-  },
-  "content_scripts": [
-    {
-      "all_frames": true,
-      "matches": ["<all_urls>"],
-      "js": [
-        "src/chrome/content_script.ts"
-      ],
-      "run_at": "document_idle"
+    "manifest_version": 3,
+    "name": "Slash Space Go",
+    "version": "0.1",
+    "description": "Slash, Space, and Go - that's all it takes! With our extension, assign unique shortcuts to your favorite websites.",
+    "permissions": [
+        "contextMenus",
+        "storage",
+        "unlimitedStorage",
+        "tabs",
+        "activeTab",
+        "notifications",
+        "bookmarks",
+        "contextMenus"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "service_worker": "src/chrome/background.ts",
+        "type": "module"
+    },
+    "omnibox": {
+        "keyword": "/"
+    },
+    "content_scripts": [
+        {
+            "all_frames": true,
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "src/chrome/content_script.ts"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "icons": {
+        "16": "icons/16_16.png",
+        "32": "icons/32_32.png",
+        "48": "icons/48_48.png",
+        "128": "icons/128_128.png"
     }
-  ],
-  "icons": {
-    "16": "icons/16_16.png",
-    "32": "icons/32_32.png",
-    "48": "icons/48_48.png",
-    "128": "icons/128_128.png"
-  }
 }

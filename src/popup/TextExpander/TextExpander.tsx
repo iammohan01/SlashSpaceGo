@@ -1,5 +1,5 @@
-import CreateExpander from "./CreateExpander";
-import {ViewExpanders} from "./ViewExpanders";
+import CreateExpander from './CreateExpander';
+import {ViewExpanders} from './ViewExpanders';
 
 export default function TextExpander() {
     return (
@@ -7,5 +7,5 @@ export default function TextExpander() {
             <CreateExpander/>
             <ViewExpanders/>
         </>
-    )
+    );
 }

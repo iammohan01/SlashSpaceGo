@@ -1,13 +1,18 @@
 import {Menu} from 'antd';
-import {useContext} from "react";
-import context from "../context/context";
+import {useContext} from 'react';
+import context from '../context/context';
 
 export default function RenderSettingMenu() {
+    const {settingsMenu} = useContext(context);
+    const [_, changeSetting] = settingsMenu;
 
-    const {settingsMenu} = useContext(context)
-    const [_, changeSetting] = settingsMenu
-
-    function getItem(label: string, key: number, icon?: undefined, children?: undefined, type?: undefined) {
+    function getItem(
+        label: string,
+        key: number,
+        icon?: undefined,
+        children?: undefined,
+        type?: undefined
+    ) {
         return {key, icon, children, label, type};
     }
 
@@ -24,16 +29,15 @@ export default function RenderSettingMenu() {
                 defaultOpenKeys={['sub1']}
                 mode="inline"
                 onClick={(e) => {
-                    changeSetting(Number(e.key))
+                    changeSetting(Number(e.key));
                 }}
-                style={
-                    {
-                        width: 256,
-                        display: "flex",
-                        flexDirection: "column",
-                    }
-                }
+                style={{
+                    width: 256,
+                    display: 'flex',
+                    flexDirection: 'column'
+                }}
                 items={items}
             />
-        </div>)
+        </div>
+    );
 }

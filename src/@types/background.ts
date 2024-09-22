@@ -1,8 +1,8 @@
 type request = {
-    event: RequestEvent
-    action: string
-    key: string
-}
+    event: RequestEvent;
+    action: string;
+    key: string;
+};
 
 enum RequestEvent {
     SHORTCUTS,
@@ -10,5 +10,5 @@ enum RequestEvent {
     SETTINGS
 }
 
-export {RequestEvent}
-export type {request}
+export {RequestEvent};
+export type {request};

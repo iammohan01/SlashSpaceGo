@@ -1,13 +1,10 @@
-import LoadShortcuts from "./LoadShortcuts";
+import LoadShortcuts from './LoadShortcuts';
 
 export default function ShortcutsWrapper() {
     return (
-        <div
-            className={"panel-inner-wrapper"}>
-            <div className={"panel-header"}>
-                <h2>
-                    Saved Shortcuts
-                </h2>
+        <div className={'panel-inner-wrapper'}>
+            <div className={'panel-header'}>
+                <h2>Saved Shortcuts</h2>
             </div>
             <LoadShortcuts/>
         </div>
@@ -16,11 +13,8 @@ export default function ShortcutsWrapper() {
 
 export function Groups() {
     return (
-        <div
-            className={"panel-inner-wrapper"}>
-            <div>
-                Hello2
-            </div>
+        <div className={'panel-inner-wrapper'}>
+            <div>Hello2</div>
         </div>
     );
 }

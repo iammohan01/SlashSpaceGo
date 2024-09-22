@@ -1,43 +1,41 @@
-import PopupContext, {isMacOs} from "../../context/PopupContext.tsx";
-import React, {useContext, useEffect, useState} from "react";
-import {Tooltip} from "antd";
-import {openTarget} from "../../utils/utils.js"
-import listIcon from "/resources/icons/view_list.svg";
-import gridIcon from "/resources/icons/view_grid.svg"
-import RenderShortcut from "./RenderShortcut.js";
-import {Shortcuts, View} from "../../@types/shortcuts";
+import PopupContext, {isMacOs} from '../../context/PopupContext.tsx';
+import React, {useContext, useEffect, useState} from 'react';
+import {Tooltip} from 'antd';
+import {openTarget} from '../../utils/utils.js';
+import listIcon from '/resources/icons/view_list.svg';
+import gridIcon from '/resources/icons/view_grid.svg';
+import RenderShortcut from './RenderShortcut.js';
+import {Shortcuts, View} from '../../@types/shortcuts';
 
 export default function RenderShortCutsWrapper() {
-
-
     const {shortCuts, layout} = useContext(PopupContext);
-    const [shortCutsCtx, _] = shortCuts
-    const [layoutCtx, setLayoutCtx] = layout
+    const [shortCutsCtx, _] = shortCuts;
+    const [layoutCtx, setLayoutCtx] = layout;
 
-
-    const [shortCutItems, setShortCutItems] = useState<React.ReactElement[]>([])
+    const [shortCutItems, setShortCutItems] = useState<React.ReactElement[]>(
+        []
+    );
 
     useEffect(() => {
         let sortedShortcuts: Shortcuts[];
 
         function attachKeyboardShortcut(event: KeyboardEvent) {
-            const key = event.which
+            const key = event.which;
             if (48 <= key && key <= 57) {
                 if (isMacOs && event.metaKey) {
-                    event.preventDefault()
-                    openTarget(sortedShortcuts[Number(event.key)])
+                    event.preventDefault();
+                    openTarget(sortedShortcuts[Number(event.key)]);
                 } else if (!isMacOs && event.ctrlKey) {
-                    event.preventDefault()
-                    openTarget(sortedShortcuts[Number(event.key)])
+                    event.preventDefault();
+                    openTarget(sortedShortcuts[Number(event.key)]);
                 }
-
             }
         }
 
         if (shortCutsCtx && shortCutsCtx.length > 0) {
-            sortedShortcuts = shortCutsCtx
-            sortedShortcuts.sort((a, b) => b.invoke - a.invoke)
-            const renderedShortcuts = []
+            sortedShortcuts = shortCutsCtx;
+            sortedShortcuts.sort((a, b) => b.invoke - a.invoke);
+            const renderedShortcuts = [];
             document.addEventListener('keydown', attachKeyboardShortcut);
 
             for (let index = 0; index < sortedShortcuts.length; index++) {
@@ -48,49 +46,52 @@ export default function RenderShortCutsWrapper() {
                         key={index}
                         shortCut={val}
                         index={index}
-                    />);
+                    />
+                );
             }
-            setShortCutItems(renderedShortcuts)
+            setShortCutItems(renderedShortcuts);
         }
 
         return () => {
             document.removeEventListener('keydown', attachKeyboardShortcut);
         };
-
     }, [shortCutsCtx]);
-
 
     return (
         <div className="freq-suggest-wrapper">
-            <input style={{display: "none"}} placeholder={"Search shortcut"}/>
+            <input
+                style={{display: 'none'}}
+                placeholder={'Search shortcut'}
+            />
             <h4 className="title">
                 Frequently Used Shortcuts
                 <Tooltip
-                    title={"Change layout"}
+                    title={'Change layout'}
                     mouseEnterDelay={1}
                     mouseLeaveDelay={0.25}
                 >
-                <span
-                    style={{cursor: "pointer"}}
-                    onClick={() => {
-                        if (setLayoutCtx != null) {
-                            setLayoutCtx(prev => {
-                                if (prev === View.LIST) {
-                                    return View.GRID
-                                }
-                                return View.LIST
-                            })
-                        }
-                    }} className="view">
-                    <img
-                        src={layoutCtx === View.GRID ? listIcon : gridIcon}
-                        alt="View List"/>
-                </span>
+                    <span
+                        style={{cursor: 'pointer'}}
+                        onClick={() => {
+                            if (setLayoutCtx != null) {
+                                setLayoutCtx((prev) => {
+                                    if (prev === View.LIST) {
+                                        return View.GRID;
+                                    }
+                                    return View.LIST;
+                                });
+                            }
+                        }}
+                        className="view"
+                    >
+                        <img
+                            src={layoutCtx === View.GRID ? listIcon : gridIcon}
+                            alt="View List"
+                        />
+                    </span>
                 </Tooltip>
             </h4>
-            <div className="frq-shortcuts">
-                {shortCutItems}
-            </div>
+            <div className="frq-shortcuts">{shortCutItems}</div>
         </div>
     );
 }

@@ -1,22 +1,22 @@
 type Shortcuts = {
     url: string;
-    id: string
-    key: string
-    invoke: number
-    target: UrlTarget
+    id: string;
+    key: string;
+    invoke: number;
+    target: UrlTarget;
     favIconUrl: string | undefined;
-}
+};
 type UserTabData = {
-    createdTime: number
+    createdTime: number;
     favIconUrl: string | undefined;
-    id: string
-    invoke: number
-    key: string
-    modifiedTime: number
+    id: string;
+    invoke: number;
+    key: string;
+    modifiedTime: number;
     title: string | undefined;
     url: string | undefined;
-    target  : UrlTarget
-}
+    target: UrlTarget;
+};
 
 enum UrlTarget {
     SAME_TAB,
@@ -32,4 +32,3 @@ enum View {
 
 export {UrlTarget, View};
 export type {Shortcuts, UserTabData};
-

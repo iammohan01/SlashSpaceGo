@@ -1,19 +1,29 @@
-import React, {createContext, useEffect, useReducer, useRef, useState} from "react";
-import fetchAllShortcuts from "../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.ts";
-import {Shortcuts, View} from "../@types/shortcuts.ts";
-import {Expanders} from "../@types/expanders.ts";
+import React, {createContext, useEffect, useReducer, useRef, useState} from 'react';
+import fetchAllShortcuts from '../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.ts';
+import {Shortcuts, View} from '../@types/shortcuts.ts';
+import {Expanders} from '../@types/expanders.ts';
 
-
-export const isMacOs = true;//navigator.userAgentData.platform === "macOS";
-
+export const isMacOs = true; //navigator.userAgentData.platform === "macOS";
 
 interface PopupContextType {
-    shortCuts: [Shortcuts[], React.Dispatch<React.SetStateAction<Shortcuts[]>> | null];
-    expandersCtx: [Expanders[], React.Dispatch<React.SetStateAction<Expanders[]>> | null];
+    shortCuts: [
+        Shortcuts[],
+            React.Dispatch<React.SetStateAction<Shortcuts[]>> | null
+    ];
+    expandersCtx: [
+        Expanders[],
+            React.Dispatch<React.SetStateAction<Expanders[]>> | null
+    ];
     layout: [View, React.Dispatch<React.SetStateAction<View>> | null];
-    shortcutKeyInput: [string, React.Dispatch<React.SetStateAction<string>> | null];
+    shortcutKeyInput: [
+        string,
+            React.Dispatch<React.SetStateAction<string>> | null
+    ];
     expanderKey: [string, React.Dispatch<React.SetStateAction<string>> | null];
-    expanderInput: [string, React.Dispatch<React.SetStateAction<string>> | null];
+    expanderInput: [
+        string,
+            React.Dispatch<React.SetStateAction<string>> | null
+    ];
     isEditable: [boolean, React.Dispatch<React.SetStateAction<boolean>> | null];
     forceUpdate: React.DispatchWithoutAction;
     selectedEditShortcut: React.MutableRefObject<Shortcuts>;
@@ -21,40 +31,40 @@ interface PopupContextType {
 }
 
 const PopupContext = createContext<PopupContextType>({
-    expanderInput: ["", null],
+    expanderInput: ['', null],
     expandersCtx: [[], null],
-    expanderKey: ["", null],
+    expanderKey: ['', null],
     layout: [View.GRID, null],
     shortCuts: [[], null],
     isEditable: [false, null],
-    shortcutKeyInput: ["", null],
+    shortcutKeyInput: ['', null],
     forceUpdate: null,
     selectedEditShortcut: null,
-    urlEditInput: ["", null]
+    urlEditInput: ['', null]
 });
-type Props = { children: React.ReactElement }
+type Props = { children: React.ReactElement };
 
 export function ContextProvider({children}: Props) {
-    const [shortcuts, setShortcuts] = useState<Shortcuts[]>([])
-    const [expanders, setExpanders] = useState<Expanders[]>([])
-    const [layout, setLayout] = useState<View>(View.GRID)
-    const [shortCutKey, setShortcutKey] = useState<string>("")
-    const [expanderKey, setExpanderKey] = useState<string>("")
-    const [expanderInput, setExpanderInput] = useState<string>("")
+    const [shortcuts, setShortcuts] = useState<Shortcuts[]>([]);
+    const [expanders, setExpanders] = useState<Expanders[]>([]);
+    const [layout, setLayout] = useState<View>(View.GRID);
+    const [shortCutKey, setShortcutKey] = useState<string>('');
+    const [expanderKey, setExpanderKey] = useState<string>('');
+    const [expanderInput, setExpanderInput] = useState<string>('');
     const [editMode, setEditMode] = useState<boolean>(false);
     const selectedEditShortcut = useRef<Shortcuts>(null);
-    const [urlKey, setUrlKey] = useState<string>(null)
+    const [urlKey, setUrlKey] = useState<string>(null);
     const [, forceUpdate] = useReducer((x: number) => x + 1, 0);
 
     useEffect(() => {
-        fetchAllShortcuts().then(shortcuts => {
-            setShortcuts(shortcuts)
-        })
+        fetchAllShortcuts().then((shortcuts) => {
+            setShortcuts(shortcuts);
+        });
     }, []);
 
-    return (<PopupContext.Provider
-        value=
-            {{
+    return (
+        <PopupContext.Provider
+            value={{
                 shortCuts: [shortcuts, setShortcuts],
                 layout: [layout, setLayout],
                 isEditable: [editMode, setEditMode],
@@ -66,9 +76,10 @@ export function ContextProvider({children}: Props) {
                 selectedEditShortcut: selectedEditShortcut,
                 urlEditInput: [urlKey, setUrlKey]
             }}
-    >
-        {children}
-    </PopupContext.Provider>)
+        >
+            {children}
+        </PopupContext.Provider>
+    );
 }
 
 export default PopupContext;
