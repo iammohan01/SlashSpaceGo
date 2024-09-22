@@ -82,29 +82,41 @@ export default function RenderShortcut({shortCut, index, isMacOs}: RenderShortcu
         </div>
     )
 
-    const children = <div onClick={handleOpen} draggable="true" className={layoutCtx === View.GRID ? "grid" : "list"}>
-        {layoutCtx === View.GRID && index < 10 && <div className="keyShortcut">
-            <img
-                src={isMacOs ? metaIcon : ctrlIcon}
-                alt="shortcutIcons"
-            />
-            {index}
-        </div>}
-        {layoutCtx === View.GRID &&
-            <img style={{width: 14, aspectRatio: "1/1"}} src={shortCut.favIconUrl || emptyIcon} alt={"fav icon"}/>}
-        {layoutCtx === View.GRID && (shortCut.key.slice(0, 6))}
-        {layoutCtx === View.GRID && shortCut.key.length > 6 && "..."}
-        {layoutCtx === View.LIST && <h6><img style={{width: 14, aspectRatio: "1/1"}}
-        src={shortCut.favIconUrl || emptyIcon} alt={""}/> {index} . {shortCut.key}
-        </h6>}
-        {layoutCtx === View.LIST && <p className={"url"}>{shortCut.url} </p>}
-    </div>
 
     return <Popover
         content={popoverContent()}
         mouseEnterDelay={0.5}
         mouseLeaveDelay={0.3}
     >
-        {children}
+        <div onClick={handleOpen} draggable="true" className={layoutCtx === View.GRID ? "grid" : "list"}>
+            {layoutCtx === View.GRID && index < 10 &&
+                <div className="w-[11px] aspect-[1/1] flex items-center justify-center absolute right-[5px] bottom-0">
+                    <img
+                        src={isMacOs ? metaIcon : ctrlIcon}
+                        alt="shortcutIcons"
+                    />
+                    {index}
+                </div>}
+            {layoutCtx === View.GRID &&
+                <img
+                    loading="lazy"
+                    className={"w-[14px] aspect-square"}
+                    src={shortCut.favIconUrl || emptyIcon} alt={"fav icon"}/>}
+            {layoutCtx === View.GRID &&
+                <p className={"text-ellipsis text-nowrap overflow-hidden"}>
+                    {shortCut.key}
+                </p>
+            }
+
+            {layoutCtx === View.LIST &&
+                <h6>
+                    <img
+                        loading="lazy"
+                        className={"w-[14px] aspect-square"}
+                        src={shortCut.favIconUrl || emptyIcon} alt={""}/> {index} . {shortCut.key}
+                </h6>
+            }
+            {layoutCtx === View.LIST && <p className={"url"}>{shortCut.url} </p>}
+        </div>
     </Popover>
 }
