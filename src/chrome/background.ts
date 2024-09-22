@@ -1,7 +1,7 @@
-import fetchAllShortcuts from '../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils';
+import fetchAllShortcuts, {saveShortcut} from '../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils';
 import {fetchAllExpanders} from '../Models/SlashSpaceGo/TextExpander/TextExpanderUtils';
-import {Shortcuts, UrlTarget} from '../@types/shortcuts';
-import {openTarget} from '../utils/utils';
+import {Shortcuts, UrlTarget, UserTabData} from '../@types/shortcuts';
+import {generateRandomString, openTarget} from '../utils/utils';
 import {request, RequestEvent} from '../@types/background';
 
 let shortcuts: Shortcuts[] = [];
@@ -55,22 +55,46 @@ chrome.omnibox.onInputEntered.addListener((query) => {
     }
 });
 
-chrome.runtime.onInstalled.addListener(function () {
+chrome.runtime.onInstalled.addListener(async function (details) {
     // Create a new context menu item
-    chrome.contextMenus.create({
-        id: 'sampleFunction',
-        title: 'Run Sample Function',
-        contexts: ['selection']
-    });
+    // chrome.contextMenus.create({
+    //     id: 'sampleFunction',
+    //     title: 'Run Sample Function',
+    //     contexts: ['selection']
+    // });
+    if (details.reason !== 'update') {
+        return;
+    }
+    if (details.previousVersion === '3.2') {
+        const previousData: { [p: string]: { count: number; url: string } } =
+            await chrome.storage.sync.get();
+        Object.entries(previousData).forEach((entry) => {
+            const key = entry[0];
+            const value = entry[1];
+
+            const shortcut: UserTabData = {
+                createdTime: Date.now(),
+                invoke: value.count,
+                key,
+                modifiedTime: Date.now(),
+                title: `${value.url}`,
+                url: value.url,
+                target: UrlTarget.SAME_TAB,
+                favIconUrl: `${value.url}/favicon.ico`,
+                id: generateRandomString(15)
+            };
+            saveShortcut(shortcut);
+        });
+    }
 });
 
 // Set up a click event listener
-chrome.contextMenus.onClicked.addListener(function (info) {
-    if (info.menuItemId === 'sampleFunction') {
-        // Do something with the selected text
-        console.log(info);
-    }
-});
+// chrome.contextMenus.onClicked.addListener(function (info) {
+//     if (info.menuItemId === 'sampleFunction') {
+//         // Do something with the selected text
+//         console.log(info);
+//     }
+// });
 
 chrome.runtime.onMessage.addListener(function (
     request: request,
