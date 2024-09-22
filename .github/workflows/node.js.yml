@@ -30,10 +30,10 @@ jobs:
             # - run: npm test
             - run: ls -l
 
-    release:
-        runs-on: ubuntu-latest
-        steps:
-            - run: ls -l
+    # release:
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - run: ls -l
         # - name: Create Draft Release
         #   id: create_release
         #   uses: actions/create-release@v1
