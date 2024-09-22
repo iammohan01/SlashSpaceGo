@@ -4,7 +4,10 @@ import PopupContext from '../../context/PopupContext.tsx';
 import helpIcon from '/resources/icons/Help.svg';
 import {UrlTarget, UserTabData} from '../../@types/shortcuts';
 import {generateCurrentTabData} from '../../utils/utils';
-import {saveShortcut, updateShortcut} from '../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils';
+import {
+    saveShortcut,
+    updateShortcut
+} from '../../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils';
 
 export default function CreateShortCut(): React.ReactElement {
     const {

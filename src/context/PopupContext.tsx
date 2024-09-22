@@ -1,4 +1,10 @@
-import React, {createContext, useEffect, useReducer, useRef, useState} from 'react';
+import React, {
+    createContext,
+    useEffect,
+    useReducer,
+    useRef,
+    useState
+} from 'react';
 import fetchAllShortcuts from '../Models/SlashSpaceGo/Shortcuts/ShortcutsUtils.ts';
 import {Shortcuts, View} from '../@types/shortcuts.ts';
 import {Expanders} from '../@types/expanders.ts';
